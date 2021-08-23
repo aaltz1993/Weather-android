@@ -18,7 +18,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "SERVICE_KEY", "\"\""
+        buildConfigField "String", "SERVICE_KEY", "\"CsK6Uk6eNuef3d4QeKizwBYW64z3uaruyV5eYXCh81jWC8HxnKNu3+kpJC7jXF2YUvx809yFR5a1wcvVJkXfNg==\""
     }
 
     buildFeatures {
