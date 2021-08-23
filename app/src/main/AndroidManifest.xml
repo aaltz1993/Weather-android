@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="a.alt.z.weather">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -33,6 +32,10 @@
             android:exported="false">
             <meta-data
                 android:name="a.alt.z.weather.initializer.TimberInitializer"
+                android:value="androidx.startup" />
+
+            <meta-data
+                android:name="a.alt.z.weather.initializer.AndroidThreeTenInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>

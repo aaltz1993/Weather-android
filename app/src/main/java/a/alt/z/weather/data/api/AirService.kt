@@ -1,6 +1,10 @@
 package a.alt.z.weather.data.api
 
-import a.alt.z.weather.data.api.model.AirResponse
+import a.alt.z.weather.data.api.model.air.AirResponse
+import okhttp3.OkHttpClient
+import retrofit2.Converter
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,6 +15,19 @@ interface AirService {
             @Query("serviceKey") serviceKey: String,
             @Query("returnType") returnType: String = "json",
     ): AirResponse
+
+    companion object {
+        private const val BASE_URL = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/"
+
+        fun create(client: OkHttpClient, converterFactory: Converter.Factory): AirService {
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(converterFactory)
+                .build()
+                .create(AirService::class.java)
+        }
+    }
 }
 /*
 {

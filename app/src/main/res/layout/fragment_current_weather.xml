@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="8월 22일 일요일"/>
+
+    <TextView
+        android:id="@+id/current_temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_text_view"
+        tools:text="25°"/>
+
+    <TextView
+        android:id="@+id/compare_yesterday_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/light_gray"
+        app:layout_constraintStart_toEndOf="@id/current_temperature_text_view"
+        app:layout_constraintTop_toTopOf="@id/current_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/current_temperature_text_view"
+        tools:text="어제보다 2° ↓"/>
+
+    <TextView
+        android:id="@+id/min_temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#3A95FF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@id/current_temperature_text_view"
+        app:layout_constraintTop_toBottomOf="@id/current_temperature_text_view"
+        tools:text="17°"/>
+
+    <View
+        android:id="@+id/min_max_divider"
+        android:layout_width="24dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/light_gray"
+        app:layout_constraintStart_toEndOf="@id/min_temperature_text_view"
+        app:layout_constraintTop_toTopOf="@id/min_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/min_temperature_text_view"/>
+
+    <TextView
+        android:id="@+id/max_temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:textColor="#FF0000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/min_max_divider"
+        app:layout_constraintTop_toBottomOf="@id/current_temperature_text_view"
+        tools:text="29°"/>
+
+    <TextView
+        android:id="@+id/ultra_fine_particle_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/ultra_fine_particle"
+        android:background="@drawable/particle_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/current_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/current_temperature_text_view"/>
+
+    <TextView
+        android:id="@+id/fine_particle_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/fine_particle"
+        app:layout_constraintEnd_toStartOf="@id/ultra_fine_particle_text_view"
+        app:layout_constraintTop_toTopOf="@id/current_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/current_temperature_text_view"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/character_animation_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:lottie_rawRes="@raw/rainy"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/min_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/character_animation_view">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/character_animation_view">
+
+            <TextView
+                android:id="@+id/address_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/character_animation_view"
+                tools:text="서울 합정동"/>
+
+            <TextView
+                android:id="@+id/description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/address_text_view"
+                app:layout_constraintTop_toTopOf="@id/address_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/address_text_view"
+                tools:text="은 비"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

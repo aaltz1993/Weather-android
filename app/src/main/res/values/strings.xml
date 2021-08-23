@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="hourly_weather">시간대별 날씨</string>
+    <string name="weekly_weather">주간 날씨</string>
+    <string name="fine_particle">미세</string>
+    <string name="ultra_fine_particle">초미세</string>
 </resources>
