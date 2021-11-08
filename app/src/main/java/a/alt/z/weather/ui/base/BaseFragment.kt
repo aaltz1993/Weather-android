@@ -24,7 +24,7 @@ abstract class BaseFragment : Fragment {
     protected open fun setupObserver() {}
 
     /**
-     * Returns: return true if fragment consumed backPressed
+     * return true if fragment consumed backPressed
      */
     open fun onBackPressed(): Boolean {
         return false

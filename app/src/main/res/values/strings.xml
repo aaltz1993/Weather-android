@@ -1,7 +1,53 @@
 <resources>
-    <string name="app_name">Weather</string>
+    <string name="app_name">오늘의 날씨</string>
+
+    <string name="fine_particle">미세먼지</string>
+    <string name="ultra_fine_particle">초미세먼지</string>
+    <string name="good">좋음</string>
+    <string name="normal">보통</string>
+    <string name="bad">나쁨</string>
+    <string name="very_bad">아주 나쁨</string>
+
     <string name="hourly_weather">시간대별 날씨</string>
     <string name="weekly_weather">주간 날씨</string>
-    <string name="fine_particle">미세</string>
-    <string name="ultra_fine_particle">초미세</string>
+    <string name="air_pollution">대기 오염</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="guide_message">어느 곳을 찾으세요?</string>
+    <string name="grade_info_guide">등급 기준 안내</string>
+    <string name="grade_info_message">미세먼지와 초미세먼지 농도별 수치는\n환경부를 기준으로 총 네가지 등급으로 구분됩니다.</string>
+    <string name="weather_details">상세 날씨</string>
+    <string name="pop">강수확률</string>
+    <string name="wind">바람</string>
+    <string name="humidity">습도</string>
+    <string name="uvrays">자외선지수</string>
+    <string name="sunrise_sunset">일출·일몰</string>
+    <string name="before_noon">오전</string>
+    <string name="afternoon">오후</string>
+    <string name="today">오늘</string>
+    <string name="now">지금</string>
+    <string name="midnight">24시</string>
+    <string name="tomorrow">내일</string>
+    <string name="day_after_tomorrow">모레</string>
+    <string name="todays">오늘의</string>
+    <string name="weather">날씨</string>
+    <string name="weather_status">날씨 상태</string>
+    <string name="weather_icons_info_description">오늘의 날씨에서 제공하는 날씨 상태별 아이콘입니다.</string>
+    <string name="grade_good">좋음</string>
+    <string name="grade_normal">보통</string>
+    <string name="grade_bad">나쁨</string>
+    <string name="grade_very_bad">매우 나쁨</string>
+    <string name="not_night">낮</string>
+    <string name="night">밤</string>
+    <string name="loading_text">데이터 로딩중...</string>
+    <string name="no_search_result">검색 결과가 없습니다.</string>
+    <string name="edit">편집</string>
+    <string name="done">완료</string>
+    <string name="delete">삭제</string>
+    <string name="cancel">취소</string>
+    <string name="add">추가</string>
+    <string name="location_service">위치 서비스</string>
+    <string name="location_service_description">활성화하면 현재위치의\n날씨와 미세먼지 정보가 표시됩니다.</string>
 </resources>

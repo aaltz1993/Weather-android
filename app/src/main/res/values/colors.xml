@@ -8,4 +8,53 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#D3D3D3</color>
+
+    <color name="grade_good">#33B6FF</color>
+    <color name="grade_normal">#1AD82E</color>
+    <color name="grade_bad">#FFD74B</color>
+    <color name="grade_very_bad">#E70000</color>
+
+    <color name="background_air_quality_color">#F0F0F0</color>
+    <color name="weather_details_title_text_color">#5A5A5A</color>
+
+    <color name="sunrise_sunset_color">#DA4646</color>
+    <color name="sunrise_sunset_background_color">#EAEAEA</color>
+
+    <color name="background_primary_color">#FFFFFF</color>
+    <color name="background_secondary_color">#F5F5F5</color>
+    <color name="fill_primary_color">#000000</color>
+    <color name="text_primary_color">#000000</color>
+    <color name="text_secondary_color">#B0B0B0</color>
+    <color name="now_text_color">#FF000000</color>
+    <color name="hour_text_color">#A5A5A5</color>
+    <color name="day_name_text_color">#93C2E4</color>
+    <color name="pop_text_color">#93C2E4</color>
+    <color name="today_text_color">#FF000000</color>
+    <color name="weekday_text_color">#A5A5A5</color>
+    <color name="holiday_text_color">#DA4646</color>
+    <color name="before_noon_afternoon_text_color">#A5A5A5</color>
+    <color name="sunrise_sunset_time_text_color">#1F1F1F</color>
+    <color name="divider_color">#F5F5F5</color>
+    <color name="current_air_quality_stroke_color">#C4C4C4</color>
+    <color name="current_air_quality_text_color">#C4C4C4</color>
+    <color name="weather_icons_info_description_text_color">#5A5A5A</color>
+    <color name="weather_icon_name_text_color">#A5A5A5</color>
+    <color name="grade_info_message_text_color">#5A5A5A</color>
+    <color name="air_pollution_interval_text_color">#A5A5A5</color>
+    <color name="air_quality_name_text_color">#5A5A5A</color>
+    <color name="bottom_sheet_dim_color">#99000000</color>
+    <color name="selected_text_color">#000000</color>
+    <color name="unselected_text_color">#D0D0D0</color>
+    <color name="close_button_tint_color">#5A5A5A</color>
+
+    <color name="indicator_selected_color">#000000</color>
+    <color name="indicator_background_color">#D7D7D7</color>
+    <color name="search_bar_background_color">#E9E9E9</color>
+    <color name="search_icon_tint_color">#A7A7A7</color>
+    <color name="location_service_description_text_color">#A7A7A7</color>
+    <color name="switch_track_on_background_color">#1E1E1E</color>
+    <color name="switch_track_off_background_color">#C4C4C4</color>
+    <color name="selected_night_mode_background_color">#F6F6F6</color>
+    <color name="temperature_bar_background_color">#EAEAEA</color>
+    <color name="info_icon_tint_color">#D0D0D0</color>
 </resources>

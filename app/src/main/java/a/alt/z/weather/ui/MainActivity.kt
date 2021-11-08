@@ -1,60 +1,149 @@
 package a.alt.z.weather.ui
 
 import a.alt.z.weather.R
-import a.alt.z.weather.ui.main.MainFragment
-import a.alt.z.weather.utils.LambertConformalConicProjection
+import a.alt.z.weather.data.api.service.SunriseSunsetService
+import a.alt.z.weather.databinding.ActivityMainBinding
+import a.alt.z.weather.ui.base.BaseFragment
+import a.alt.z.weather.ui.location.LocationFragment
+import a.alt.z.weather.ui.splash.SplashFragment
+import a.alt.z.weather.ui.weather.WeatherFragment
+import a.alt.z.weather.utils.extensions.viewBinding
+import a.alt.z.weather.utils.result.successOrNull
+import android.Manifest.permission.*
 import android.annotation.SuppressLint
-import android.location.Geocoder
 import android.location.LocationManager
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
+import android.view.View
+import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import timber.log.debug
-import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
+@SuppressLint("MissingPermission")
 class MainActivity : AppCompatActivity() {
 
-    private val locationManager: LocationManager by lazy {
-        applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
-    }
+    private val binding by viewBinding(ActivityMainBinding::inflate)
 
-    private val geocoder: Geocoder by lazy {
-        Geocoder(applicationContext, Locale.KOREA)
-    }
-
-    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(), ::onActivityResult)
-
-    @SuppressLint("MissingPermission")
-    private fun onActivityResult(permissions: Map<String, Boolean>) {
-        val permissionsGranted = permissions.all { it.value }
-
-        if (permissionsGranted) {
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-
-                if (location != null) {
-                    val address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    Timber.debug { "address: $address" }
-
-                    val grid = LambertConformalConicProjection.transform(location.latitude, location.longitude)
-                }
-            }
-        }
-    }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
+
+        supportFragmentManager.commit {
+            replace(R.id.fragment_container, SplashFragment(), SplashFragment::class.java.simpleName)
+        }
 
         initView()
+
+        setupObserver()
     }
 
     private fun initView() {
-        supportFragmentManager.commit { replace(R.id.fragment_container, MainFragment()) }
+        binding.apply {
+            (viewPager.getChildAt(0) as? RecyclerView)?.overScrollMode = View.OVER_SCROLL_NEVER
+            viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+
+                    indicatorsLayout.children.filter { it.isVisible }.forEachIndexed { index, view ->
+                        val selected = position == index
+
+                        val colorResId = if (selected) {
+                            R.color.indicator_selected_color
+                        } else {
+                            R.color.indicator_background_color
+                        }
+
+                        if (view is ImageView) {
+                            view.setColorFilter(ContextCompat.getColor(this@MainActivity, colorResId))
+                        } else {
+                            view.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, colorResId)
+                        }
+                    }
+                }
+            })
+
+            loadingLayout.setOnClickListener { /* block user input */ }
+        }
     }
 
+    private fun setupObserver() {
+        viewModel.locations.observe(this) { result ->
+            result.successOrNull()?.let { locations ->
+                when {
+                    locations.isEmpty() -> {
+                        supportFragmentManager.commit { replace(R.id.fragment_container, LocationFragment()) }
+                    }
+                    else -> {
+                        binding.apply {
+                            currentLocationIndicator.isVisible = locations.any { it.isDeviceLocation }
+                            val size = locations.filterNot { it.isDeviceLocation }.size
+                            indicator1.isVisible = size > 0
+                            indicator2.isVisible = size > 1
+                            indicator3.isVisible = size > 2
+                            indicator4.isVisible = size > 3
+
+                            viewPager.adapter = MainPageAdapter(
+                                this@MainActivity,
+                                locations
+                                    .sortedByDescending { it.isDeviceLocation }
+                                    .map { WeatherFragment.newInstance(it) }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        supportFragmentManager.setFragmentResultListener("isDataReadyRequestKey", this) { _, _ ->
+            supportFragmentManager
+                .findFragmentByTag(SplashFragment::class.java.simpleName)
+                ?.let { supportFragmentManager.commit { remove(it) } }
+        }
+
+        supportFragmentManager.setFragmentResultListener("currentItemRequestKey", this) { _, result ->
+            val isPresentWeatherFragment = result.getInt("currentItem") == 0
+
+            binding.apply {
+                viewPager.isUserInputEnabled = isPresentWeatherFragment
+                indicatorsLayout.isVisible = isPresentWeatherFragment
+            }
+        }
+
+        supportFragmentManager.setFragmentResultListener("isDataReadyRequestKey", this) { _, result ->
+            val isDataReady = result.getBoolean("isDataReady")
+
+            if (isDataReady) {
+                supportFragmentManager
+                    .findFragmentByTag(SplashFragment::class.java.simpleName)
+                    ?.let { supportFragmentManager.commit { remove(it) } }
+            }
+
+            binding.loadingLayout.isVisible = !isDataReady
+        }
+    }
+
+    override fun onBackPressed() {
+        supportFragmentManager.findFragmentById(R.id.fragment_container)
+            ?.let { it as? BaseFragment }
+            ?.takeIf { it.onBackPressed() }
+            ?: super.onBackPressed()
+    }
 }

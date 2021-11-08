@@ -1,60 +1,471 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary_color">
 
-    <TextView
-        android:id="@+id/hourly_forecast_text_view"
-        android:layout_width="wrap_content"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="24dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:text="@string/hourly_weather"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:overScrollMode="never">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/hourly_forecast_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hourly_forecast_text_view"
-        tools:listitem="@layout/item_hourly_forecast"
-        tools:orientation="horizontal"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="24"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp">
 
-    <TextView
-        android:id="@+id/weekly_forecast_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="24dp"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:text="@string/weekly_weather"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hourly_forecast_recycler_view"/>
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center_x_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".5"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/weekly_forecast_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/weekly_forecast_text_view"
-        tools:listitem="@layout/item_hourly_forecast"
-        tools:orientation="horizontal"
-        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="24"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/hourly_forecast_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                android:text="@string/hourly_weather"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
+                android:id="@+id/weather_icons_info_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:tint="@color/info_icon_tint_color"
+                app:srcCompat="@drawable/icon_info"
+                app:layout_constraintStart_toEndOf="@id/hourly_forecast_text_view"
+                app:layout_constraintTop_toTopOf="@id/hourly_forecast_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/hourly_forecast_text_view"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/hourly_weather_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="24dp"
+                android:paddingEnd="16dp"
+                android:overScrollMode="never"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hourly_forecast_text_view"
+                tools:listitem="@layout/item_hourly_forecast"
+                tools:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="24"
+                tools:ignore="RtlSymmetry" />
+
+            <View
+                android:id="@+id/horizontal_divider1"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="40dp"
+                android:background="@color/divider_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hourly_weather_recycler_view"/>
+
+            <TextView
+                android:id="@+id/weekly_forecast_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                android:text="@string/weekly_weather"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_divider1"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/daily_weather_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:paddingEnd="16dp"
+                android:overScrollMode="never"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weekly_forecast_text_view"
+                tools:listitem="@layout/item_daily_forecast"
+                tools:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="24"
+                tools:ignore="RtlSymmetry" />
+
+            <View
+                android:id="@+id/horizontal_divider2"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="48dp"
+                android:background="@color/divider_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daily_weather_recycler_view"/>
+
+            <TextView
+                android:id="@+id/air_pollution_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                android:text="@string/air_pollution"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_divider2"/>
+
+            <ImageView
+                android:id="@+id/air_quality_info_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:srcCompat="@drawable/icon_info"
+                app:layout_constraintStart_toEndOf="@id/air_pollution_text_view"
+                app:layout_constraintTop_toTopOf="@id/air_pollution_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/air_pollution_text_view"/>
+
+            <a.alt.z.weather.widgets.CircularProgressView
+                android:id="@+id/fine_particle_quality_progress_view"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@id/air_pollution_text_view"
+                app:layout_constraintTop_toBottomOf="@id/air_pollution_text_view"/>
+
+            <TextView
+                android:id="@+id/fine_particle_quality_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/spoqa_han_sans_neo_bold"
+                android:textColor="@color/text_primary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/fine_particle_quality_progress_view"
+                app:layout_constraintEnd_toEndOf="@id/fine_particle_quality_progress_view"
+                app:layout_constraintTop_toTopOf="@id/fine_particle_quality_progress_view"
+                app:layout_constraintBottom_toBottomOf="@id/fine_particle_quality_progress_view"
+                tools:text="30"/>
+
+            <TextView
+                android:id="@+id/fine_particle_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/air_quality_name_text_color"
+                android:textSize="12sp"
+                android:text="@string/fine_particle"
+                app:layout_constraintStart_toEndOf="@id/fine_particle_quality_progress_view"
+                app:layout_constraintTop_toTopOf="@id/fine_particle_quality_progress_view"/>
+
+            <TextView
+                android:id="@+id/fine_particle_grade_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/fine_particle_text_view"
+                app:layout_constraintTop_toBottomOf="@id/fine_particle_text_view"
+                tools:text="좋음"/>
+
+            <a.alt.z.weather.widgets.CircularProgressView
+                android:id="@+id/ultra_fine_particle_quality_progress_view"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toEndOf="@id/center_x_guideline"
+                app:layout_constraintTop_toBottomOf="@id/air_pollution_text_view"/>
+
+            <TextView
+                android:id="@+id/ultra_fine_particle_quality_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/spoqa_han_sans_neo_bold"
+                android:textColor="@color/text_primary_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/ultra_fine_particle_quality_progress_view"
+                app:layout_constraintEnd_toEndOf="@id/ultra_fine_particle_quality_progress_view"
+                app:layout_constraintTop_toTopOf="@id/ultra_fine_particle_quality_progress_view"
+                app:layout_constraintBottom_toBottomOf="@id/ultra_fine_particle_quality_progress_view"
+                tools:text="75"/>
+
+            <TextView
+                android:id="@+id/ultra_fine_particle_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/air_quality_name_text_color"
+                android:textSize="12sp"
+                android:text="@string/ultra_fine_particle"
+                app:layout_constraintStart_toEndOf="@id/ultra_fine_particle_quality_progress_view"
+                app:layout_constraintTop_toTopOf="@id/ultra_fine_particle_quality_progress_view"/>
+
+            <TextView
+                android:id="@+id/ultra_fine_particle_grade_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/ultra_fine_particle_text_view"
+                app:layout_constraintTop_toBottomOf="@id/ultra_fine_particle_text_view"
+                tools:text="나쁨"/>
+
+            <View
+                android:id="@+id/horizontal_divider3"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="48dp"
+                android:background="@color/divider_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ultra_fine_particle_grade_text_view"/>
+
+            <TextView
+                android:id="@+id/weather_details_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                android:text="@string/weather_details"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_divider3"/>
+
+            <ImageView
+                android:id="@+id/pop_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                app:srcCompat="@drawable/icon_pop"
+                app:layout_constraintStart_toStartOf="@id/weather_details_text_view"
+                app:layout_constraintTop_toBottomOf="@id/weather_details_text_view"/>
+
+            <TextView
+                android:id="@+id/pop_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/pop"
+                android:textColor="@color/weather_details_title_text_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/pop_image_view"
+                app:layout_constraintTop_toTopOf="@id/pop_image_view"
+                app:layout_constraintBottom_toTopOf="@id/pop_value_text_view"/>
+
+            <TextView
+                android:id="@+id/pop_value_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/pop_text_view"
+                app:layout_constraintTop_toBottomOf="@id/pop_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/pop_image_view"
+                tools:text="0%"/>
+
+            <ImageView
+                android:id="@+id/humidity_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/icon_humidity"
+                app:layout_constraintStart_toStartOf="@id/uvrays_image_view"
+                app:layout_constraintTop_toTopOf="@id/pop_image_view"/>
+
+            <TextView
+                android:id="@+id/humidity_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/humidity"
+                android:textColor="@color/weather_details_title_text_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/humidity_image_view"
+                app:layout_constraintTop_toTopOf="@id/humidity_image_view"
+                app:layout_constraintBottom_toTopOf="@id/humidity_value_text_view"/>
+
+            <TextView
+                android:id="@+id/humidity_value_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/humidity_text_view"
+                app:layout_constraintTop_toBottomOf="@id/humidity_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/humidity_image_view"
+                tools:text="좋음 46%"/>
+
+            <ImageView
+                android:id="@+id/wind_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:srcCompat="@drawable/icon_wind"
+                app:layout_constraintStart_toStartOf="@id/pop_image_view"
+                app:layout_constraintTop_toBottomOf="@id/pop_image_view"/>
+
+            <TextView
+                android:id="@+id/wind_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/wind"
+                android:textColor="@color/weather_details_title_text_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/wind_image_view"
+                app:layout_constraintTop_toTopOf="@id/wind_image_view" />
+
+            <TextView
+                android:id="@+id/wind_value_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/wind_text_view"
+                app:layout_constraintTop_toBottomOf="@id/wind_text_view"
+                tools:text="북서풍\n2.7 m/s" />
+
+            <ImageView
+                android:id="@+id/uvrays_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/center_x_guideline"
+                app:layout_constraintTop_toTopOf="@id/wind_image_view"
+                app:srcCompat="@drawable/icon_uvrays" />
+
+            <TextView
+                android:id="@+id/uvrays_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/uvrays"
+                android:textColor="@color/weather_details_title_text_color"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/uvrays_image_view"
+                app:layout_constraintTop_toTopOf="@id/uvrays_image_view"/>
+
+            <TextView
+                android:id="@+id/uvrays_value_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/uvrays_text_view"
+                app:layout_constraintTop_toBottomOf="@id/uvrays_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/uvrays_image_view"
+                tools:text="위험 86"/>
+
+            <View
+                android:id="@+id/horizontal_divider4"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/divider_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wind_value_text_view" />
+
+            <TextView
+                android:id="@+id/sunrise_sunset_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
+                android:text="@string/sunrise_sunset"
+                android:textColor="@color/text_primary_color"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_divider4"/>
+
+            <ImageView
+                android:id="@+id/sunrise_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:srcCompat="@drawable/icon_sunrise"
+                app:layout_constraintStart_toStartOf="@id/sunrise_time_text_view"
+                app:layout_constraintEnd_toEndOf="@id/sunrise_time_text_view"
+                app:layout_constraintTop_toBottomOf="@id/sunrise_sunset_text_view"/>
+
+            <TextView
+                android:id="@+id/sunrise_time_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="48dp"
+                android:fontFamily="@font/lato_regular"
+                android:text="00:00"
+                android:textColor="@color/sunrise_sunset_time_text_color"
+                app:layout_constraintStart_toStartOf="@id/sunrise_sunset_text_view"
+                app:layout_constraintTop_toBottomOf="@id/sunrise_image_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/sunrise_sunset_progress_indicator"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:indeterminate="false"
+                android:max="1440"
+                android:progress="1440"
+                app:trackColor="@color/sunrise_sunset_background_color"
+                app:trackCornerRadius="2dp"
+                app:indicatorColor="@color/sunrise_sunset_color"
+                app:layout_constraintStart_toEndOf="@id/sunrise_time_text_view"
+                app:layout_constraintEnd_toStartOf="@id/sunset_time_text_view"
+                app:layout_constraintTop_toTopOf="@id/sunrise_image_view"
+                app:layout_constraintBottom_toBottomOf="@id/sunrise_time_text_view"/>
+
+            <ImageView
+                android:id="@+id/sunset_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:srcCompat="@drawable/icon_sunset"
+                app:layout_constraintStart_toStartOf="@id/sunset_time_text_view"
+                app:layout_constraintEnd_toEndOf="@id/sunset_time_text_view"
+                app:layout_constraintTop_toBottomOf="@id/sunrise_sunset_text_view"/>
+
+            <TextView
+                android:id="@+id/sunset_time_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/lato_regular"
+                android:text="00:00"
+                android:textColor="@color/sunrise_sunset_time_text_color"
+                app:layout_constraintEnd_toEndOf="@id/horizontal_divider4"
+                app:layout_constraintTop_toBottomOf="@id/sunset_image_view"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

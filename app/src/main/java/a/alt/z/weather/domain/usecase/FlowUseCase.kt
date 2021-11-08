@@ -27,3 +27,7 @@ abstract class FlowUseCase<in Param, Type>(private val coroutineDispatcher: Coro
 
     protected abstract suspend fun execute(parameters: Param): Flow<Type>
 }
+
+suspend operator fun <Type> FlowUseCase<Unit, Type>.invoke(): LiveData<Result<Type>> = this(Unit)
+
+suspend operator fun <Type> FlowUseCase<Unit, Type>.invoke(result: MutableLiveData<Result<Type>>) = this(Unit, result)

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:background="@color/background_primary_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/address_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/text_primary_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="서울 하왕십리동" />
+
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/spoqa_han_sans_neo_thin"
+        android:textColor="@color/text_primary_color"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/address_text_view"
+        app:layout_constraintTop_toTopOf="@id/address_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/address_text_view"
+        tools:text="더움" />
+
+    <ImageView
+        android:id="@+id/weather_icon_image_view"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="4dp"
+        app:tint="@color/fill_primary_color"
+        app:layout_constraintStart_toEndOf="@id/description_text_view"
+        app:layout_constraintTop_toTopOf="@id/description_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/description_text_view"/>
+
+    <ImageView
+        android:id="@+id/plus_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        app:tint="@color/fill_primary_color"
+        app:srcCompat="@drawable/icon_plus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/current_temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/text_primary_color"
+        android:textSize="84sp"
+        android:fontFamily="@font/lato_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_text_view"
+        tools:text="12"/>
+
+    <ImageView
+        android:id="@+id/degree_image_view"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="12dp"
+        app:srcCompat="@drawable/drawable_degree"
+        app:layout_constraintStart_toEndOf="@id/current_temperature_text_view"
+        app:layout_constraintTop_toTopOf="@id/current_temperature_text_view"/>
+
+    <ImageView
+        android:id="@+id/max_temperature_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/text_primary_color"
+        app:srcCompat="@drawable/icon_max_temperature"
+        app:layout_constraintStart_toStartOf="@id/current_temperature_text_view"
+        app:layout_constraintTop_toTopOf="@id/max_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/max_temperature_text_view"/>
+
+    <TextView
+        android:id="@+id/max_temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_regular"
+        android:textColor="@color/text_primary_color"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/max_temperature_icon_image_view"
+        app:layout_constraintTop_toBottomOf="@id/current_temperature_text_view"
+        tools:text="29°"/>
+
+    <ImageView
+        android:id="@+id/min_temperature_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:tint="@color/text_secondary_color"
+        app:srcCompat="@drawable/icon_min_temperature"
+        app:layout_constraintStart_toEndOf="@id/max_temperature_text_view"
+        app:layout_constraintTop_toTopOf="@id/max_temperature_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/max_temperature_text_view"/>
+
+    <TextView
+        android:id="@+id/min_temperature_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/lato_regular"
+        android:textColor="@color/text_secondary_color"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/min_temperature_icon_image_view"
+        app:layout_constraintTop_toBottomOf="@id/current_temperature_text_view"
+        tools:text="17°"/>
+
+    <LinearLayout
+        android:id="@+id/fine_particle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="4dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:orientation="horizontal"
+        android:background="@drawable/background_fine_particle_grade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/current_temperature_text_view">
+
+        <TextView
+            android:id="@+id/fine_particle_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/fine_particle"
+            android:textColor="@color/current_air_quality_text_color"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/current_temperature_text_view"
+            app:layout_constraintBottom_toBottomOf="@id/current_temperature_text_view"/>
+
+        <TextView
+            android:id="@+id/fine_particle_grade_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            tools:textColor="@color/grade_normal"
+            tools:text="좋음"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ultra_fine_particle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:orientation="horizontal"
+        android:background="@drawable/background_fine_particle_grade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fine_particle_layout">
+
+        <TextView
+            android:id="@+id/ultra_fine_particle_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/current_air_quality_text_color"
+            android:text="@string/ultra_fine_particle"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/ultra_fine_particle_grade_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="12sp"
+            tools:textColor="@color/grade_normal"
+            tools:text="좋음"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/weather_image_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/max_temperature_text_view"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/notification_content_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="48dp"
+        android:paddingStart="52dp"
+        android:paddingEnd="52dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/background_notification"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4sp"
+        android:visibility="gone"
+        android:alpha="0"
+        app:layout_constraintTop_toTopOf="@id/notification_on_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="코로나로 힘겨운 요즘인데,\n평온한 하루 보내세요 🙏"
+        tools:visibility="visible"
+        tools:alpha="1"/>
+
+    <ImageView
+        android:id="@+id/notification_on_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="4dp"
+        app:srcCompat="@drawable/icon_notification"
+        app:layout_constraintEnd_toEndOf="@id/ultra_fine_particle_layout"
+        app:layout_constraintTop_toBottomOf="@id/min_temperature_text_view"
+        tools:layout_marginEnd="48dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/precipitation_or_snow_layout"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="48dp"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/precipitation_or_snow_background_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:srcCompat="@drawable/background_precipitation_snow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/precipitation_or_snow_foreground_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/precipitation_or_snow_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="32sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="28"/>
+
+        <ImageView
+            android:id="@+id/precipitation_or_snow_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@id/precipitation_or_snow_text_view"
+            app:layout_constraintTop_toBottomOf="@id/precipitation_or_snow_text_view"
+            tools:srcCompat="@drawable/icon_snowflake"/>
+
+        <TextView
+            android:id="@+id/precipitation_or_snow_unit_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/precipitation_or_snow_image_view"
+            app:layout_constraintTop_toTopOf="@id/precipitation_or_snow_image_view"
+            app:layout_constraintBottom_toBottomOf="@id/precipitation_or_snow_image_view"
+            tools:text="(cm)"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
