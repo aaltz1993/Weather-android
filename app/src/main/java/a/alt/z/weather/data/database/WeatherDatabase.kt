@@ -21,7 +21,7 @@ import androidx.room.TypeConverters
         SunriseSunsetEntity::class,
         UVIndexEntity::class
                ],
-    version = 1
+    version = 2
 )
 @TypeConverters(Converters::class)
 abstract class WeatherDatabase: RoomDatabase() {
@@ -41,6 +41,7 @@ abstract class WeatherDatabase: RoomDatabase() {
 
         fun getInstance(context: Context): WeatherDatabase = database ?: synchronized(this) {
             Room.databaseBuilder(context.applicationContext, WeatherDatabase::class.java, NAME)
+                .fallbackToDestructiveMigration()
                 .build()
                 .also { database = it }
         }

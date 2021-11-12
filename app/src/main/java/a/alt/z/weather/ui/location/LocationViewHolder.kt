@@ -4,7 +4,7 @@ import a.alt.z.weather.R
 import a.alt.z.weather.databinding.ItemLocationBinding
 import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.model.weather.PresentWeather
-import a.alt.z.weather.model.weather.elements.Precipitation
+import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import android.annotation.SuppressLint
 import androidx.core.view.isVisible
@@ -35,35 +35,35 @@ class LocationViewHolder(
         }
     }
 
-    private fun descriptionOf(sky: Sky, precipitationType: Precipitation): String {
-        return when (precipitationType) {
-            Precipitation.NONE -> {
+    private fun descriptionOf(sky: Sky, precipitationTypeType: PrecipitationType): String {
+        return when (precipitationTypeType) {
+            PrecipitationType.NONE -> {
                 when (sky) {
                     Sky.CLEAR -> "맑음"
                     Sky.CLOUDY -> "구름 많음"
                     Sky.OVERCAST -> "흐림"
                 }
             }
-            Precipitation.RAIN -> "비"
-            Precipitation.SNOW -> "눈"
-            Precipitation.RAIN_SNOW -> "비, 눈"
-            Precipitation.SHOWER -> "소나기"
+            PrecipitationType.RAIN -> "비"
+            PrecipitationType.SNOW -> "눈"
+            PrecipitationType.RAIN_SNOW -> "비, 눈"
+            PrecipitationType.SHOWER -> "소나기"
         }
     }
 
-    private fun iconResIdOf(sky: Sky, precipitationType: Precipitation): Int {
-        return when (precipitationType) {
-            Precipitation.NONE -> {
+    private fun iconResIdOf(sky: Sky, precipitationTypeType: PrecipitationType): Int {
+        return when (precipitationTypeType) {
+            PrecipitationType.NONE -> {
                 when (sky) {
                     Sky.CLEAR -> R.drawable.icon_clear_outlined
                     Sky.CLOUDY -> R.drawable.icon_cloudy_outlined
                     Sky.OVERCAST -> R.drawable.icon_overcast_outlined
                 }
             }
-            Precipitation.RAIN -> R.drawable.icon_rain_outlined
-            Precipitation.SNOW -> R.drawable.icon_snow_outlined
-            Precipitation.RAIN_SNOW -> R.drawable.icon_rain_snow_outlined
-            Precipitation.SHOWER -> R.drawable.icon_shower_outlined
+            PrecipitationType.RAIN -> R.drawable.icon_rain_outlined
+            PrecipitationType.SNOW -> R.drawable.icon_snow_outlined
+            PrecipitationType.RAIN_SNOW -> R.drawable.icon_rain_snow_outlined
+            PrecipitationType.SHOWER -> R.drawable.icon_shower_outlined
         }
     }
 }

@@ -119,7 +119,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                         "시흥시" -> SIHEUNG
                         "부천시" -> BUCHEON
                         "안산시" -> ANSAN
-                        else -> throw IllegalArgumentException()
+                        else -> SUWON
                     }
                 }
                 "강원" -> {
@@ -148,7 +148,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                         "양양군" -> YANGYANG
                         "화천군" -> HWACHEON
                         "양구군" -> YANGGU
-                        else -> throw IllegalArgumentException()
+                        else -> CHUNCHEON
                     }
                 }
                 "충북" -> {
@@ -170,7 +170,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                         "괴산군" -> GUESAN
                         "음성군" -> EUMSUNG
                         "단양군" -> DANYANG
-                        else -> throw IllegalArgumentException()
+                        else -> CHEONGJU
                     }
                 }
                 "충남" -> {
@@ -190,7 +190,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                         "홍성군" -> HONGSUNG
                         "예산군" -> YESAN
                         "태안군" -> TAEAN
-                        else -> throw IllegalArgumentException()
+                        else -> YESAN
                     }
                 }
                 "전북" -> {
@@ -209,7 +209,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                         "진안군" -> JINAN
                         "무주군" -> MUJU
                         "장수군" -> JANGSU
-                        else -> throw IllegalArgumentException()
+                        else -> JEONJU
                     }
                 }
                 "전남" -> {
@@ -242,7 +242,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                                 SINAN
                             }
                         }
-                        else -> throw IllegalArgumentException()
+                        else -> MUAN
                     }
                 }
                 "경북" -> {
@@ -276,7 +276,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                                 ULREUNGDO
                             }
                         }
-                        else -> throw IllegalArgumentException()
+                        else -> ANDONG
                     }
                 }
                 "경남" -> {
@@ -299,7 +299,7 @@ enum class DailyTemperatureRegionId(val code: String) {
                         "함양군" -> HAMYANG
                         "산청군" -> SANCHUNG
                         "의령군" -> UIRYEONG
-                        else -> throw IllegalArgumentException()
+                        else -> CHANGWON
                     }
                 }
                 "제주특별자치도" -> JEJU

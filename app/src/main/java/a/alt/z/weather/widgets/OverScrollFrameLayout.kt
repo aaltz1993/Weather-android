@@ -2,9 +2,10 @@ package a.alt.z.weather.widgets
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
+import timber.log.Timber
+import timber.log.debug
 import kotlin.math.abs
 
 class OverScrollFrameLayout @JvmOverloads constructor(
@@ -41,22 +42,23 @@ class OverScrollFrameLayout @JvmOverloads constructor(
                         onSwipe?.invoke()
                     }
                 } else {
-                    when {
-                        !interceptPullDown && !interceptSwipeUp -> {
-                            if (dY > 0) {
-                                Log.d("aaltz1993", "interceptPullDown")
-                                interceptPullDown = true
+                    if (abs(dY) > 5F) {
+                        when {
+                            !interceptPullDown && !interceptSwipeUp -> {
+                                if (dY > 0) {
+                                    interceptPullDown = true
+                                    onPullDown?.invoke(dY / resources.displayMetrics.heightPixels)
+                                } else {
+                                    interceptSwipeUp = true
+                                    onSwipeUp?.invoke(dY / resources.displayMetrics.heightPixels)
+                                }
+                            }
+                            interceptPullDown -> {
                                 onPullDown?.invoke(dY / resources.displayMetrics.heightPixels)
-                            } else {
-                                interceptSwipeUp = true
+                            }
+                            interceptSwipeUp -> {
                                 onSwipeUp?.invoke(dY / resources.displayMetrics.heightPixels)
                             }
-                        }
-                        interceptPullDown -> {
-                            onPullDown?.invoke(dY / resources.displayMetrics.heightPixels)
-                        }
-                        interceptSwipeUp -> {
-                            onSwipeUp?.invoke(dY / resources.displayMetrics.heightPixels)
                         }
                     }
                 }

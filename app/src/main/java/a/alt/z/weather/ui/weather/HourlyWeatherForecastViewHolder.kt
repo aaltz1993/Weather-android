@@ -4,7 +4,7 @@ import a.alt.z.weather.R
 import a.alt.z.weather.databinding.ItemHourlyForecastBinding
 import a.alt.z.weather.databinding.ItemHourlyForecastDayDividerBinding
 import a.alt.z.weather.model.weather.HourlyWeather
-import a.alt.z.weather.model.weather.elements.Precipitation
+import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import a.alt.z.weather.utils.extensions.pixelsOf
 import android.annotation.SuppressLint
@@ -49,16 +49,16 @@ sealed class HourlyWeatherForecastViewHolders(itemView: View): RecyclerView.View
                     popTextView.isInvisible = true
                 } else {
                     popTextView.isVisible = true
-                    popTextView.text = "${hourlyWeather.probabilityOfPrecipitation}%"
+                    popTextView.text = "${hourlyWeather.probabilityOfPrecipitation - hourlyWeather.probabilityOfPrecipitation % 10}%"
                 }
             }
         }
 
-        private fun iconResIdOf(dateTime: LocalDateTime, sky: Sky, precipitation: Precipitation): Int {
+        private fun iconResIdOf(dateTime: LocalDateTime, sky: Sky, precipitationType: PrecipitationType): Int {
             val isNight = dateTime.hour >= 18 || dateTime.hour < 6
 
-            return when (precipitation) {
-                Precipitation.NONE -> {
+            return when (precipitationType) {
+                PrecipitationType.NONE -> {
                     when (sky) {
                         Sky.CLEAR -> {
                             if (isNight) R.drawable.icon_clear_night
@@ -73,7 +73,7 @@ sealed class HourlyWeatherForecastViewHolders(itemView: View): RecyclerView.View
                         }
                     }
                 }
-                Precipitation.RAIN -> {
+                PrecipitationType.RAIN -> {
                     when (sky) {
                         Sky.CLEAR -> {
                             R.drawable.icon_rain
@@ -87,7 +87,7 @@ sealed class HourlyWeatherForecastViewHolders(itemView: View): RecyclerView.View
                         }
                     }
                 }
-                Precipitation.SNOW -> {
+                PrecipitationType.SNOW -> {
                     when (sky) {
                         Sky.CLEAR -> {
                             R.drawable.icon_snow
@@ -101,7 +101,7 @@ sealed class HourlyWeatherForecastViewHolders(itemView: View): RecyclerView.View
                         }
                     }
                 }
-                Precipitation.RAIN_SNOW -> {
+                PrecipitationType.RAIN_SNOW -> {
                     when (sky) {
                         Sky.CLEAR -> {
                             R.drawable.icon_overcast_rain_snow
@@ -115,7 +115,7 @@ sealed class HourlyWeatherForecastViewHolders(itemView: View): RecyclerView.View
                         }
                     }
                 }
-                Precipitation.SHOWER -> {
+                PrecipitationType.SHOWER -> {
                     when (sky) {
                         Sky.CLEAR -> {
                             R.drawable.icon_overcast_shower

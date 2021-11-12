@@ -3,7 +3,7 @@ package a.alt.z.weather.ui.weather
 import a.alt.z.weather.R
 import a.alt.z.weather.databinding.ItemDailyForecastBinding
 import a.alt.z.weather.model.weather.DailyWeather
-import a.alt.z.weather.model.weather.elements.Precipitation
+import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
@@ -41,14 +41,14 @@ class DailyWeatherForecastViewHolder(
 
             dateTextView.text = "${dailyWeather.date.monthValue}/${dailyWeather.date.dayOfMonth}"
 
-            val resIdBeforeNoon = iconResIdOf(dailyWeather.skyBeforeNoon, dailyWeather.precipitationBeforeNoon)
+            val resIdBeforeNoon = iconResIdOf(dailyWeather.skyBeforeNoon, dailyWeather.precipitationTypeBeforeNoon)
             beforeNoonIconImageView.setImageResource(resIdBeforeNoon)
 
-            val resIdAfternoon = iconResIdOf(dailyWeather.skyAfternoon, dailyWeather.precipitationAfternoon)
+            val resIdAfternoon = iconResIdOf(dailyWeather.skyAfternoon, dailyWeather.precipitationTypeAfternoon)
             afternoonIconImageView.setImageResource(resIdAfternoon)
 
-            beforeNoonPopTextView.text = "${dailyWeather.probabilityOfPrecipitationBeforeNoon}%"
-            afternoonPopTextView.text = "${dailyWeather.probabilityOfPrecipitationAfternoon}%"
+            beforeNoonPopTextView.text = "${dailyWeather.probabilityOfPrecipitationBeforeNoon - dailyWeather.probabilityOfPrecipitationBeforeNoon % 10}%"
+            afternoonPopTextView.text = "${dailyWeather.probabilityOfPrecipitationAfternoon - dailyWeather.probabilityOfPrecipitationAfternoon % 10}%"
 
             minTemperatureTextView.text = "${dailyWeather.minTemperature}°"
             maxTemperatureTextView.text = "${dailyWeather.maxTemperature}°"
@@ -57,37 +57,37 @@ class DailyWeatherForecastViewHolder(
         }
     }
 
-    private fun iconResIdOf(sky: Sky, precipitation: Precipitation): Int {
-        return when (precipitation) {
-            Precipitation.NONE -> {
+    private fun iconResIdOf(sky: Sky, precipitationType: PrecipitationType): Int {
+        return when (precipitationType) {
+            PrecipitationType.NONE -> {
                 when (sky) {
                     Sky.CLEAR -> { R.drawable.icon_clear }
                     Sky.CLOUDY -> { R.drawable.icon_cloudy }
                     Sky.OVERCAST -> { R.drawable.icon_overcast }
                 }
             }
-            Precipitation.RAIN -> {
+            PrecipitationType.RAIN -> {
                 when (sky) {
                     Sky.CLEAR -> { R.drawable.icon_rain }
                     Sky.CLOUDY -> { R.drawable.icon_cloudy_rain }
                     Sky.OVERCAST -> { R.drawable.icon_overcast_rain }
                 }
             }
-            Precipitation.SNOW -> {
+            PrecipitationType.SNOW -> {
                 when (sky) {
                     Sky.CLEAR -> { R.drawable.icon_snow }
                     Sky.CLOUDY -> { R.drawable.icon_cloudy_snow }
                     Sky.OVERCAST -> { R.drawable.icon_overcast_snow }
                 }
             }
-            Precipitation.RAIN_SNOW -> {
+            PrecipitationType.RAIN_SNOW -> {
                 when (sky) {
                     Sky.CLEAR -> { R.drawable.icon_overcast_rain_snow }
                     Sky.CLOUDY -> { R.drawable.icon_cloudy_rain_snow }
                     Sky.OVERCAST -> { R.drawable.icon_overcast_rain_snow }
                 }
             }
-            Precipitation.SHOWER -> {
+            PrecipitationType.SHOWER -> {
                 when (sky) {
                     Sky.CLEAR -> { R.drawable.icon_overcast_shower }
                     Sky.CLOUDY -> { R.drawable.icon_cloudy_shower }

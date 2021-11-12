@@ -54,7 +54,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
                 .addOnSuccessListener { viewModel.addDeviceLocation(it.latitude, it.longitude) }
                 .addOnFailureListener { /* TODO */ }
         } else {
-            binding.locationServiceSwitch.isChecked = false
+            binding.locationServiceSwitchButton.isChecked = false
         }
     }
 
@@ -232,7 +232,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
                 is Result.Failure -> {
                     viewModel.toggleLocationService(false)
 
-                    binding.locationServiceSwitch.isChecked = false
+                    binding.locationServiceSwitchButton.isChecked = false
                 }
             }
         }
@@ -240,9 +240,9 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
         viewModel.locationServiceOn.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { locationServiceOn ->
                 binding.apply {
-                    locationServiceSwitch.isChecked = locationServiceOn
+                    locationServiceSwitchButton.isChecked = locationServiceOn
 
-                    locationServiceSwitch.setOnCheckedChangeListener { _, isChecked ->
+                    locationServiceSwitchButton.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
                             if (requireContext().permissionsGranted(permissions.toList())) {
                                 locationProvider.lastLocation

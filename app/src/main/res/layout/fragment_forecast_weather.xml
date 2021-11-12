@@ -8,11 +8,12 @@
     android:layout_height="match_parent"
     android:background="@color/background_primary_color">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+    <a.alt.z.weather.widgets.PullDownScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -137,6 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                app:tint="@color/info_icon_tint_color"
                 app:srcCompat="@drawable/icon_info"
                 app:layout_constraintStart_toEndOf="@id/air_pollution_text_view"
                 app:layout_constraintTop_toTopOf="@id/air_pollution_text_view"
@@ -467,5 +469,5 @@
                 app:layout_constraintEnd_toEndOf="@id/horizontal_divider4"
                 app:layout_constraintTop_toBottomOf="@id/sunset_image_view"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </a.alt.z.weather.widgets.PullDownScrollView>
 </FrameLayout>

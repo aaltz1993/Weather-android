@@ -16,17 +16,12 @@ import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.model.location.PresentWeatherByLocation
 import a.alt.z.weather.model.location.PreviewPresentWeather
 import a.alt.z.weather.model.weather.*
-import a.alt.z.weather.model.weather.elements.Precipitation
-import a.alt.z.weather.model.weather.elements.Sky
-import a.alt.z.weather.model.weather.elements.SunriseSunset
-import a.alt.z.weather.model.weather.elements.UVIndex
+import a.alt.z.weather.model.weather.elements.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
-import timber.log.debug
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
@@ -70,7 +65,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private fun PresentWeatherEntity.transform() = PresentWeather(
         Sky.codeOf(skyCode),
         temperature,
-        Precipitation.codeOf(precipitationTypeCode),
+        PrecipitationType.codeOf(precipitationTypeCode),
         precipitation,
         windSpeed,
         windDirection,
@@ -91,7 +86,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private fun PresentWeatherItem.transform() = PresentWeather(
         Sky.codeOf(skyCode),
         temperature,
-        Precipitation.codeOf(precipitationTypeCode),
+        PrecipitationType.codeOf(precipitationTypeCode),
         precipitation,
         windSpeed,
         windDirection,
@@ -192,7 +187,7 @@ class WeatherRepositoryImpl @Inject constructor(
         dateTime,
         temperature, minTemperature, maxTemperature,
         skyCode,
-        probabilityOfPrecipitation, precipitationCode, precipitation,
+        probabilityOfPrecipitation, precipitationCode, precipitationValueOf(precipitation), precipitationOrdinalOf(precipitation),
         snow,
         humidity, windDirection, windSpeed,
         LocalDate.now()
@@ -202,10 +197,29 @@ class WeatherRepositoryImpl @Inject constructor(
         dateTime,
         temperature,
         Sky.codeOf(skyCode),
-        probabilityOfPrecipitation, Precipitation.codeOf(precipitationCode), precipitation,
+        probabilityOfPrecipitation, PrecipitationType.codeOf(precipitationCode), Precipitation.values()[precipitationOrdinal], precipitation,
         snow,
         humidity, windDirection, windSpeed
     )
+
+    private fun precipitationValueOf(precipitationString: String): Int {
+
+        return try {
+            precipitationString.removeSuffix("mm").toInt()
+        } catch (exception: Exception) {
+            0
+        }
+    }
+
+    private fun precipitationOrdinalOf(precipitationString: String): Int {
+        return when (precipitationString) {
+            "강수없음" -> { 0 }
+            "1mm 미만" -> { 1 }
+            "30~50mm" -> { 3 }
+            "50mm 이상" -> { 4 }
+            else -> { 2 }
+        }
+    }
 
     private fun DailyWeatherItem.transform(location: Location) = DailyWeatherEntity(
         0L,
@@ -234,13 +248,13 @@ class WeatherRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun precipitationTypeOf(forecast: String): Precipitation {
+    private fun precipitationTypeOf(forecast: String): PrecipitationType {
         return when {
-            forecast.endsWith("비") -> Precipitation.RAIN
-            forecast.endsWith("눈") -> Precipitation.SNOW
-            forecast.endsWith("비/눈") -> Precipitation.RAIN_SNOW
-            forecast.endsWith("소나기") -> Precipitation.SHOWER
-            else -> Precipitation.NONE
+            forecast.endsWith("비") -> PrecipitationType.RAIN
+            forecast.endsWith("눈") -> PrecipitationType.SNOW
+            forecast.endsWith("비/눈") -> PrecipitationType.RAIN_SNOW
+            forecast.endsWith("소나기") -> PrecipitationType.SHOWER
+            else -> PrecipitationType.NONE
         }
     }
 
@@ -250,8 +264,8 @@ class WeatherRepositoryImpl @Inject constructor(
         maxTemperature,
         Sky.codeOf(skyCodeBeforeNoon),
         Sky.codeOf(skyCodeAfternoon),
-        Precipitation.codeOf(precipitationCodeBeforeNoon),
-        Precipitation.codeOf(precipitationCodeAfternoon),
+        PrecipitationType.codeOf(precipitationCodeBeforeNoon),
+        PrecipitationType.codeOf(precipitationCodeAfternoon),
         probabilityOfPrecipitationBeforeNoon,
         probabilityOfPrecipitationAfternoon
     )

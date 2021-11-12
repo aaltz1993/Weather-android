@@ -153,7 +153,7 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
     private fun toHourlyWeatherItem(dateTime: LocalDateTime, hourlyForecastItems: List<HourlyForecastItem>): HourlyWeatherItem {
         var probabilityOfPrecipitation = 0
         var precipitationCode = 0
-        var precipitation = 0F
+        var precipitation = ""
         var humidity = 0
         var snow = 0F
         var skyCode = 1
@@ -167,16 +167,10 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
             when (item.category) {
                 "POP" -> { probabilityOfPrecipitation = item.observedValue.toInt() }
                 "PTY" -> { precipitationCode = item.observedValue.toInt() }
-                "PCP" -> {
-                    /* 강수없음, 2.0mm,  */
-                    precipitation = if (item.observedValue == "강수없음") {
-                        0F
-                    } else {
-                        item.observedValue.removeSuffix("mm").toFloat()
-                    }
-                }
+                "PCP" -> { precipitation = item.observedValue }
                 "REH" -> { humidity = item.observedValue.toInt() }
                 "SNO" -> {
+                    /* TODO */
                     snow = if (item.observedValue == "적설없음") {
                         0F
                     } else {

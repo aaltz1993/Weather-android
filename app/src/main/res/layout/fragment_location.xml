@@ -157,13 +157,13 @@
             app:layout_constraintTop_toBottomOf="@id/location_service_text_view"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/location_service_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="31dp"
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/location_service_switch_button"
+            android:layout_width="52dp"
+            android:layout_height="32dp"
             android:layout_marginEnd="16dp"
-            android:thumb="@drawable/switch_thumb"
-            app:track="@drawable/switch_track"
+            app:kswThumbColor="#FFFFFF"
+            app:kswBackColor="@drawable/switch_track_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/location_service_text_view"
             app:layout_constraintBottom_toBottomOf="@id/location_service_description_text_view" />

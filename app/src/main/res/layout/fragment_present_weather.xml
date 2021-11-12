@@ -128,7 +128,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:orientation="horizontal"
@@ -202,7 +202,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/max_temperature_text_view"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/notification_content_text_view"
@@ -283,7 +283,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@id/precipitation_or_snow_text_view"
+            app:layout_constraintEnd_toStartOf="@id/center_x_guideline"
             app:layout_constraintTop_toBottomOf="@id/precipitation_or_snow_text_view"
             tools:srcCompat="@drawable/icon_snowflake"/>
 
@@ -293,9 +293,16 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@id/precipitation_or_snow_image_view"
+            app:layout_constraintStart_toEndOf="@id/center_x_guideline"
             app:layout_constraintTop_toTopOf="@id/precipitation_or_snow_image_view"
             app:layout_constraintBottom_toBottomOf="@id/precipitation_or_snow_image_view"
             tools:text="(cm)"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_x_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

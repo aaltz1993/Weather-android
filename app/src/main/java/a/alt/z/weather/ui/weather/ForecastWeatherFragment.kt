@@ -10,6 +10,7 @@ import a.alt.z.weather.utils.extensions.setFragmentResult
 import a.alt.z.weather.utils.extensions.viewBinding
 import a.alt.z.weather.utils.result.successOrNull
 import android.annotation.SuppressLint
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -34,12 +35,12 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
 
     override fun initView() {
         binding.apply {
-            nestedScrollView.setOnScrollChangeListener { _, _, y, _, _ ->
-                requireParentFragment().setFragmentResult(
-                    "isPageableRequestKey",
-                    "isPageable",
-                    y == 0
-                )
+            scrollView.onPullDown = { dY ->
+                parentFragmentManager.setFragmentResult("onPullDownRequestKey", bundleOf(Pair("onPullDown", dY)))
+            }
+
+            scrollView.onActionUp = { dY ->
+                parentFragmentManager.setFragmentResult("onActionUpRequestKey", bundleOf(Pair("onActionUp", dY)))
             }
 
             weatherIconsInfoImageView.setOnClickListener {

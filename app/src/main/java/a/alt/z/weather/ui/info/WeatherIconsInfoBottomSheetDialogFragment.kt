@@ -72,6 +72,7 @@ class WeatherIconsInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment
                 nightTextView.isSelected = false
                 weatherIconsInfoViewPager.currentItem = 0
             }
+            notNightTextView.isSelected = true
 
             nightTextView.setOnClickListener {
                 notNightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.unselected_text_color))

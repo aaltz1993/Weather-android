@@ -5,7 +5,6 @@ import a.alt.z.weather.databinding.FragmentSplashBinding
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -13,14 +12,15 @@ import androidx.constraintlayout.widget.ConstraintSet.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
-import jp.wasabeef.blurry.Blurry
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
     private val binding by viewBinding(FragmentSplashBinding::bind)
+
+    private var animationEnded = false
+    private var dataLoaded = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,7 +29,16 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     }
 
     override fun initView() {
+    }
 
+    override fun setupObserver() {
+        parentFragmentManager.setFragmentResultListener("dataLoadedRequestKey", viewLifecycleOwner) { _, result ->
+            dataLoaded = result.getBoolean("dataLoaded")
+
+            if (animationEnded && dataLoaded) {
+                parentFragmentManager.commit { remove(this@SplashFragment) }
+            }
+        }
     }
 
     override fun onResume() {
@@ -50,9 +59,15 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
                 clear(R.id.cloud_image_view, BOTTOM)
             }
 
-            delay(100L)
+            delay(1100L)
 
             binding.loadingLayout.isVisible = true
+
+            animationEnded = true
+
+            if (animationEnded && dataLoaded) {
+                parentFragmentManager.commit { remove(this@SplashFragment) }
+            }
         }
     }
 

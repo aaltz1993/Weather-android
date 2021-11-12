@@ -2,8 +2,7 @@ package a.alt.z.weather.ui.location
 
 import a.alt.z.weather.R
 import a.alt.z.weather.databinding.FragmentPreviewBinding
-import a.alt.z.weather.model.location.Location
-import a.alt.z.weather.model.weather.elements.Precipitation
+import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
@@ -13,9 +12,7 @@ import a.alt.z.weather.utils.result.successOrNull
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
@@ -98,11 +95,11 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
                         precipitationOrSnowLayout.isVisible = true
 
                         when (presentWeather.precipitationType) {
-                            Precipitation.RAIN, Precipitation.RAIN_SNOW, Precipitation.SHOWER -> {
+                            PrecipitationType.RAIN, PrecipitationType.RAIN_SNOW, PrecipitationType.SHOWER -> {
                                 precipitationOrSnowImageView.setImageResource(R.drawable.icon_rainfall)
                                 precipitationOrSnowUnitTextView.text = "(mm)"
                             }
-                            Precipitation.SNOW -> {
+                            PrecipitationType.SNOW -> {
                                 precipitationOrSnowImageView.setImageResource(R.drawable.icon_snowflake)
                                 precipitationOrSnowUnitTextView.text = "(cm)"
                             }
@@ -128,9 +125,9 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
         }
     }
 
-    private fun imageResIdOf(sky: Sky, precipitation: Precipitation, temperature: Int): Int {
-        return when (precipitation) {
-            Precipitation.NONE -> {
+    private fun imageResIdOf(sky: Sky, precipitationType: PrecipitationType, temperature: Int): Int {
+        return when (precipitationType) {
+            PrecipitationType.NONE -> {
                 when (sky) {
                     Sky.CLEAR -> {
                         when {
@@ -158,7 +155,7 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
                     }
                 }
             }
-            Precipitation.RAIN -> {
+            PrecipitationType.RAIN -> {
                 when {
                     temperature <= 5 -> R.drawable.image_rain_very_cold
                     temperature in 6..11 -> R.drawable.image_rain_cold
@@ -166,9 +163,9 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
                     else -> R.drawable.image_rain_warm
                 }
             }
-            Precipitation.SNOW -> R.drawable.image_snow
-            Precipitation.RAIN_SNOW -> R.drawable.image_rain_snow
-            Precipitation.SHOWER -> {
+            PrecipitationType.SNOW -> R.drawable.image_snow
+            PrecipitationType.RAIN_SNOW -> R.drawable.image_rain_snow
+            PrecipitationType.SHOWER -> {
                 when {
                     temperature <= 5 -> R.drawable.image_shower_very_cold
                     temperature in 6..11 -> R.drawable.image_shower_cold
@@ -179,35 +176,35 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
         }
     }
 
-    private fun descriptionOf(sky: Sky, precipitation: Precipitation): String {
-        return when (precipitation) {
-            Precipitation.NONE -> {
+    private fun descriptionOf(sky: Sky, precipitationType: PrecipitationType): String {
+        return when (precipitationType) {
+            PrecipitationType.NONE -> {
                 when (sky) {
                     Sky.CLEAR -> "맑음"
                     Sky.CLOUDY -> "구름 많음"
                     Sky.OVERCAST -> "흐림"
                 }
             }
-            Precipitation.RAIN -> "비"
-            Precipitation.SNOW -> "눈"
-            Precipitation.RAIN_SNOW -> "비, 눈"
-            Precipitation.SHOWER -> "소나기"
+            PrecipitationType.RAIN -> "비"
+            PrecipitationType.SNOW -> "눈"
+            PrecipitationType.RAIN_SNOW -> "비, 눈"
+            PrecipitationType.SHOWER -> "소나기"
         }
     }
 
-    private fun iconResIdOf(sky: Sky, precipitation: Precipitation): Int {
-        return when (precipitation) {
-            Precipitation.NONE -> {
+    private fun iconResIdOf(sky: Sky, precipitationType: PrecipitationType): Int {
+        return when (precipitationType) {
+            PrecipitationType.NONE -> {
                 when (sky) {
                     Sky.CLEAR -> R.drawable.icon_clear_outlined
                     Sky.CLOUDY -> R.drawable.icon_cloudy_outlined
                     Sky.OVERCAST -> R.drawable.icon_overcast_outlined
                 }
             }
-            Precipitation.RAIN -> R.drawable.icon_rain_outlined
-            Precipitation.SNOW -> R.drawable.icon_snow_outlined
-            Precipitation.RAIN_SNOW -> R.drawable.icon_rain_snow_outlined
-            Precipitation.SHOWER -> R.drawable.icon_shower_outlined
+            PrecipitationType.RAIN -> R.drawable.icon_rain_outlined
+            PrecipitationType.SNOW -> R.drawable.icon_snow_outlined
+            PrecipitationType.RAIN_SNOW -> R.drawable.icon_rain_snow_outlined
+            PrecipitationType.SHOWER -> R.drawable.icon_shower_outlined
         }
     }
 

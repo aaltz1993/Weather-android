@@ -37,5 +37,5 @@
     <color name="temperature_bar_background_color">#314263</color>
     <color name="weather_details_title_text_color">#7684A0</color>
     <color name="weather_icon_name_text_color">#7684A0</color>
-    <color name="info_icon_tint_color">#051535</color>
+    <color name="info_icon_tint_color">#314263</color>
 </resources>

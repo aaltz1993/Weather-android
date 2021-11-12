@@ -2,7 +2,7 @@ package a.alt.z.weather.model
 
 import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.model.weather.DailyWeather
-import a.alt.z.weather.model.weather.elements.Precipitation
+import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import org.threeten.bp.LocalDate
 
@@ -22,43 +22,43 @@ object StubData {
         DailyWeather(LocalDate.now(),
             20, 27,
             Sky.OVERCAST, Sky.OVERCAST,
-            Precipitation.RAIN, Precipitation.RAIN,
+            PrecipitationType.RAIN, PrecipitationType.RAIN,
             60, 40
         ),
         DailyWeather(LocalDate.now().plusDays(1),
             19, 26,
             Sky.CLOUDY, Sky.CLOUDY,
-            Precipitation.RAIN, Precipitation.RAIN,
+            PrecipitationType.RAIN, PrecipitationType.RAIN,
             20, 20
         ),
         DailyWeather(LocalDate.now().plusDays(2),
             20, 27,
             Sky.CLEAR, Sky.CLEAR,
-            Precipitation.NONE, Precipitation.NONE,
+            PrecipitationType.NONE, PrecipitationType.NONE,
             0, 0
         ),
         DailyWeather(LocalDate.now().plusDays(3),
             23, 29,
             Sky.OVERCAST, Sky.OVERCAST,
-            Precipitation.NONE, Precipitation.NONE,
+            PrecipitationType.NONE, PrecipitationType.NONE,
             0, 0
         ),
         DailyWeather(LocalDate.now().plusDays(4),
             24, 29,
             Sky.CLEAR, Sky.CLEAR,
-            Precipitation.NONE, Precipitation.NONE,
+            PrecipitationType.NONE, PrecipitationType.NONE,
             0, 0
         ),
         DailyWeather(LocalDate.now().plusDays(5),
             22, 27,
             Sky.OVERCAST, Sky.OVERCAST,
-            Precipitation.NONE, Precipitation.NONE,
+            PrecipitationType.NONE, PrecipitationType.NONE,
             0, 0
         ),
         DailyWeather(LocalDate.now().plusDays(6),
             23, 28,
             Sky.CLEAR, Sky.CLEAR,
-            Precipitation.NONE, Precipitation.NONE,
+            PrecipitationType.NONE, PrecipitationType.NONE,
             0, 0
         )
     )

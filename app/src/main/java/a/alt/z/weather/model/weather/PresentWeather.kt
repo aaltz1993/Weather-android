@@ -2,13 +2,13 @@ package a.alt.z.weather.model.weather
 
 import a.alt.z.weather.model.air.FineParticleGrade
 import a.alt.z.weather.model.air.UltraFineParticleGrade
-import a.alt.z.weather.model.weather.elements.Precipitation
+import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 
 data class PresentWeather(
     val sky: Sky,
     val temperature: Int,
-    val precipitationType: Precipitation,
+    val precipitationType: PrecipitationType,
     val precipitation: Float,
     val windSpeed: Float,
     val windDirection: Int,
