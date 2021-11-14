@@ -1,4 +1,4 @@
-package a.alt.z.weather.ui
+package a.alt.z.weather.ui.main
 
 import a.alt.z.weather.domain.usecase.invoke
 import a.alt.z.weather.domain.usecase.location.AddDeviceLocationUseCase

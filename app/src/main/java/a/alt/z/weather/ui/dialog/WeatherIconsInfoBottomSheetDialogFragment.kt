@@ -1,9 +1,8 @@
-package a.alt.z.weather.ui.info
+package a.alt.z.weather.ui.dialog
 
 import a.alt.z.weather.R
 import a.alt.z.weather.databinding.FragmentWeatherIconsInfoBinding
 import a.alt.z.weather.ui.base.BaseFragment
-import a.alt.z.weather.utils.extensions.setFragmentResult
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
 import android.os.Bundle
@@ -13,9 +12,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

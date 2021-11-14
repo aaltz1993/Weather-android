@@ -1,4 +1,4 @@
-package a.alt.z.weather.ui.info
+package a.alt.z.weather.ui.dialog
 
 import a.alt.z.weather.databinding.ItemWeatherIconsInfoBinding
 import a.alt.z.weather.utils.extensions.layoutInflater

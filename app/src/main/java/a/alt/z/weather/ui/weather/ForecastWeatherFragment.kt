@@ -4,8 +4,8 @@ import a.alt.z.weather.R
 import a.alt.z.weather.databinding.FragmentForecastWeatherBinding
 import a.alt.z.weather.model.weather.HourlyWeather
 import a.alt.z.weather.ui.base.BaseFragment
-import a.alt.z.weather.ui.info.AirPollutionInfoBottomSheetDialogFragment
-import a.alt.z.weather.ui.info.WeatherIconsInfoBottomSheetDialogFragment
+import a.alt.z.weather.ui.dialog.AQIBottomSheetDialogFragment
+import a.alt.z.weather.ui.dialog.WeatherIconsInfoBottomSheetDialogFragment
 import a.alt.z.weather.utils.constants.RequestKeys
 import a.alt.z.weather.utils.constants.ResultKeys
 import a.alt.z.weather.utils.extensions.viewBinding
@@ -61,7 +61,7 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
             dailyWeatherRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             airQualityInfoImageView.setOnClickListener {
-                childFragmentManager.commit { replace(R.id.root_layout, AirPollutionInfoBottomSheetDialogFragment()) }
+                childFragmentManager.commit { replace(R.id.root_layout, AQIBottomSheetDialogFragment()) }
             }
 
             fineParticleQualityProgressView.setProgressBackgroundColor(requireContext().getColor(R.color.background_air_quality_color))

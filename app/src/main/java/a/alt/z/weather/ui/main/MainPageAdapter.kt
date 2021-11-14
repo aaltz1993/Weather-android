@@ -1,4 +1,4 @@
-package a.alt.z.weather.ui
+package a.alt.z.weather.ui.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

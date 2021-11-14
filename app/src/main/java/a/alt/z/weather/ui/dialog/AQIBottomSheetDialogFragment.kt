@@ -1,4 +1,4 @@
-package a.alt.z.weather.ui.info
+package a.alt.z.weather.ui.dialog
 
 import a.alt.z.weather.R
 import a.alt.z.weather.databinding.FragmentAirPollutionInfoBinding
@@ -8,13 +8,13 @@ import a.alt.z.weather.utils.extensions.viewBinding
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class AirPollutionInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment_air_pollution_info) {
+/* Air Quality Index */
+class AQIBottomSheetDialogFragment : BaseFragment(R.layout.fragment_air_pollution_info) {
 
     private val binding by viewBinding(FragmentAirPollutionInfoBinding::bind)
 
@@ -43,7 +43,7 @@ class AirPollutionInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment
 
             delay(250L)
 
-            parentFragmentManager.commit { remove(this@AirPollutionInfoBottomSheetDialogFragment) }
+            parentFragmentManager.commit { remove(this@AQIBottomSheetDialogFragment) }
         }
     }
 

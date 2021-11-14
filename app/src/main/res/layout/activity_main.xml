@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/background_primary_color"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

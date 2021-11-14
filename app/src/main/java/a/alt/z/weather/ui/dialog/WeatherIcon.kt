@@ -1,4 +1,4 @@
-package a.alt.z.weather.ui.info
+package a.alt.z.weather.ui.dialog
 
 import androidx.annotation.DrawableRes
 

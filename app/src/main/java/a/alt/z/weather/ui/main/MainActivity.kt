@@ -1,4 +1,4 @@
-package a.alt.z.weather.ui
+package a.alt.z.weather.ui.main
 
 import a.alt.z.weather.R
 import a.alt.z.weather.databinding.ActivityMainBinding
