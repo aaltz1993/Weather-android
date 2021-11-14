@@ -1,4 +1,4 @@
-package a.alt.z.weather.utils.projection
+package a.alt.z.weather.utils.projections
 
 import kotlin.math.*
 

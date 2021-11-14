@@ -1,60 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     tools:context=".ui.weather.WeatherFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/present_weather_top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_primary_color">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/present_weather_bottom_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1"/>
+        <ImageView
+            android:id="@+id/weather_image_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="3:4"
+            tools:background="@color/purple_200"/>
 
-    <a.alt.z.weather.widgets.OverScrollFrameLayout
-        android:id="@+id/present_weather_fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/background_primary_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/present_weather_top_guideline"
-        app:layout_constraintBottom_toBottomOf="@id/present_weather_bottom_guideline"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/present_weather_top_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/forecast_weather_top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1"
-        tools:layout_constraintGuide_percent="0.2"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/present_weather_bottom_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/forecast_weather_bottom_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="2"
-        tools:layout_constraintGuide_percent="1.2"/>
+        <a.alt.z.weather.widgets.OverScrollFrameLayout
+            android:id="@+id/present_weather_fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/present_weather_top_guideline"
+            app:layout_constraintBottom_toBottomOf="@id/present_weather_bottom_guideline"/>
 
-    <FrameLayout
-        android:id="@+id/forecast_weather_fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/forecast_weather_top_guideline"
-        app:layout_constraintBottom_toBottomOf="@id/forecast_weather_bottom_guideline"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/forecast_weather_top_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1"
+            tools:layout_constraintGuide_percent="0.2"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/forecast_weather_bottom_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="2"
+            tools:layout_constraintGuide_percent="1.2"/>
+
+        <FrameLayout
+            android:id="@+id/forecast_weather_fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/forecast_weather_top_guideline"
+            app:layout_constraintBottom_toBottomOf="@id/forecast_weather_bottom_guideline"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
+

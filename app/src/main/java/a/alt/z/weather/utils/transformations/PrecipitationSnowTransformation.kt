@@ -1,17 +1,14 @@
-package a.alt.z.weather.utils.glide
+package a.alt.z.weather.utils.transformations
 
 import android.graphics.Bitmap
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
-import timber.log.Timber
-import timber.log.debug
 import java.security.MessageDigest
 import kotlin.math.roundToInt
 
 class PrecipitationSnowTransformation: BitmapTransformation() {
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
-
     }
 
     override fun transform(

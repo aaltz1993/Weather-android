@@ -9,7 +9,7 @@ import a.alt.z.weather.ui.location.LocationFragment
 import a.alt.z.weather.utils.extensions.pixelsOf
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
-import a.alt.z.weather.utils.glide.PrecipitationSnowTransformation
+import a.alt.z.weather.utils.transformations.PrecipitationSnowTransformation
 import a.alt.z.weather.utils.result.successOrNull
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -118,14 +118,6 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
 
                     ultraFineParticleGradeTextView.text = presentWeather.ultraFineParticleGrade.getDescription()
                     ultraFineParticleGradeTextView.setTextColor(ContextCompat.getColor(requireContext(), presentWeather.ultraFineParticleGrade.getColorResId()))
-
-                    val resId = imageResIdOf(
-                        presentWeather.sky,
-                        presentWeather.precipitationType,
-                        presentWeather.temperature
-                    )
-
-                    weatherImageView.setImageResource(resId)
 
                     if (presentWeather.precipitation > 0F) {
                         precipitationOrSnowLayout.isVisible = true

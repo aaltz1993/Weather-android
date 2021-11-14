@@ -3,6 +3,8 @@ package a.alt.z.weather.ui.splash
 import a.alt.z.weather.R
 import a.alt.z.weather.databinding.FragmentSplashBinding
 import a.alt.z.weather.ui.base.BaseFragment
+import a.alt.z.weather.utils.constants.RequestKeys
+import a.alt.z.weather.utils.constants.ResultKeys
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
 import android.os.Bundle
@@ -20,7 +22,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     private val binding by viewBinding(FragmentSplashBinding::bind)
 
     private var animationEnded = false
-    private var dataLoaded = false
+    private var dataReady = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,10 +34,10 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     }
 
     override fun setupObserver() {
-        parentFragmentManager.setFragmentResultListener("dataLoadedRequestKey", viewLifecycleOwner) { _, result ->
-            dataLoaded = result.getBoolean("dataLoaded")
+        parentFragmentManager.setFragmentResultListener(RequestKeys.DATA_READY_SPLASH, viewLifecycleOwner) { _, result ->
+            dataReady = result.getBoolean(ResultKeys.DATA_READY_SPLASH)
 
-            if (animationEnded && dataLoaded) {
+            if (animationEnded && dataReady) {
                 parentFragmentManager.commit { remove(this@SplashFragment) }
             }
         }
@@ -65,7 +67,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
             animationEnded = true
 
-            if (animationEnded && dataLoaded) {
+            if (animationEnded && dataReady) {
                 parentFragmentManager.commit { remove(this@SplashFragment) }
             }
         }

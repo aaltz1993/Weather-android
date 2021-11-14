@@ -50,7 +50,7 @@
         <entry key="app/src/main/res/layout/fragment_forecast_weather.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_location.xml" value="0.30925925925925923" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_present_weather.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_present_weather.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_preview.xml" value="0.39487179487179486" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.22826086956521738" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.4010416666666667" />

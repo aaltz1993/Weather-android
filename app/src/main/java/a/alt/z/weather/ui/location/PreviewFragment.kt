@@ -7,7 +7,7 @@ import a.alt.z.weather.model.weather.elements.Sky
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
-import a.alt.z.weather.utils.glide.PrecipitationSnowTransformation
+import a.alt.z.weather.utils.transformations.PrecipitationSnowTransformation
 import a.alt.z.weather.utils.result.successOrNull
 import android.os.Bundle
 import android.view.View

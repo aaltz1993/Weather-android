@@ -6,7 +6,8 @@ import a.alt.z.weather.model.weather.HourlyWeather
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.ui.info.AirPollutionInfoBottomSheetDialogFragment
 import a.alt.z.weather.ui.info.WeatherIconsInfoBottomSheetDialogFragment
-import a.alt.z.weather.utils.extensions.setFragmentResult
+import a.alt.z.weather.utils.constants.RequestKeys
+import a.alt.z.weather.utils.constants.ResultKeys
 import a.alt.z.weather.utils.extensions.viewBinding
 import a.alt.z.weather.utils.result.successOrNull
 import android.annotation.SuppressLint
@@ -36,11 +37,11 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
     override fun initView() {
         binding.apply {
             scrollView.onPullDown = { dY ->
-                parentFragmentManager.setFragmentResult("onPullDownRequestKey", bundleOf(Pair("onPullDown", dY)))
+                parentFragmentManager.setFragmentResult(RequestKeys.ON_ACTION_MOVE, bundleOf(Pair(ResultKeys.ON_ACTION_MOVE, dY)))
             }
 
             scrollView.onActionUp = { dY ->
-                parentFragmentManager.setFragmentResult("onActionUpRequestKey", bundleOf(Pair("onActionUp", dY)))
+                parentFragmentManager.setFragmentResult(RequestKeys.ON_ACTION_UP, bundleOf(Pair(ResultKeys.ON_ACTION_UP, dY)))
             }
 
             weatherIconsInfoImageView.setOnClickListener {

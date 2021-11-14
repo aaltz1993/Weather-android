@@ -5,14 +5,12 @@ import a.alt.z.weather.data.api.model.uvindex.UVIndexAreaCode
 import a.alt.z.weather.data.api.model.weather.*
 import a.alt.z.weather.data.api.model.uvindex.UVIndexItem
 import a.alt.z.weather.data.api.service.*
-import a.alt.z.weather.utils.projection.MapProjection
+import a.alt.z.weather.utils.projections.MapProjection
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
-import timber.log.debug
 import javax.inject.Inject
 
 class WeatherRemoteDataSourceImpl @Inject constructor(

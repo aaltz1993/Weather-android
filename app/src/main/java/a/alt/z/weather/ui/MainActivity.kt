@@ -1,19 +1,19 @@
 package a.alt.z.weather.ui
 
 import a.alt.z.weather.R
-import a.alt.z.weather.data.api.service.SunriseSunsetService
 import a.alt.z.weather.databinding.ActivityMainBinding
 import a.alt.z.weather.model.location.Coordinate
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.ui.location.LocationFragment
 import a.alt.z.weather.ui.splash.SplashFragment
 import a.alt.z.weather.ui.weather.WeatherFragment
+import a.alt.z.weather.utils.constants.RequestKeys
+import a.alt.z.weather.utils.constants.ResultKeys
 import a.alt.z.weather.utils.extensions.permissionsGranted
 import a.alt.z.weather.utils.extensions.viewBinding
 import a.alt.z.weather.utils.result.successOrNull
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -25,17 +25,11 @@ import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import timber.log.debug
-import javax.inject.Inject
 
 @AndroidEntryPoint
 @SuppressLint("MissingPermission")
@@ -139,24 +133,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        supportFragmentManager.setFragmentResultListener("isPageableRequestKey", this) { _, result ->
-            val isPageable = result.getBoolean("isPageable")
+        supportFragmentManager.setFragmentResultListener(RequestKeys.PAGEABLE, this) { _, result ->
+            val isPageable = result.getBoolean(ResultKeys.PAGEABLE)
+
             binding.apply {
                 viewPager.isUserInputEnabled = isPageable
                 indicatorsLayout.isVisible = isPageable
             }
-            Timber.debug { "MainActivity::isPageable=$isPageable" }
         }
 
-        supportFragmentManager.setFragmentResultListener("isDataReadyRequestKey", this) { _, result ->
-            val isDataReady = result.getBoolean("isDataReady")
+        supportFragmentManager.setFragmentResultListener(RequestKeys.DATA_READY, this) { _, result ->
+            val isDataReady = result.getBoolean(ResultKeys.DATA_READY)
 
             val child = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
             if (child == null) {
                 binding.loadingLayout.isVisible = !isDataReady
             } else {
-                supportFragmentManager.setFragmentResult("dataLoadedRequestKey", bundleOf(Pair("dataLoaded", isDataReady)))
+                supportFragmentManager.setFragmentResult(
+                    RequestKeys.DATA_READY_SPLASH,
+                    bundleOf(Pair(ResultKeys.DATA_READY_SPLASH, isDataReady))
+                )
             }
         }
     }
