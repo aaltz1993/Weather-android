@@ -38,6 +38,12 @@ class WeatherLocalDataSourceImpl @Inject constructor(
         return weatherDao.getDailyWeathers(locationId, from, until)
     }
 
+    override suspend fun deleteWeatherData(locationId: Long) {
+        weatherDao.deletePresentWeatherData(locationId)
+        weatherDao.deleteHourlyWeatherData(locationId)
+        weatherDao.deleteDailyWeatherData(locationId)
+    }
+
     override suspend fun saveSunriseSunset(sunriseSunset: SunriseSunsetEntity) {
         sunriseSunsetDao.saveSunriseSunset(sunriseSunset)
     }

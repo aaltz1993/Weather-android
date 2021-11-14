@@ -141,11 +141,11 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.setFragmentResultListener("isPageableRequestKey", this) { _, result ->
             val isPageable = result.getBoolean("isPageable")
+
             binding.apply {
                 viewPager.isUserInputEnabled = isPageable
                 indicatorsLayout.isVisible = isPageable
             }
-            Timber.debug { "MainActivity::isPageable=$isPageable" }
         }
 
         supportFragmentManager.setFragmentResultListener("isDataReadyRequestKey", this) { _, result ->

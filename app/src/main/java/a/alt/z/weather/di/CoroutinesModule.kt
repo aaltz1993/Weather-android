@@ -8,8 +8,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
 
-
-
 @Module
 @InstallIn(SingletonComponent::class)
 object CoroutinesModule {

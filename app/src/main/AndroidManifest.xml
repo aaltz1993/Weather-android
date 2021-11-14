@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="a.alt.z.weather">
+    package="a.alt.z.weather"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -37,6 +38,30 @@
             <meta-data
                 android:name="a.alt.z.weather.initializer.AndroidThreeTenInitializer"
                 android:value="androidx.startup" />
+
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
         </provider>
+
+        <!-- alarm manager -->
+        <receiver
+            android:name=".service.AlarmReceiver"
+            android:exported="true"
+            android:enabled="true">
+
+        </receiver>
+
+        <receiver
+            android:name=".service.RebootReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.REBOOT"/>
+            </intent-filter>
+        </receiver>
+
+
     </application>
 </manifest>

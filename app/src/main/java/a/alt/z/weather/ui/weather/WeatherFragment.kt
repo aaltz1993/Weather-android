@@ -61,6 +61,8 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
                 rootLayout.update {
                     val top = min(max(forecastWeatherTopGuideline.guidePercent + dY, 0F), 1F)
                     val bottom = min(max(forecastWeatherBottomGuideline.guidePercent + dY, 1F), 2F)
+                    setGuidelinePercent(R.id.present_weather_top_guideline, top - 1F)
+                    setGuidelinePercent(R.id.present_weather_bottom_guideline, bottom - 1F)
                     setGuidelinePercent(R.id.forecast_weather_top_guideline, top)
                     setGuidelinePercent(R.id.forecast_weather_bottom_guideline, bottom)
                 }
@@ -83,12 +85,14 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
                         parentFragmentManager.setFragmentResult("isPageableRequestKey", bundleOf(Pair("isPageable", true)))
                     }
                 } else {
-                    rootLayout.updateWithDelayedTransition(duration = 500L) {
+                    rootLayout.updateWithDelayedTransition {
                         val (top, bottom) = if (forecastWeatherTopGuideline.guidePercent < 0.5F || dY < 0F) {
                             Pair(0F, 1F)
                         } else {
                             Pair(1F, 2F)
                         }
+                        setGuidelinePercent(R.id.present_weather_top_guideline, top - 1F)
+                        setGuidelinePercent(R.id.present_weather_bottom_guideline, bottom - 1F)
                         setGuidelinePercent(R.id.forecast_weather_top_guideline, top)
                         setGuidelinePercent(R.id.forecast_weather_bottom_guideline, bottom)
 
@@ -107,9 +111,7 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
         super.setupObserver()
 
         viewModel.isDataReady.observe(viewLifecycleOwner) { isDataReady ->
-            Timber.debug { "WeatherFragment::isDataReady=$isDataReady" }
             parentFragmentManager.setFragmentResult("isDataReadyRequestKey", bundleOf(Pair("isDataReady", isDataReady)))
-            Timber.debug { "WeatherFragment::setFragmentResult=$isDataReady" }
         }
 
         childFragmentManager.setFragmentResultListener("onPullDownRequestKey", viewLifecycleOwner) { _, result ->
@@ -120,6 +122,8 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
                     rootLayout.update {
                         val top = min(max(forecastWeatherTopGuideline.guidePercent + dY, 0F), 1F)
                         val bottom = min(max(forecastWeatherBottomGuideline.guidePercent + dY, 1F), 2F)
+                        setGuidelinePercent(R.id.present_weather_top_guideline, top - 1F)
+                        setGuidelinePercent(R.id.present_weather_bottom_guideline, bottom - 1F)
                         setGuidelinePercent(R.id.forecast_weather_top_guideline, top)
                         setGuidelinePercent(R.id.forecast_weather_bottom_guideline, bottom)
                     }
@@ -137,6 +141,8 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
                     } else {
                         Pair(1F, 2F)
                     }
+                    setGuidelinePercent(R.id.present_weather_top_guideline, top - 1F)
+                    setGuidelinePercent(R.id.present_weather_bottom_guideline, bottom - 1F)
                     setGuidelinePercent(R.id.forecast_weather_top_guideline, top)
                     setGuidelinePercent(R.id.forecast_weather_bottom_guideline, bottom)
 
@@ -149,6 +155,8 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
     override fun onBackPressed(): Boolean {
         if (binding.forecastWeatherTopGuideline.guidePercent < 1F) {
             binding.rootLayout.updateWithDelayedTransition(duration = 500L) {
+                setGuidelinePercent(R.id.present_weather_top_guideline, 0F)
+                setGuidelinePercent(R.id.present_weather_bottom_guideline, 1F)
                 setGuidelinePercent(R.id.forecast_weather_top_guideline, 1F)
                 setGuidelinePercent(R.id.forecast_weather_bottom_guideline, 2F)
 
