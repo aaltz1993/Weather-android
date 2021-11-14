@@ -6,18 +6,11 @@ import android.app.AlarmManager
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Intent
-import android.os.SystemClock
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.AlarmManagerCompat
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.WorkerFactory
 import dagger.hilt.android.HiltAndroidApp
 import org.threeten.bp.*
-import org.threeten.bp.temporal.TemporalField
-import timber.log.Timber
-import timber.log.debug
-import java.util.*
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -28,7 +21,7 @@ class WeatherApplication: Application(), Configuration.Provider {
 
         applyNightMode()
 
-        scheduleSyncTask()
+        scheduleDownloadTask()
     }
 
     private fun applyNightMode() {
@@ -44,17 +37,17 @@ class WeatherApplication: Application(), Configuration.Provider {
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun scheduleSyncTask() {
+    private fun scheduleDownloadTask() {
         val alarmManager = getSystemService(AlarmManager::class.java)
 
         val now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
 
-        val syncAt = if (now.hour > 2 || (now.hour == 2 && now.minute >= 30)) {
+        val downloadAt = if (now.hour > 2 || (now.hour == 2 && now.minute >= 30)) {
             now.plusDays(1)
         } else {
             now
         }.apply {
-            withHour(14)
+            withHour(2)
                 .withMinute(30)
                 .withSecond(0)
                 .withNano(0)
@@ -64,8 +57,7 @@ class WeatherApplication: Application(), Configuration.Provider {
 
         val operation = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        // alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, syncAt, operation)
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000L, operation)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt, operation)
     }
 
     @Inject lateinit var workerFactory: HiltWorkerFactory

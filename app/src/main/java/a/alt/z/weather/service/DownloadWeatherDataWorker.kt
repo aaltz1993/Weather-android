@@ -26,7 +26,7 @@ import timber.log.Timber
 import timber.log.debug
 
 @HiltWorker
-class SyncWeatherDataWorker @AssistedInject constructor(
+class DownloadWeatherDataWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
     private val locationDao: LocationDao,
@@ -35,22 +35,19 @@ class SyncWeatherDataWorker @AssistedInject constructor(
 ): CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        Timber.debug { "SyncWorker::doWork" }
+        Timber.debug { "DownloadWeatherDataWorker::doWork" }
+        return try {
+            locationDao.getLocationsSnapshot()
+                .map { it.transform() }
+                .forEach { location -> downloadWeatherData(location) }
 
-        try {
-
+            Result.success()
         } catch (exception: Exception) {
-
+            Result.failure()
         }
-        locationDao
-            .getLocationsSnapshot()
-            .let { Timber.debug { "locations::$it" } }
-
-        return Result.success()
     }
 
-    private suspend fun syncWeatherData(location: Location) {
-        Timber.debug { "<syncWeatherData::location(${location})>" }
+    private suspend fun downloadWeatherData(location: Location) {
         /* 1. HOURLY WEATHER */
         val hourlyWeatherItems = weatherRemoteDataSource.getHourlyWeather(location.latitude, location.longitude)
         val hourlyWeatherEntities = hourlyWeatherItems.map { it.transform(location) }.also { Timber.debug { "HOURLY WEATHER::updated ${it.size} hWeathers" } }
@@ -91,22 +88,17 @@ class SyncWeatherDataWorker @AssistedInject constructor(
 
         dailyWeatherItems
             .map { it.transform(location) }
-            .also { Timber.debug { "DAILY WEATHER::updated $it" } }
             .let { weatherLocalDataSource.saveDailyWeathers(it) }
 
         /* SUNRISE + SUNSET */
         weatherRemoteDataSource.getSunriseSunset(location.region1DepthName)
             .transform(location)
-            .also { Timber.debug { "SUNRISE + SUNSET::updated $it" } }
             .let { weatherLocalDataSource.saveSunriseSunset(it) }
 
         /* UV INDEX */
         weatherRemoteDataSource.getUVIndex(location.region1DepthName)
             .transform(location)
-            .also { Timber.debug { "UV INDEX::updated $it" } }
             .let { weatherLocalDataSource.saveUVIndices(it) }
-
-        Timber.debug { "</syncWeatherData>" }
     }
 
     private fun LocationEntity.transform() = Location(

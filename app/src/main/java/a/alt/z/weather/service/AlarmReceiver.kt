@@ -17,11 +17,13 @@ class AlarmReceiver: HiltBroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        Timber.debug { "AlarmReceiver::onReceive" }
-
-        val workManager = WorkManager.getInstance(context)
-        val workRequest = OneTimeWorkRequestBuilder<SyncWeatherDataWorker>().build()
-        workManager.enqueueUniqueWork(UNIQUE_WORK_NAME, ExistingWorkPolicy.KEEP, workRequest)
+        WorkManager
+            .getInstance(context)
+            .enqueueUniqueWork(
+                UNIQUE_WORK_NAME,
+                ExistingWorkPolicy.KEEP,
+                OneTimeWorkRequestBuilder<DownloadWeatherDataWorker>().build()
+            )
     }
 
     companion object {
