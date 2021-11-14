@@ -17,6 +17,9 @@ interface LocationDao {
     suspend fun getDeviceLocation(isDeviceLocation: Boolean = true): LocationEntity?
 
     @Query("SELECT * FROM location")
+    suspend fun getLocationsSnapshot(): List<LocationEntity>
+
+    @Query("SELECT * FROM location")
     fun getLocations(): Flow<List<LocationEntity>>
 
     @Delete

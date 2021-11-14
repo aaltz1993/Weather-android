@@ -30,6 +30,8 @@ interface WeatherLocalDataSource {
         until: LocalDate = LocalDate.now(ZoneId.of("Asia/Seoul")).plusDays(7)
     ): List<DailyWeatherEntity>
 
+    suspend fun deleteWeatherData(locationId: Long)
+
     suspend fun saveSunriseSunset(sunriseSunset: SunriseSunsetEntity)
 
     suspend fun getSunriseSunset(date: LocalDate = LocalDate.now(ZoneId.of("Asia/Seoul"))): SunriseSunsetEntity?

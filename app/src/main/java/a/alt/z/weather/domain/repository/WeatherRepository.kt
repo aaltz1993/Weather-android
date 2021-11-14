@@ -16,4 +16,6 @@ interface WeatherRepository {
     suspend fun getForecastWeather(location: Location): ForecastWeather
 
     suspend fun getPresentWeathersByLocations(locations: List<Location>): List<PresentWeatherByLocation>
+
+    suspend fun deleteWeatherData(locationId: Long)
 }

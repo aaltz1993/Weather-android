@@ -30,4 +30,13 @@ interface WeatherDao {
 
     @Query("SELECT * FROM dailyWeather WHERE locationId = :locationId AND date >= :now AND date < :after7Days")
     suspend fun getDailyWeathers(locationId: Long, now: LocalDate, after7Days: LocalDate): List<DailyWeatherEntity>
+
+    @Query("DELETE FROM hourlyWeather WHERE locationId = :locationId")
+    suspend fun deleteHourlyWeatherData(locationId: Long)
+
+    @Query("DELETE FROM dailyWeather WHERE locationId = :locationId")
+    suspend fun deleteDailyWeatherData(locationId: Long)
+
+    @Query("DELETE FROM presentWeather WHERE locationId = :locationId")
+    suspend fun deletePresentWeatherData(locationId: Long)
 }

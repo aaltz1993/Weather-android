@@ -113,8 +113,8 @@ class WeatherRepositoryImpl @Inject constructor(
                 .map { it.transform() }
 
             /* DAILY WEATHER */
-            if (dailyWeatherEntities.size < 7 &&
-                dailyWeatherEntities.count { it.date in LocalDate.now()..LocalDate.now().plusDays(2) } < 3) {
+            val after3Days = LocalDate.now(ZoneId.of("Asia/Seoul")).plusDays(3)
+            if (dailyWeatherEntities.count { it.date < after3Days } < 3) {
                 hourlyWeatherItems
                     .filter { it.minTemperature != Int.MIN_VALUE || it.maxTemperature != Int.MAX_VALUE }
                     .groupBy { it.dateTime.toLocalDate() }
@@ -231,14 +231,6 @@ class WeatherRepositoryImpl @Inject constructor(
         popBeforeNoon, popAfternoon
     )
 
-    private fun DailyWeatherItem.transform() = DailyWeather(
-        date,
-        minTemperature, maxTemperature,
-        skyOf(forecastBeforeNoon), skyOf(forecastAfterNoon),
-        precipitationTypeOf(forecastBeforeNoon), precipitationTypeOf(forecastAfterNoon),
-        popBeforeNoon, popAfternoon
-    )
-
     private fun skyOf(forecast: String): Sky {
         return when {
             forecast == "맑음" -> Sky.CLEAR
@@ -321,5 +313,9 @@ class WeatherRepositoryImpl @Inject constructor(
         return locations.map { location ->
             PresentWeatherByLocation(getPresentWeather(location), location)
         }
+    }
+
+    override suspend fun deleteWeatherData(locationId: Long) {
+        weatherLocalDataSource.deleteWeatherData(locationId)
     }
 }
