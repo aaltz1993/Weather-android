@@ -40,11 +40,6 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
         "항상 감기 조심하고\n따뜻한 하루 보내세요!"
     )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
     override fun initView() {
         binding.apply {
             plusButton.setOnClickListener {
