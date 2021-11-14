@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="64dp"
                 android:textColor="@color/text_primary_color"
                 android:textSize="16sp"
                 android:text="@string/air_pollution"
@@ -239,7 +239,7 @@
                 android:layout_height="2dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="64dp"
                 android:background="@color/divider_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -427,9 +427,7 @@
                 android:text="00:00"
                 android:textColor="@color/sunrise_sunset_time_text_color"
                 app:layout_constraintStart_toStartOf="@id/sunrise_sunset_text_view"
-                app:layout_constraintTop_toBottomOf="@id/sunrise_image_view"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@id/sunrise_image_view"/>
 
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/sunrise_sunset_progress_indicator"
@@ -468,6 +466,44 @@
                 android:textColor="@color/sunrise_sunset_time_text_color"
                 app:layout_constraintEnd_toEndOf="@id/horizontal_divider4"
                 app:layout_constraintTop_toBottomOf="@id/sunset_image_view"/>
+
+            <View
+                android:id="@+id/horizontal_divider5"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="24dp"
+                android:background="@color/divider_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sunset_time_text_view" />
+
+            <TextView
+                android:id="@+id/data_source_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/data_source_name"
+                android:textSize="12sp"
+                android:textColor="@color/data_source_name_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_divider5"/>
+
+            <TextView
+                android:id="@+id/data_source_notice_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/data_source_notice"
+                android:textSize="12sp"
+                android:textColor="@color/data_source_notice_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/data_source_name_text_view"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </a.alt.z.weather.widgets.PullDownScrollView>
 </FrameLayout>

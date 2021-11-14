@@ -57,4 +57,6 @@
     <color name="selected_night_mode_background_color">#F6F6F6</color>
     <color name="temperature_bar_background_color">#EAEAEA</color>
     <color name="info_icon_tint_color">#D0D0D0</color>
+    <color name="data_source_name_text_color">#A5A5A5</color>
+    <color name="data_source_notice_text_color">#D0D0D0</color>
 </resources>

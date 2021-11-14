@@ -38,4 +38,6 @@
     <color name="weather_details_title_text_color">#7684A0</color>
     <color name="weather_icon_name_text_color">#7684A0</color>
     <color name="info_icon_tint_color">#314263</color>
+    <color name="data_source_name_text_color">#7684A0</color>
+    <color name="data_source_notice_text_color">#314263</color>
 </resources>

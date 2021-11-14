@@ -114,6 +114,14 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
                     ultraFineParticleGradeTextView.text = presentWeather.ultraFineParticleGrade.getDescription()
                     ultraFineParticleGradeTextView.setTextColor(ContextCompat.getColor(requireContext(), presentWeather.ultraFineParticleGrade.getColorResId()))
 
+                    val resId = imageResIdOf(
+                        presentWeather.sky,
+                        presentWeather.precipitationType,
+                        presentWeather.temperature
+                    )
+
+                    weatherImageView.setImageResource(resId)
+
                     if (presentWeather.precipitation > 0F) {
                         precipitationOrSnowLayout.isVisible = true
 
@@ -152,6 +160,38 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
                         }
                     }
             }
+        }
+    }
+
+    private fun descriptionOf(sky: Sky, precipitationType: PrecipitationType): String {
+        return when (precipitationType) {
+            PrecipitationType.NONE -> {
+                when (sky) {
+                    Sky.CLEAR -> "맑음"
+                    Sky.CLOUDY -> "구름 많음"
+                    Sky.OVERCAST -> "흐림"
+                }
+            }
+            PrecipitationType.RAIN -> "비"
+            PrecipitationType.SNOW -> "눈"
+            PrecipitationType.RAIN_SNOW -> "비, 눈"
+            PrecipitationType.SHOWER -> "소나기"
+        }
+    }
+
+    private fun iconResIdOf(sky: Sky, precipitationType: PrecipitationType): Int {
+        return when (precipitationType) {
+            PrecipitationType.NONE -> {
+                when (sky) {
+                    Sky.CLEAR -> R.drawable.icon_clear_outlined
+                    Sky.CLOUDY -> R.drawable.icon_cloudy_outlined
+                    Sky.OVERCAST -> R.drawable.icon_overcast_outlined
+                }
+            }
+            PrecipitationType.RAIN -> R.drawable.icon_rain_outlined
+            PrecipitationType.SNOW -> R.drawable.icon_snow_outlined
+            PrecipitationType.RAIN_SNOW -> R.drawable.icon_rain_snow_outlined
+            PrecipitationType.SHOWER -> R.drawable.icon_shower_outlined
         }
     }
 
@@ -203,38 +243,6 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
                     else -> R.drawable.image_shower_warm
                 }
             }
-        }
-    }
-
-    private fun descriptionOf(sky: Sky, precipitationType: PrecipitationType): String {
-        return when (precipitationType) {
-            PrecipitationType.NONE -> {
-                when (sky) {
-                    Sky.CLEAR -> "맑음"
-                    Sky.CLOUDY -> "구름 많음"
-                    Sky.OVERCAST -> "흐림"
-                }
-            }
-            PrecipitationType.RAIN -> "비"
-            PrecipitationType.SNOW -> "눈"
-            PrecipitationType.RAIN_SNOW -> "비, 눈"
-            PrecipitationType.SHOWER -> "소나기"
-        }
-    }
-
-    private fun iconResIdOf(sky: Sky, precipitationType: PrecipitationType): Int {
-        return when (precipitationType) {
-            PrecipitationType.NONE -> {
-                when (sky) {
-                    Sky.CLEAR -> R.drawable.icon_clear_outlined
-                    Sky.CLOUDY -> R.drawable.icon_cloudy_outlined
-                    Sky.OVERCAST -> R.drawable.icon_overcast_outlined
-                }
-            }
-            PrecipitationType.RAIN -> R.drawable.icon_rain_outlined
-            PrecipitationType.SNOW -> R.drawable.icon_snow_outlined
-            PrecipitationType.RAIN_SNOW -> R.drawable.icon_rain_snow_outlined
-            PrecipitationType.SHOWER -> R.drawable.icon_shower_outlined
         }
     }
 }

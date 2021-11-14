@@ -37,11 +37,17 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
     override fun initView() {
         binding.apply {
             scrollView.onPullDown = { dY ->
-                parentFragmentManager.setFragmentResult(RequestKeys.ON_ACTION_MOVE, bundleOf(Pair(ResultKeys.ON_ACTION_MOVE, dY)))
+                parentFragmentManager.setFragmentResult(
+                    RequestKeys.ON_ACTION_MOVE,
+                    bundleOf(Pair(ResultKeys.ON_ACTION_MOVE, dY))
+                )
             }
 
             scrollView.onActionUp = { dY ->
-                parentFragmentManager.setFragmentResult(RequestKeys.ON_ACTION_UP, bundleOf(Pair(ResultKeys.ON_ACTION_UP, dY)))
+                parentFragmentManager.setFragmentResult(
+                    RequestKeys.ON_ACTION_UP,
+                    bundleOf(Pair(ResultKeys.ON_ACTION_UP, dY))
+                )
             }
 
             weatherIconsInfoImageView.setOnClickListener {
@@ -66,10 +72,6 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
     @SuppressLint("SetTextI18n")
     override fun setupObserver() {
         super.setupObserver()
-
-        viewModel.location.observe(viewLifecycleOwner) {
-
-        }
 
         viewModel.forecastWeather.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { forecastWeather ->

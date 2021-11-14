@@ -1,7 +1,7 @@
 package a.alt.z.weather.model.weather
 
-import a.alt.z.weather.model.air.FineParticleGrade
-import a.alt.z.weather.model.air.UltraFineParticleGrade
+import a.alt.z.weather.model.airquality.FineParticleGrade
+import a.alt.z.weather.model.airquality.UltraFineParticleGrade
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 

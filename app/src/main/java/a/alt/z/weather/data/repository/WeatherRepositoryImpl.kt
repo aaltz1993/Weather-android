@@ -9,8 +9,8 @@ import a.alt.z.weather.data.database.model.*
 import a.alt.z.weather.data.datasource.weather.WeatherLocalDataSource
 import a.alt.z.weather.data.datasource.weather.WeatherRemoteDataSource
 import a.alt.z.weather.domain.repository.WeatherRepository
-import a.alt.z.weather.model.air.FineParticleGrade
-import a.alt.z.weather.model.air.UltraFineParticleGrade
+import a.alt.z.weather.model.airquality.FineParticleGrade
+import a.alt.z.weather.model.airquality.UltraFineParticleGrade
 import a.alt.z.weather.model.location.Address
 import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.model.location.PresentWeatherByLocation
