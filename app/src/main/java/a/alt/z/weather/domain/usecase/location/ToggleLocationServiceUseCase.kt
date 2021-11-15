@@ -6,7 +6,7 @@ import a.alt.z.weather.domain.usecase.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class LocationServiceOnOffUseCase @Inject constructor(
+class ToggleLocationServiceUseCase @Inject constructor(
     @IODispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: LocationRepository
 ): UseCase<Boolean, Unit>(coroutineDispatcher) {

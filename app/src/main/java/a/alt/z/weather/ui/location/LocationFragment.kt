@@ -17,6 +17,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -46,7 +47,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
     private val permissions = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
 
-    private val requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(), ::onActivityResult)
+    private val requestPermissions = registerForActivityResult(RequestMultiplePermissions(), ::onActivityResult)
 
     private fun onActivityResult(result: Map<String, Boolean>) {
         if (requireContext().permissionsGranted(permissions.toList())) {
@@ -181,14 +182,23 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
         viewModel.locations.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { locations ->
-                locationAdapter.submitList(locations.sortedByDescending { it.isDeviceLocation })
+                locations
+                    .sortedByDescending { it.isDeviceLocation }
+                    .let { locationAdapter.submitList(it) }
+
                 viewModel.getPresentWeathersByLocations(locations)
+
+                if (!locations.any { it.isDeviceLocation }) {
+                    viewModel.toggleLocationService(false)
+                }
             }
         }
 
         viewModel.searchAddressResult.observe(viewLifecycleOwner) { result ->
-            result.successOrNull()?.let {
-                addressAdapter.submitList(it.ifEmpty { listOf(Address.INVALID) })
+            result.successOrNull()?.let { addresses ->
+                addresses
+                    .ifEmpty { listOf(Address.INVALID) }
+                    .let { addressAdapter.submitList(it) }
             }
         }
 
@@ -200,7 +210,9 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
         viewModel.presentWeathersByLocations.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { presentWeathersByLocations ->
-                locationAdapter.presentWeathersByLocations = presentWeathersByLocations.sortedByDescending { it.location.isDeviceLocation }
+                presentWeathersByLocations
+                    .sortedByDescending { it.location.isDeviceLocation }
+                    .let { locationAdapter.presentWeathersByLocations = it }
             }
         }
 
@@ -210,7 +222,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
                     childFragmentManager.commit { replace(R.id.fragment_container, PreviewFragment()) }
                 }
                 is Result.Success -> {
-
                 }
                 is Result.Failure -> {
                     /* TODO */
@@ -224,7 +235,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
         viewModel.addDeviceLocationResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 Result.Loading -> {
-
                 }
                 is Result.Success -> {
                     viewModel.toggleLocationService(true)
@@ -273,7 +283,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
         }
 
         if (viewModel.locations.value?.successOrNull().orEmpty().isEmpty()) {
-            Timber.debug { "emptyLocations" }
             /* exit application */
             return false
         }

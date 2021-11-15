@@ -15,14 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationViewModel @Inject constructor(
-    private val addDeviceLocationUseCase: AddDeviceLocationUseCase,
     private val getLocationsUseCase: GetLocationsUseCase,
+    private val getPresentWeathersByLocationsUseCase: GetPresentWeathersByLocationsUseCase,
     private val searchAddressUseCase: SearchAddressUseCase,
+    private val getPreviewPresentWeatherUseCase: GetPreviewPresentWeatherUseCase,
     private val addLocationUseCase: AddLocationUseCase,
     private val deleteLocationUseCase: DeleteLocationUseCase,
-    private val getPresentWeathersByLocationsUseCase: GetPresentWeathersByLocationsUseCase,
-    private val getPreviewPresentWeatherUseCase: GetPreviewPresentWeatherUseCase,
-    private val locationServiceOnOffUseCase: LocationServiceOnOffUseCase,
+    private val addDeviceLocationUseCase: AddDeviceLocationUseCase,
+    private val toggleLocationServiceUseCase: ToggleLocationServiceUseCase,
     private val getLocationServiceOnUseCase: GetLocationServiceOnUseCase,
     private val deleteDeviceLocationUseCase: DeleteDeviceLocationUseCase
 ) : ViewModel() {
@@ -68,7 +68,7 @@ class LocationViewModel @Inject constructor(
 
     fun toggleLocationService(on: Boolean) {
         viewModelScope.launch {
-            locationServiceOnOffUseCase(on)
+            toggleLocationServiceUseCase(on)
         }
     }
 
