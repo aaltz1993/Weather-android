@@ -11,11 +11,11 @@ import org.threeten.bp.ZonedDateTime
 
 class RebootReceiver: BroadcastReceiver() {
 
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
         scheduleDownloadTask(context)
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     private fun scheduleDownloadTask(context: Context) {
         val alarmManager = context.getSystemService(AlarmManager::class.java)
 
@@ -34,6 +34,7 @@ class RebootReceiver: BroadcastReceiver() {
 
         val intent = Intent(context, AlarmReceiver::class.java)
 
+        @SuppressLint("UnspecifiedImmutableFlag")
         val operation = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt, operation)
