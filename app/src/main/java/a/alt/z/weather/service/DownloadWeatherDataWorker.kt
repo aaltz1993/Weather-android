@@ -21,6 +21,7 @@ import dagger.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import timber.log.debug
@@ -35,7 +36,6 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
 ): CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        Timber.debug { "DownloadWeatherDataWorker::doWork" }
         return try {
             locationDao.getLocationsSnapshot()
                 .map { it.transform() }
@@ -43,14 +43,16 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
 
             Result.success()
         } catch (exception: Exception) {
-            Result.failure()
+            Result.retry()
         }
     }
 
     private suspend fun downloadWeatherData(location: Location) {
+        Timber.debug { "downloadWeatherData(${location.name})::start(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
+
         /* 1. HOURLY WEATHER */
         val hourlyWeatherItems = weatherRemoteDataSource.getHourlyWeather(location.latitude, location.longitude)
-        val hourlyWeatherEntities = hourlyWeatherItems.map { it.transform(location) }.also { Timber.debug { "HOURLY WEATHER::updated ${it.size} hWeathers" } }
+        val hourlyWeatherEntities = hourlyWeatherItems.map { it.transform(location) }
         weatherLocalDataSource.saveHourlyWeathers(hourlyWeatherEntities)
 
         /* 2. DAILY WEATHER */
@@ -99,6 +101,8 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
         weatherRemoteDataSource.getUVIndex(location.region1DepthName)
             .transform(location)
             .let { weatherLocalDataSource.saveUVIndices(it) }
+
+        Timber.debug { "downloadWeatherData(${location.name})::end(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
     }
 
     private fun LocationEntity.transform() = Location(
