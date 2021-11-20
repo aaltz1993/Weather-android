@@ -12,11 +12,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import timber.log.debug
 import kotlin.math.max
 import kotlin.math.min
 
 @AndroidEntryPoint
-class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
+class WeatherFragment constructor(
+    private val location: Location
+): BaseFragment(R.layout.fragment_weather) {
 
     private val binding by viewBinding(FragmentWeatherBinding::bind)
 
@@ -27,11 +31,6 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val location = requireArguments().getParcelable<Location>(ARG_LOCATION)
-
-        requireNotNull(location)
-
         viewModel.setLocation(location)
     }
 
@@ -103,8 +102,16 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
 
     private fun beginDelayedTransition(top: Float, bottom: Float) {
         binding.rootLayout.updateWithDelayedTransition(duration = 500L) {
-            setGuidelinePercent(R.id.present_weather_top_guideline, top - 1F)
-            setGuidelinePercent(R.id.present_weather_bottom_guideline, bottom - 1F)
+            setGuidelinePercent(
+                R.id.present_weather_top_guideline,
+                if (top == maximumGuidePercent) minimumGuidePercent
+                else minimumGuidePercent - 1F
+            )
+            setGuidelinePercent(
+                R.id.present_weather_bottom_guideline,
+                if (top == maximumGuidePercent) maximumGuidePercent
+                else minimumGuidePercent
+            )
             setGuidelinePercent(R.id.forecast_weather_top_guideline, top)
             setGuidelinePercent(R.id.forecast_weather_bottom_guideline, bottom)
         }
@@ -120,10 +127,10 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
     override fun setupObserver() {
         super.setupObserver()
 
-        viewModel.isDataReady.observe(viewLifecycleOwner) { isDataReady ->
+        viewModel.dataLoaded.observe(viewLifecycleOwner) { dataLoaded ->
             parentFragmentManager.setFragmentResult(
                 RequestKeys.DATA_LOADED,
-                bundleOf(Pair(ResultKeys.DATA_LOADED, isDataReady))
+                bundleOf(Pair(ResultKeys.DATA_LOADED, dataLoaded))
             )
         }
 
@@ -165,13 +172,5 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
         }
 
         return super.onBackPressed()
-    }
-
-    companion object {
-        private const val ARG_LOCATION = "arg_location"
-
-        fun newInstance(location: Location)  = WeatherFragment().apply {
-            arguments = bundleOf(Pair(ARG_LOCATION, location))
-        }
     }
 }

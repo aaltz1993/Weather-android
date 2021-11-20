@@ -24,8 +24,8 @@ class WeatherViewModel @Inject constructor(
     private val _forecastWeather = MutableLiveData<Result<ForecastWeather>>()
     val forecastWeather: LiveData<Result<ForecastWeather>> = _forecastWeather
 
-    private val _isDataReady = MediatorLiveData<Boolean>()
-    val isDataReady: LiveData<Boolean> = _isDataReady
+    private val _dataLoaded = MediatorLiveData<Boolean>()
+    val dataLoaded: LiveData<Boolean> = _dataLoaded
 
     init {
         _location.observeForever { location ->
@@ -35,15 +35,15 @@ class WeatherViewModel @Inject constructor(
             }
         }
 
-        _isDataReady.addSource(_presentWeather) {
-            _isDataReady.postValue(
+        _dataLoaded.addSource(_presentWeather) {
+            _dataLoaded.postValue(
                 _forecastWeather.value is Result.Success
                         && _presentWeather.value is Result.Success
             )
         }
 
-        _isDataReady.addSource(_forecastWeather) {
-            _isDataReady.postValue(
+        _dataLoaded.addSource(_forecastWeather) {
+            _dataLoaded.postValue(
                 _forecastWeather.value is Result.Success
                         && _presentWeather.value is Result.Success
             )

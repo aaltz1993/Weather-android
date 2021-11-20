@@ -28,7 +28,7 @@ class LocationViewHolder(
                 ?.let { ContextCompat.getDrawable(weatherIconImageView.context, it) }
                 .let { weatherIconImageView.setImageDrawable(it) }
 
-            temperatureTextView.text = weather?.temperature.toString()
+            temperatureTextView.text = weather?.temperature?.toString().orEmpty()
             temperatureDegree.isVisible = weather != null
 
             deleteButton.isVisible = isEditing

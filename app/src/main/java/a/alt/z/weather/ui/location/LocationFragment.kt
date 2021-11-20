@@ -34,7 +34,6 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-@SuppressLint("MissingPermission")
 class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
     private val binding by viewBinding(FragmentLocationBinding::bind)
@@ -47,6 +46,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
     private val requestPermissions = registerForActivityResult(RequestMultiplePermissions(), ::onActivityResult)
 
+    @SuppressLint("MissingPermission")
     private fun onActivityResult(result: Map<String, Boolean>) {
         if (requireContext().permissionsGranted(permissions.toList())) {
             locationProvider.lastLocation
@@ -131,7 +131,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("MissingPermission")
     override fun setupObserver() {
         super.setupObserver()
 

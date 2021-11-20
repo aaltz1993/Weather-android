@@ -28,7 +28,6 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -124,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
                             viewPager.adapter = MainPageAdapter(
                                 this@MainActivity,
-                                locations.sortedByDescending { it.isDeviceLocation }.map { WeatherFragment.newInstance(it) }
+                                locations.sortedByDescending { it.isDeviceLocation }.map { WeatherFragment(it) }
                             )
                         }
                     }
@@ -141,17 +140,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED, this) { _, result ->
-            val dataReady = result.getBoolean(ResultKeys.DATA_LOADED)
+            val dataLoaded = result.getBoolean(ResultKeys.DATA_LOADED)
 
             val child = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-            if (child == null) {
-                binding.loadingLayout.isVisible = !dataReady
-            } else {
+            if (child is SplashFragment) {
                 supportFragmentManager.setFragmentResult(
                     RequestKeys.DATA_LOADED_SPLASH,
-                    bundleOf(Pair(ResultKeys.DATA_LOADED_SPLASH, dataReady))
+                    bundleOf(Pair(ResultKeys.DATA_LOADED_SPLASH, dataLoaded))
                 )
+            } else {
+                binding.loadingLayout.isVisible = !dataLoaded
             }
         }
     }

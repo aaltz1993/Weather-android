@@ -36,7 +36,7 @@ class OverScrollFrameLayout @JvmOverloads constructor(
                 dY = event.rawY - rawY
                 rawX = event.rawX
                 rawY = event.rawY
-
+                
                 if (abs(dX) > abs(dY)) {
                     if (!interceptPullDown && !interceptSwipeUp) {
                         onSwipe?.invoke()

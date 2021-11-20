@@ -17,8 +17,9 @@
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
             app:tint="@color/fill_primary_color"
             app:srcCompat="@drawable/icon_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +29,9 @@
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:padding="8dp"
             android:fontFamily="@font/spoqa_han_sans_neo_regular"
             android:text="@string/edit"
             android:textColor="@color/text_primary_color"
@@ -58,12 +60,12 @@
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/background_search_bar"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
-            android:paddingStart="36dp"
+            android:paddingStart="40dp"
             android:paddingEnd="36dp"
             android:textColor="@color/text_primary_color"
             android:textCursorDrawable="@null"
@@ -104,7 +106,8 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
             android:fontFamily="@font/spoqa_han_sans_neo_regular"
             android:text="@string/cancel"
             android:textSize="16sp"
@@ -112,7 +115,8 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/query_edit_text"
-            app:layout_constraintBottom_toBottomOf="@id/query_edit_text"/>
+            app:layout_constraintBottom_toBottomOf="@id/query_edit_text"
+            tools:visibility="visible"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/location_recycler_view"
@@ -194,6 +198,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
