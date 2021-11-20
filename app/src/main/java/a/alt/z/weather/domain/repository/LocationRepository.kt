@@ -20,5 +20,5 @@ interface LocationRepository {
 
     suspend fun toggleLocationService(on: Boolean)
 
-    suspend fun getLocationServiceOn(): Boolean
+    suspend fun getLocationServiceOn(): Flow<Boolean>
 }

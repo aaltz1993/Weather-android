@@ -1,8 +1,8 @@
 package a.alt.z.weather.utils.constants
 
 object RequestKeys {
-    const val DATA_READY = "dataReadyRequestKey"
-    const val DATA_READY_SPLASH = "dataReadySplashRequestKey"
+    const val DATA_LOADED = "dataLoadedRequestKey"
+    const val DATA_LOADED_SPLASH = "dataLoadedSplashRequestKey"
 
     const val PAGEABLE = "pageableRequestKey"
 
@@ -11,8 +11,8 @@ object RequestKeys {
 }
 
 object ResultKeys {
-    const val DATA_READY = "dataReady"
-    const val DATA_READY_SPLASH = "dataReadySplash"
+    const val DATA_LOADED = "dataReady"
+    const val DATA_LOADED_SPLASH = "dataReadySplash"
 
     const val PAGEABLE = "pageable"
 

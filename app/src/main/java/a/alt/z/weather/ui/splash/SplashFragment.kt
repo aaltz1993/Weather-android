@@ -34,8 +34,8 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     }
 
     override fun setupObserver() {
-        parentFragmentManager.setFragmentResultListener(RequestKeys.DATA_READY_SPLASH, viewLifecycleOwner) { _, result ->
-            dataReady = result.getBoolean(ResultKeys.DATA_READY_SPLASH)
+        parentFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED_SPLASH, viewLifecycleOwner) { _, result ->
+            dataReady = result.getBoolean(ResultKeys.DATA_LOADED_SPLASH)
 
             if (animationEnded && dataReady) {
                 parentFragmentManager.commit { remove(this@SplashFragment) }

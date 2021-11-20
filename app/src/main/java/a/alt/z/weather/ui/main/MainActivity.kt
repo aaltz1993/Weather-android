@@ -30,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @SuppressLint("MissingPermission")
@@ -43,9 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private val requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions(), ::onActivityResult)
 
-    private val locationProvider: FusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(this)
-    }
+    @Inject lateinit var locationProvider: FusedLocationProviderClient
 
     private fun onActivityResult(result: Map<String, Boolean>) {
         if (permissionsGranted(permissions.toList())) {
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                         if (permissionsGranted(permissions.toList())) {
                             locationProvider.lastLocation
                                 .addOnSuccessListener { viewModel.addDeviceLocation(Coordinate(it.latitude, it.longitude)) }
-                                .addOnFailureListener {  }
+                                .addOnFailureListener { /* TODO */ }
                         } else {
                             requestPermissions.launch(permissions)
                         }
@@ -134,25 +133,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.setFragmentResultListener(RequestKeys.PAGEABLE, this) { _, result ->
-            val isPageable = result.getBoolean(ResultKeys.PAGEABLE)
-
             binding.apply {
-                viewPager.isUserInputEnabled = isPageable
-                indicatorsLayout.isVisible = isPageable
+                val pageable = result.getBoolean(ResultKeys.PAGEABLE)
+                viewPager.isUserInputEnabled = pageable
+                indicatorsLayout.isVisible = pageable
             }
         }
 
-        supportFragmentManager.setFragmentResultListener(RequestKeys.DATA_READY, this) { _, result ->
-            val isDataReady = result.getBoolean(ResultKeys.DATA_READY)
+        supportFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED, this) { _, result ->
+            val dataReady = result.getBoolean(ResultKeys.DATA_LOADED)
 
             val child = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
             if (child == null) {
-                binding.loadingLayout.isVisible = !isDataReady
+                binding.loadingLayout.isVisible = !dataReady
             } else {
                 supportFragmentManager.setFragmentResult(
-                    RequestKeys.DATA_READY_SPLASH,
-                    bundleOf(Pair(ResultKeys.DATA_READY_SPLASH, isDataReady))
+                    RequestKeys.DATA_LOADED_SPLASH,
+                    bundleOf(Pair(ResultKeys.DATA_LOADED_SPLASH, dataReady))
                 )
             }
         }

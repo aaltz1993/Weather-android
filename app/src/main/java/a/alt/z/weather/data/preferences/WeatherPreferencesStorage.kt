@@ -6,9 +6,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WeatherPreferencesStorage @Inject constructor(
@@ -23,5 +26,15 @@ class WeatherPreferencesStorage @Inject constructor(
 
     override var notificationsOn: Boolean by BooleanPreference(sharedPreferences, "notificationsOn", false)
 
-    override var locationServiceOn: Boolean by BooleanPreference(sharedPreferences, "locationServiceOn", false)
+    override var locationServiceOn: Flow<Boolean> = dataStore.data.map { preferences -> preferences[LOCATION_SERVICE_ON] ?: false }
+
+    override suspend fun setLocationServiceOn(locationServiceOn: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[LOCATION_SERVICE_ON] = locationServiceOn
+        }
+    }
+
+    companion object {
+        private val LOCATION_SERVICE_ON = booleanPreferencesKey("locationServiceOn")
+    }
 }

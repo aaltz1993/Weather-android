@@ -122,8 +122,8 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
 
         viewModel.isDataReady.observe(viewLifecycleOwner) { isDataReady ->
             parentFragmentManager.setFragmentResult(
-                RequestKeys.DATA_READY,
-                bundleOf(Pair(ResultKeys.DATA_READY, isDataReady))
+                RequestKeys.DATA_LOADED,
+                bundleOf(Pair(ResultKeys.DATA_LOADED, isDataReady))
             )
         }
 

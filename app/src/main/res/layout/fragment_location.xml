@@ -1,192 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:background="@color/background_secondary_color"
     tools:context=".ui.location.LocationFragment">
 
-    <ImageView
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        app:tint="@color/fill_primary_color"
-        app:srcCompat="@drawable/icon_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/edit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/spoqa_han_sans_neo_regular"
-        android:text="@string/edit"
-        android:textColor="@color/text_primary_color"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/guide_message_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginStart="24dp"
-        android:background="@android:color/transparent"
-        android:text="@string/guide_message"
-        android:textColor="@color/text_primary_color"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/back_button"
-        tools:visibility="visible"/>
-
-    <EditText
-        android:id="@+id/query_edit_text"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/background_search_bar"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:maxLines="1"
-        android:paddingStart="36dp"
-        android:paddingEnd="36dp"
-        android:textColor="@color/text_primary_color"
-        android:textCursorDrawable="@null"
-        app:layout_goneMarginTop="64dp"
-        app:layout_constraintEnd_toStartOf="@id/cancel_button"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guide_message_text_view"
-        app:layout_goneMarginEnd="24dp"
-        tools:text="하왕십리동" />
-
-    <ImageView
-        android:id="@+id/search_icon_image_view"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        app:tint="@color/search_icon_tint_color"
-        app:srcCompat="@drawable/icon_search"
-        app:layout_constraintStart_toStartOf="@id/query_edit_text"
-        app:layout_constraintTop_toTopOf="@id/query_edit_text"
-        app:layout_constraintBottom_toBottomOf="@id/query_edit_text"/>
-
-    <ImageView
-        android:id="@+id/clear_query_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/icon_clear_query"
-        app:layout_constraintEnd_toEndOf="@id/query_edit_text"
-        app:layout_constraintTop_toTopOf="@id/query_edit_text"
-        app:layout_constraintBottom_toBottomOf="@id/query_edit_text"
-        tools:visibility="visible"/>
-
-    <TextView
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/spoqa_han_sans_neo_regular"
-        android:text="@string/cancel"
-        android:textSize="16sp"
-        android:textColor="@color/text_primary_color"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/query_edit_text"
-        app:layout_constraintBottom_toBottomOf="@id/query_edit_text"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/location_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:overScrollMode="never"
-        android:layout_marginTop="24dp"
-        app:layout_goneMarginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/query_edit_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_location"
-        tools:itemCount="3"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/location_service_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="visible">
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/location_service_text_view"
+        <ImageView
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/location_service"
-            android:textColor="@color/text_primary_color"
+            android:layout_marginTop="24dp"
+            app:tint="@color/fill_primary_color"
+            app:srcCompat="@drawable/icon_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/location_service_description_text_view"
+            android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="48dp"
-            android:text="@string/location_service_description"
-            android:textColor="@color/location_service_description_text_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_service_text_view"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <com.kyleduo.switchbutton.SwitchButton
-            android:id="@+id/location_service_switch_button"
-            android:layout_width="52dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="16dp"
-            app:kswThumbColor="#FFFFFF"
-            app:kswBackColor="@drawable/switch_track_color"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/spoqa_han_sans_neo_regular"
+            android:text="@string/edit"
+            android:textColor="@color/text_primary_color"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/location_service_text_view"
-            app:layout_constraintBottom_toBottomOf="@id/location_service_description_text_view" />
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/guide_message_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:background="@android:color/transparent"
+            android:text="@string/guide_message"
+            android:textColor="@color/text_primary_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_button"
+            tools:visibility="visible"/>
+
+        <EditText
+            android:id="@+id/query_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/background_search_bar"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="36dp"
+            android:paddingEnd="36dp"
+            android:textColor="@color/text_primary_color"
+            android:textCursorDrawable="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:layout_goneMarginTop="64dp"
+            app:layout_constraintEnd_toStartOf="@id/cancel_button"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_message_text_view"
+            app:layout_goneMarginEnd="24dp"
+            tools:text="하왕십리동" />
+
+        <ImageView
+            android:id="@+id/search_icon_image_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            app:tint="@color/search_icon_tint_color"
+            app:srcCompat="@drawable/icon_search"
+            app:layout_constraintStart_toStartOf="@id/query_edit_text"
+            app:layout_constraintTop_toTopOf="@id/query_edit_text"
+            app:layout_constraintBottom_toBottomOf="@id/query_edit_text"/>
+
+        <ImageView
+            android:id="@+id/clear_query_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/icon_clear_query"
+            app:layout_constraintEnd_toEndOf="@id/query_edit_text"
+            app:layout_constraintTop_toTopOf="@id/query_edit_text"
+            app:layout_constraintBottom_toBottomOf="@id/query_edit_text"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/spoqa_han_sans_neo_regular"
+            android:text="@string/cancel"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary_color"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/query_edit_text"
+            app:layout_constraintBottom_toBottomOf="@id/query_edit_text"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/location_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:layout_marginTop="24dp"
+            app:layout_goneMarginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/query_edit_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_location"
+            tools:itemCount="3"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_service_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/location_service_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/location_service"
+                android:textColor="@color/text_primary_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/location_service_description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="48dp"
+                android:text="@string/location_service_description"
+                android:textColor="@color/location_service_description_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/location_service_text_view"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/location_service_switch_button"
+                android:layout_width="52dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                app:kswBackColor="@drawable/switch_track_color"
+                app:kswThumbColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@id/location_service_description_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/location_service_text_view"
+                tools:ignore="TouchTargetSizeCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/address_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/query_edit_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="invisible" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/address_recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/query_edit_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:visibility="invisible" />
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

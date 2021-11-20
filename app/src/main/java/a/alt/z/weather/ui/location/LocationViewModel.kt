@@ -45,8 +45,8 @@ class LocationViewModel @Inject constructor(
     private val _previewPresentWeather = MutableLiveData<Result<PreviewPresentWeather>>()
     val previewPresentWeather: LiveData<Result<PreviewPresentWeather>> = _previewPresentWeather
 
-    private val _isEditing = MutableLiveData<Boolean>()
-    val isEditing: LiveData<Boolean> = _isEditing
+    private val _uiState = MutableLiveData(UIState.IDLE)
+    val uiState: LiveData<UIState> = _uiState
 
     private val _locationServiceOn = MutableLiveData<Result<Boolean>>()
     val locationServiceOn: LiveData<Result<Boolean>> = _locationServiceOn
@@ -117,7 +117,15 @@ class LocationViewModel @Inject constructor(
         }
     }
 
-    fun toggleEditState() {
-        _isEditing.postValue(!(_isEditing.value ?: false))
+    fun onIdleState() {
+        _uiState.postValue(UIState.IDLE)
+    }
+
+    fun onEditLocation() {
+        _uiState.postValue(UIState.EDIT)
+    }
+
+    fun onSearchAddress() {
+        _uiState.postValue(UIState.SEARCH)
     }
 }

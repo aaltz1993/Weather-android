@@ -47,11 +47,11 @@ class LocationLocalDataSourceImpl @Inject constructor(
             ?.let { locationDao.deleteLocation(it) }
     }
 
-    override suspend fun toggleLocationService(on: Boolean) {
-        preferencesStorage.locationServiceOn = on
+    override suspend fun setLocationServiceOn(locationServiceOn: Boolean) {
+        preferencesStorage.setLocationServiceOn(locationServiceOn)
     }
 
-    override suspend fun getLocationServiceOn(): Boolean {
+    override suspend fun getLocationServiceOn(): Flow<Boolean> {
         return preferencesStorage.locationServiceOn
     }
 }

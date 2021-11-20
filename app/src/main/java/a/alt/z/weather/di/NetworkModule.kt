@@ -2,12 +2,14 @@ package a.alt.z.weather.di
 
 import a.alt.z.weather.data.api.service.interceptor.AuthenticationInterceptor
 import a.alt.z.weather.data.api.service.*
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -26,6 +28,7 @@ object NetworkModule {
     fun providesClient(interceptor: Interceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
             .connectTimeout(30L, TimeUnit.SECONDS)
             .readTimeout(30L, TimeUnit.SECONDS)
             .build()
@@ -33,7 +36,7 @@ object NetworkModule {
 
     @Provides @Singleton
     fun providesConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create()
+        return GsonConverterFactory.create(GsonBuilder().setLenient().create())
     }
 
     @Provides @Singleton

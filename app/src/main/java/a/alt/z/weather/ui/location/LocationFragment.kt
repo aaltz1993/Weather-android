@@ -5,33 +5,33 @@ import a.alt.z.weather.databinding.FragmentLocationBinding
 import a.alt.z.weather.model.location.Address
 import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.ui.base.BaseFragment
-import a.alt.z.weather.utils.extensions.hideKeyboard
-import a.alt.z.weather.utils.extensions.permissionsGranted
-import a.alt.z.weather.utils.extensions.showKeyboard
-import a.alt.z.weather.utils.extensions.viewBinding
+import a.alt.z.weather.utils.extensions.*
 import a.alt.z.weather.utils.result.Result
 import a.alt.z.weather.utils.result.successOrNull
 import android.Manifest.permission.*
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
-import androidx.core.os.bundleOf
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import timber.log.debug
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 @SuppressLint("MissingPermission")
@@ -41,9 +41,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
     private val viewModel: LocationViewModel by viewModels()
 
-    private val locationProvider: FusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(requireContext())
-    }
+    @Inject lateinit var locationProvider: FusedLocationProviderClient
 
     private val permissions = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
 
@@ -78,25 +76,28 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
     override fun initView() {
         binding.apply {
             backButton.setOnClickListener {
-                if (queryEditText.hasFocus()) {
-                    idleState()
-                } else {
-                    requireActivity().onBackPressed()
-                }
+                requireActivity().onBackPressed()
             }
 
             editButton.setOnClickListener {
-                viewModel.toggleEditState()
+                if (viewModel.uiState.value == UIState.EDIT) {
+                    viewModel.onIdleState()
+                } else {
+                    viewModel.onEditLocation()
+                }
             }
 
             queryEditText.setOnFocusChangeListener { _, hasFocus ->
-                val isEditing = viewModel.isEditing.value
-
-                if (isEditing == true) {
-                    idleState()
-                } else {
-                    if (hasFocus) searchAddressState()
+                Timber.debug { "hasFocus::$hasFocus, uiState::${viewModel.uiState.value}" }
+                if (viewModel.uiState.value == UIState.SEARCH) {
+                    if (hasFocus) queryEditText.showKeyboard()
                     else queryEditText.hideKeyboard()
+                } else {
+                    if (hasFocus) {
+                        viewModel.onSearchAddress()
+                    } else {
+                        queryEditText.hideKeyboard()
+                    }
                 }
             }
 
@@ -119,7 +120,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
             }
 
             cancelButton.setOnClickListener {
-                idleState()
+                viewModel.onIdleState()
             }
 
             locationRecyclerView.adapter = locationAdapter
@@ -130,58 +131,49 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
         }
     }
 
-    private fun idleState() {
-        binding.apply {
-            backButton.isVisible = true
-            editButton.text = requireContext().getText(R.string.edit)
-            editButton.isVisible = true
-            guideMessageTextView.isVisible = true
-            queryEditText.clearFocus()
-            queryEditText.text.clear()
-            cancelButton.isVisible = false
-            locationAdapter.isEditing = false
-            locationRecyclerView.isVisible = true
-            addressAdapter.submitList(emptyList())
-            addressRecyclerView.isVisible = false
-            locationServiceLayout.isVisible = false
-
-            TransitionManager.beginDelayedTransition(rootLayout)
-        }
-    }
-
-    private fun searchAddressState() {
-        binding.apply {
-            backButton.isVisible = false
-            editButton.isVisible = false
-            guideMessageTextView.isVisible = false
-            cancelButton.isVisible = true
-            locationRecyclerView.isVisible = false
-            addressRecyclerView.isVisible = true
-
-            TransitionManager.beginDelayedTransition(rootLayout)
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     override fun setupObserver() {
         super.setupObserver()
 
-        viewModel.isEditing.observe(viewLifecycleOwner) { isEditing ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             binding.apply {
-                backButton.isVisible = !isEditing
-                editButton.text = requireContext().getString(
-                    if (isEditing) R.string.done
-                    else R.string.edit
-                )
-                guideMessageTextView.isVisible = !isEditing
+                rootLayout.layoutTransition = if (uiState != UIState.SEARCH) {
+                    LayoutTransition()
+                } else {
+                    null
+                }
 
-                locationAdapter.isEditing = isEditing
-                locationServiceLayout.isVisible = isEditing
+                backButton.isVisible = uiState == UIState.IDLE
+                editButton.isVisible = uiState != UIState.SEARCH
+                editButton.text = if (uiState == UIState.EDIT) {
+                    requireContext().getText(R.string.done)
+                } else {
+                    requireContext().getText(R.string.edit)
+                }
+                guideMessageTextView.isVisible = uiState == UIState.IDLE
+
+                if (uiState == UIState.IDLE) {
+                    queryEditText.clearFocus()
+                    queryEditText.text.clear()
+                } else if (uiState == UIState.SEARCH) {
+                    queryEditText.showKeyboard()
+                }
+
+                cancelButton.isVisible = uiState == UIState.SEARCH
+
+                locationAdapter.isEditing = uiState == UIState.EDIT
+                locationRecyclerView.isVisible = uiState != UIState.SEARCH
+
+                if (uiState == UIState.IDLE) addressAdapter.submitList(emptyList())
+                addressRecyclerView.isVisible = uiState == UIState.SEARCH
+
+                locationServiceLayout.isVisible = uiState == UIState.EDIT
             }
         }
 
         viewModel.locations.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { locations ->
+                Timber.debug { "deviceLocation?${locations.any { it.isDeviceLocation }}" }
                 locations
                     .sortedByDescending { it.isDeviceLocation }
                     .let { locationAdapter.submitList(it) }
@@ -204,7 +196,7 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
         viewModel.addLocationResult.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let {
-                idleState()
+                viewModel.onIdleState()
             }
         }
 
@@ -241,8 +233,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
                 }
                 is Result.Failure -> {
                     viewModel.toggleLocationService(false)
-
-                    binding.locationServiceSwitchButton.isChecked = false
                 }
             }
         }
@@ -277,8 +267,8 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
             ?.takeIf { it.onBackPressed() }
             ?.let { return true }
 
-        if (binding.queryEditText.hasFocus()) {
-            idleState()
+        if (viewModel.uiState.value != UIState.IDLE) {
+            viewModel.onIdleState()
             return true
         }
 

@@ -7,6 +7,7 @@ import a.alt.z.weather.model.weather.PresentWeather
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import android.annotation.SuppressLint
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
@@ -19,15 +20,15 @@ class LocationViewHolder(
     fun bind(location: Location, weather: PresentWeather? = null, isEditing: Boolean = false) {
         binding.apply {
             locationNameTextView.text = location.name
-
             presentLocationIconImageView.isVisible = location.isDeviceLocation
 
-            if (weather != null) {
-                weatherDescriptionTextView.text = descriptionOf(weather.sky, weather.precipitationType)
-                weatherIconImageView.setImageResource(iconResIdOf(weather.sky, weather.precipitationType))
+            weatherDescriptionTextView.text = weather?.let { descriptionOf(it.sky, it.precipitationType) }.orEmpty()
+            weather
+                ?.let { iconResIdOf(it.sky, it.precipitationType) }
+                ?.let { ContextCompat.getDrawable(weatherIconImageView.context, it) }
+                .let { weatherIconImageView.setImageDrawable(it) }
 
-                temperatureTextView.text = weather.temperature.toString()
-            }
+            temperatureTextView.text = weather?.temperature.toString()
             temperatureDegree.isVisible = weather != null
 
             deleteButton.isVisible = isEditing

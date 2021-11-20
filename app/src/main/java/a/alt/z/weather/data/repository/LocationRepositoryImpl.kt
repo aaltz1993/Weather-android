@@ -76,10 +76,10 @@ class LocationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleLocationService(on: Boolean) {
-        localDataSource.toggleLocationService(on)
+        localDataSource.setLocationServiceOn(on)
     }
 
-    override suspend fun getLocationServiceOn(): Boolean {
+    override suspend fun getLocationServiceOn(): Flow<Boolean> {
         return localDataSource.getLocationServiceOn()
     }
 }
