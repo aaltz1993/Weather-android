@@ -23,8 +23,7 @@ class LocationViewModel @Inject constructor(
     private val deleteLocationUseCase: DeleteLocationUseCase,
     private val addDeviceLocationUseCase: AddDeviceLocationUseCase,
     private val toggleLocationServiceUseCase: ToggleLocationServiceUseCase,
-    private val getLocationServiceOnUseCase: GetLocationServiceOnUseCase,
-    private val deleteDeviceLocationUseCase: DeleteDeviceLocationUseCase
+    private val getLocationServiceOnUseCase: GetLocationServiceOnUseCase
 ) : ViewModel() {
 
     private val _locations = MutableLiveData<Result<List<Location>>>()
@@ -66,21 +65,15 @@ class LocationViewModel @Inject constructor(
         }
     }
 
-    fun toggleLocationService(on: Boolean) {
+    fun toggleLocationService(locationServiceOn: Boolean) {
         viewModelScope.launch {
-            toggleLocationServiceUseCase(on)
+            toggleLocationServiceUseCase(locationServiceOn)
         }
     }
 
     fun deleteLocation(location: Location) {
         viewModelScope.launch {
             deleteLocationUseCase(location)
-        }
-    }
-
-    fun deleteDeviceLocation() {
-        viewModelScope.launch {
-            deleteDeviceLocationUseCase()
         }
     }
 

@@ -25,18 +25,18 @@ class RebootReceiver: BroadcastReceiver() {
             now.plusDays(1)
         } else {
             now
-        }.apply {
+        }.run {
             withHour(2)
                 .withMinute(30)
                 .withSecond(0)
                 .withNano(0)
-        }.toInstant().toEpochMilli()
+        }
 
         val intent = Intent(context, AlarmReceiver::class.java)
 
         @SuppressLint("UnspecifiedImmutableFlag")
         val operation = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt, operation)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt.toInstant().toEpochMilli(), operation)
     }
 }

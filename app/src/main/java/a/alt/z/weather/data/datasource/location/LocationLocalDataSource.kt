@@ -13,8 +13,6 @@ interface LocationLocalDataSource {
 
     suspend fun deleteLocation(location: LocationEntity)
 
-    suspend fun deleteDeviceLocation()
-
     suspend fun setLocationServiceOn(locationServiceOn: Boolean)
 
     suspend fun getLocationServiceOn(): Flow<Boolean>

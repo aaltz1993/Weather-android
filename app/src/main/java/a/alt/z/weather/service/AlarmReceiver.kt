@@ -21,6 +21,8 @@ class AlarmReceiver: HiltBroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
+        Timber.debug { "AlarmReceiver::onReceive(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
+
         WorkManager
             .getInstance(context)
             .enqueueUniqueWork(
@@ -45,19 +47,19 @@ class AlarmReceiver: HiltBroadcastReceiver() {
             now.plusDays(1)
         } else {
             now
-        }.apply {
+        }.run {
             withHour(2)
                 .withMinute(30)
                 .withSecond(0)
                 .withNano(0)
-        }.toInstant().toEpochMilli()
+        }
 
         val intent = Intent(context, AlarmReceiver::class.java)
 
         @SuppressLint("UnspecifiedImmutableFlag")
         val operation = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt, operation)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt.toInstant().toEpochMilli(), operation)
     }
 
     companion object {

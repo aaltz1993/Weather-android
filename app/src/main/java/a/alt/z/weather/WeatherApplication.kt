@@ -52,8 +52,6 @@ class WeatherApplication: Application(), Configuration.Provider {
                 )
             }
 
-            Timber.debug { "sunrise::${sunriseSunsetEntity?.sunrise}, sunset::${sunriseSunsetEntity?.sunset}" }
-
             if (now in sunrise..sunset) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             } else {
@@ -62,7 +60,6 @@ class WeatherApplication: Application(), Configuration.Provider {
         }
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     private fun scheduleDownloadTask() {
         val alarmManager = getSystemService(AlarmManager::class.java)
 
@@ -72,18 +69,21 @@ class WeatherApplication: Application(), Configuration.Provider {
             now.plusDays(1)
         } else {
             now
-        }.apply {
+        }.run {
             withHour(2)
                 .withMinute(30)
                 .withSecond(0)
                 .withNano(0)
-        }.toInstant().toEpochMilli()
+        }
+
+        Timber.debug { "downloadAt::${downloadAt}" }
 
         val intent = Intent(this, AlarmReceiver::class.java)
 
+        @SuppressLint("UnspecifiedImmutableFlag")
         val operation = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt, operation)
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt.toInstant().toEpochMilli(), operation)
     }
 
     @Inject lateinit var workerFactory: HiltWorkerFactory

@@ -49,9 +49,7 @@
         <receiver
             android:name=".service.AlarmReceiver"
             android:exported="true"
-            android:enabled="true">
-
-        </receiver>
+            android:enabled="true"/>
 
         <receiver
             android:name=".service.RebootReceiver"
@@ -61,7 +59,5 @@
                 <action android:name="android.intent.action.REBOOT"/>
             </intent-filter>
         </receiver>
-
-
     </application>
 </manifest>

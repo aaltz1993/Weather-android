@@ -88,7 +88,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
             }
 
             queryEditText.setOnFocusChangeListener { _, hasFocus ->
-                Timber.debug { "hasFocus::$hasFocus, uiState::${viewModel.uiState.value}" }
                 if (viewModel.uiState.value == UIState.SEARCH) {
                     if (hasFocus) queryEditText.showKeyboard()
                     else queryEditText.hideKeyboard()
@@ -173,7 +172,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
         viewModel.locations.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { locations ->
-                Timber.debug { "deviceLocation?${locations.any { it.isDeviceLocation }}" }
                 locations
                     .sortedByDescending { it.isDeviceLocation }
                     .let { locationAdapter.submitList(it) }
@@ -252,7 +250,10 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
                                 requestPermissions.launch(permissions)
                             }
                         } else {
-                            viewModel.deleteDeviceLocation()
+                            viewModel.locations.value
+                                ?.successOrNull()
+                                ?.find { it.isDeviceLocation }
+                                ?.let { viewModel.deleteLocation(it) }
                             viewModel.toggleLocationService(false)
                         }
                     }

@@ -41,12 +41,6 @@ class LocationLocalDataSourceImpl @Inject constructor(
         locationDao.deleteLocation(location)
     }
 
-    override suspend fun deleteDeviceLocation() {
-        locationDao
-            .getDeviceLocation()
-            ?.let { locationDao.deleteLocation(it) }
-    }
-
     override suspend fun setLocationServiceOn(locationServiceOn: Boolean) {
         preferencesStorage.setLocationServiceOn(locationServiceOn)
     }

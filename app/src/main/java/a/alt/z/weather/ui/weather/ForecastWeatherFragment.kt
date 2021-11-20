@@ -169,4 +169,9 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
             else -> throw IllegalStateException()
         }
     }
+
+    override fun onBackPressed(): Boolean {
+        binding.scrollView.scrollTo(0, 0)
+        return super.onBackPressed()
+    }
 }

@@ -165,8 +165,13 @@ class WeatherFragment constructor(
     }
 
     override fun onBackPressed(): Boolean {
+        childFragmentManager
+            .findFragmentById(R.id.forecast_weather_fragment_container)
+            ?.let { it as? BaseFragment }
+            ?.onBackPressed()
+
         if (binding.forecastWeatherTopGuideline.guidePercent < maximumGuidePercent) {
-            beginDelayedTransition(minimumGuidePercent, maximumGuidePercent)
+            beginDelayedTransition(maximumGuidePercent, maximumGuidePercent + 1)
             setPageable(true)
             return true
         }

@@ -61,10 +61,6 @@ class LocationRepositoryImpl @Inject constructor(
         localDataSource.deleteLocation(location.transform())
     }
 
-    override suspend fun deleteDeviceLocation() {
-        localDataSource.deleteDeviceLocation()
-    }
-
     override suspend fun searchAddress(query: String): List<Address> {
         return remoteDataSource.searchAddress(query).map {
             Address(

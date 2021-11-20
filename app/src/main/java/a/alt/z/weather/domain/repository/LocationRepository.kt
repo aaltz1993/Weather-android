@@ -14,8 +14,6 @@ interface LocationRepository {
 
     suspend fun deleteLocation(location: Location)
 
-    suspend fun deleteDeviceLocation()
-
     suspend fun searchAddress(query: String): List<Address>
 
     suspend fun toggleLocationService(on: Boolean)
