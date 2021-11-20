@@ -100,7 +100,7 @@ class WeatherRepositoryImpl @Inject constructor(
     override suspend fun getForecastWeather(location: Location): ForecastWeather {
         val hourlyWeatherEntities = weatherLocalDataSource.getHourlyWeathers(location.id)
         val dailyWeatherEntities = weatherLocalDataSource.getDailyWeathers(location.id)
-        val sunriseSunsetEntity = weatherLocalDataSource.getSunriseSunset()
+        val sunriseSunsetEntity = weatherLocalDataSource.getSunriseSunset(location.id)
         val uvIndexEntity = weatherLocalDataSource.getUVIndex(location.id)
 
         val hourlyWeathers = if (hourlyWeatherEntities.isEmpty()) {
@@ -203,7 +203,6 @@ class WeatherRepositoryImpl @Inject constructor(
     )
 
     private fun precipitationValueOf(precipitationString: String): Int {
-
         return try {
             precipitationString.removeSuffix("mm").toInt()
         } catch (exception: Exception) {

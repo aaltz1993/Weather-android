@@ -50,7 +50,7 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
     private suspend fun downloadWeatherData(location: Location) {
         /* 1. HOURLY WEATHER */
         val hourlyWeatherItems = weatherRemoteDataSource.getHourlyWeather(location.latitude, location.longitude)
-        val hourlyWeatherEntities = hourlyWeatherItems.map { it.transform(location) }.also { Timber.debug { "HOURLY WEATHER::updated ${it.size} hWeathers" } }
+        val hourlyWeatherEntities = hourlyWeatherItems.map { it.transform(location) }
         weatherLocalDataSource.saveHourlyWeathers(hourlyWeatherEntities)
 
         /* 2. DAILY WEATHER */

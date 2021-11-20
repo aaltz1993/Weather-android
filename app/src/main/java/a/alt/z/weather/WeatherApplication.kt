@@ -1,5 +1,6 @@
 package a.alt.z.weather
 
+import a.alt.z.weather.data.database.dao.SunriseSunsetDao
 import a.alt.z.weather.service.AlarmReceiver
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -10,11 +11,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.*
 import org.threeten.bp.*
+import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
+import timber.log.debug
 import javax.inject.Inject
 
 @HiltAndroidApp
 class WeatherApplication: Application(), Configuration.Provider {
+
+    @Inject lateinit var sunriseSunsetDao: SunriseSunsetDao
 
     override fun onCreate() {
         super.onCreate()
@@ -25,14 +32,33 @@ class WeatherApplication: Application(), Configuration.Provider {
     }
 
     private fun applyNightMode() {
-        val now = LocalDateTime.now()
-        val sunrise = LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 50))
-        val sunset = LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 40))
+        GlobalScope.launch {
+            val sunriseSunsetEntity = withContext(Dispatchers.IO) {
+                sunriseSunsetDao.getSunriseSunset(LocalDate.now(ZoneId.of("Asia/Seoul")))
+            }
 
-        if (now in sunrise..sunset) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            val now = LocalDateTime.now()
+
+            val (sunrise, sunset) = if (sunriseSunsetEntity == null) {
+                Pair(
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 50)),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 40))
+                )
+            } else {
+                val timeFormatter = DateTimeFormatter.ofPattern("HHmm")
+                Pair(
+                    LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunrise))),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunset)))
+                )
+            }
+
+            Timber.debug { "sunrise::${sunriseSunsetEntity?.sunrise}, sunset::${sunriseSunsetEntity?.sunset}" }
+
+            if (now in sunrise..sunset) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
         }
     }
 

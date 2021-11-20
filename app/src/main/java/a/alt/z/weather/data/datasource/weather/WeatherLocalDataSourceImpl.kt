@@ -48,8 +48,8 @@ class WeatherLocalDataSourceImpl @Inject constructor(
         sunriseSunsetDao.saveSunriseSunset(sunriseSunset)
     }
 
-    override suspend fun getSunriseSunset(date: LocalDate): SunriseSunsetEntity? {
-        return sunriseSunsetDao.getSunriseSunset(date)
+    override suspend fun getSunriseSunset(locationId: Long, date: LocalDate): SunriseSunsetEntity? {
+        return sunriseSunsetDao.getSunriseSunset(locationId, date)
     }
 
     override suspend fun saveUVIndices(uvIndices: List<UVIndexEntity>) {

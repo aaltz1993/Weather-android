@@ -34,7 +34,7 @@ interface WeatherLocalDataSource {
 
     suspend fun saveSunriseSunset(sunriseSunset: SunriseSunsetEntity)
 
-    suspend fun getSunriseSunset(date: LocalDate = LocalDate.now(ZoneId.of("Asia/Seoul"))): SunriseSunsetEntity?
+    suspend fun getSunriseSunset(locationId: Long, date: LocalDate = LocalDate.now(ZoneId.of("Asia/Seoul"))): SunriseSunsetEntity?
 
     suspend fun saveUVIndices(uvIndices: List<UVIndexEntity>)
 

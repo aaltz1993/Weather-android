@@ -2,10 +2,10 @@ package a.alt.z.weather.domain.repository
 
 import a.alt.z.weather.model.location.Address
 import a.alt.z.weather.model.location.Location
-import a.alt.z.weather.model.weather.ForecastWeather
-import a.alt.z.weather.model.weather.PresentWeather
 import a.alt.z.weather.model.location.PresentWeatherByLocation
 import a.alt.z.weather.model.location.PreviewPresentWeather
+import a.alt.z.weather.model.weather.ForecastWeather
+import a.alt.z.weather.model.weather.PresentWeather
 
 interface WeatherRepository {
 

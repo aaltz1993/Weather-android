@@ -13,6 +13,9 @@ interface SunriseSunsetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveSunriseSunset(sunriseSunset: SunriseSunsetEntity)
 
+    @Query("SELECT * FROM sunriseSunset WHERE date = :date AND locationId = :locationId")
+    suspend fun getSunriseSunset(locationId: Long, date: LocalDate): SunriseSunsetEntity?
+
     @Query("SELECT * FROM sunriseSunset WHERE date = :date")
     suspend fun getSunriseSunset(date: LocalDate): SunriseSunsetEntity?
 }
