@@ -30,6 +30,10 @@ class WeatherLocalDataSourceImpl @Inject constructor(
         return weatherDao.getHourlyWeathers(locationId, from, updatedAt)
     }
 
+    override suspend fun getHourlyWeather(locationId: Long, at: LocalDateTime): HourlyWeatherEntity {
+        return weatherDao.getHourlyWeather(locationId, at)
+    }
+
     override suspend fun saveDailyWeathers(dailyWeathers: List<DailyWeatherEntity>) {
         weatherDao.insertDailyWeathers(dailyWeathers)
     }

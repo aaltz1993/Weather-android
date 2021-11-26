@@ -7,6 +7,7 @@ import android.app.AlarmManager
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.SystemClock
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -23,6 +24,16 @@ class WeatherApplication: Application(), Configuration.Provider {
 
     @Inject lateinit var sunriseSunsetDao: SunriseSunsetDao
 
+    @Inject lateinit var workerFactory: HiltWorkerFactory
+
+    private val coroutineScope = MainScope()
+
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -32,7 +43,7 @@ class WeatherApplication: Application(), Configuration.Provider {
     }
 
     private fun applyNightMode() {
-        GlobalScope.launch {
+        coroutineScope.launch {
             val sunriseSunsetEntity = withContext(Dispatchers.IO) {
                 sunriseSunsetDao.getSunriseSunset(LocalDate.now(ZoneId.of("Asia/Seoul")))
             }
@@ -76,8 +87,6 @@ class WeatherApplication: Application(), Configuration.Provider {
                 .withNano(0)
         }
 
-        Timber.debug { "downloadAt::${downloadAt}" }
-
         val intent = Intent(this, AlarmReceiver::class.java)
 
         @SuppressLint("UnspecifiedImmutableFlag")
@@ -86,11 +95,5 @@ class WeatherApplication: Application(), Configuration.Provider {
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC, downloadAt.toInstant().toEpochMilli(), operation)
     }
 
-    @Inject lateinit var workerFactory: HiltWorkerFactory
 
-    override fun getWorkManagerConfiguration(): Configuration {
-        return Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
-    }
 }

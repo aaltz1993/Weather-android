@@ -14,7 +14,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /* Air Quality Index */
-class AQIBottomSheetDialogFragment : BaseFragment(R.layout.fragment_air_pollution_info) {
+class AQIDialogFragment : BaseFragment(R.layout.fragment_air_pollution_info) {
 
     private val binding by viewBinding(FragmentAirPollutionInfoBinding::bind)
 
@@ -43,7 +43,7 @@ class AQIBottomSheetDialogFragment : BaseFragment(R.layout.fragment_air_pollutio
 
             delay(250L)
 
-            parentFragmentManager.commit { remove(this@AQIBottomSheetDialogFragment) }
+            parentFragmentManager.commit { remove(this@AQIDialogFragment) }
         }
     }
 

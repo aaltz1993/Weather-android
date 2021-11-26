@@ -45,8 +45,8 @@
     <color name="bottom_sheet_dim_color">#99000000</color>
     <color name="selected_text_color">#000000</color>
     <color name="unselected_text_color">#D0D0D0</color>
+    <color name="tab_indicator_background_color">#EAEAEA</color>
     <color name="close_button_tint_color">#5A5A5A</color>
-
     <color name="indicator_selected_color">#000000</color>
     <color name="indicator_background_color">#D7D7D7</color>
     <color name="search_bar_background_color">#E9E9E9</color>

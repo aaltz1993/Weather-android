@@ -1,5 +1,6 @@
 package a.alt.z.weather.data.datasource.weather
 
+import a.alt.z.weather.data.api.model.airquality.AirQualityItem
 import a.alt.z.weather.data.api.model.sunrisesunset.SunriseSunsetItem
 import a.alt.z.weather.data.api.model.uvindex.UVIndexAreaCode
 import a.alt.z.weather.data.api.model.weather.*
@@ -119,6 +120,28 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
             pm10Value,
             pm25Value
         )
+    }
+
+    override suspend fun getPresentAirQuality(regionDepth1Name: String): AirQualityItem {
+        val presentAirQualityResponse = airQualityService.getPresentAirQuality(sidoName = regionDepth1Name.take(2))
+
+        var pm10Value = 0
+        var pm25Value = 0
+
+        presentAirQualityResponse.response.body.items.find {
+            val fineParticleLevel = it.pm10Value?.toIntOrNull()
+            val ultraFineParticleLevel = it.pm25Value?.toIntOrNull()
+
+            if (fineParticleLevel != null && ultraFineParticleLevel != null) {
+                pm10Value = fineParticleLevel
+                pm25Value = ultraFineParticleLevel
+                true
+            } else {
+                false
+            }
+        }
+
+        return AirQualityItem(pm10Value, pm25Value)
     }
 
     override suspend fun getHourlyWeather(latitude: Double, longitude: Double): List<HourlyWeatherItem> {

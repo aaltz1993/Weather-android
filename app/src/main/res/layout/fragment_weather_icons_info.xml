@@ -66,34 +66,6 @@
                 app:layout_constraintTop_toBottomOf="@id/close_button"/>
 
             <TextView
-                android:id="@+id/not_night_text_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/background_selected_night_mode"
-                android:text="@string/not_night"
-                android:textSize="16sp"
-                android:textColor="@color/selected_text_color"
-                android:gravity="center"
-                app:layout_constraintStart_toEndOf="@id/weather_icons_info_title_text_view"
-                app:layout_constraintTop_toTopOf="@id/weather_icons_info_title_text_view"
-                app:layout_constraintBottom_toBottomOf="@id/weather_icons_info_title_text_view"/>
-
-            <TextView
-                android:id="@+id/night_text_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/background_selected_night_mode"
-                android:text="@string/night"
-                android:textSize="16sp"
-                android:textColor="@color/unselected_text_color"
-                android:gravity="center"
-                app:layout_constraintStart_toEndOf="@id/not_night_text_view"
-                app:layout_constraintTop_toTopOf="@id/weather_icons_info_title_text_view"
-                app:layout_constraintBottom_toBottomOf="@id/weather_icons_info_title_text_view"/>
-
-            <TextView
                 android:id="@+id/weather_icons_info_description_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -106,6 +78,38 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/weather_icons_info_title_text_view"/>
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center_x_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".5"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/tab_indicator_background_color"
+                app:layout_constraintStart_toStartOf="@id/tab_layout"
+                app:layout_constraintEnd_toEndOf="@id/tab_layout"
+                app:layout_constraintBottom_toBottomOf="@id/tab_layout"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@android:color/transparent"
+                app:tabBackground="@android:color/transparent"
+                app:tabRippleColor="@android:color/transparent"
+                app:tabSelectedTextColor="@color/selected_text_color"
+                app:tabIndicatorColor="@color/selected_text_color"
+                app:tabTextColor="@color/unselected_text_color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/weather_icons_info_description_text_view"/>
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/weather_icons_info_view_pager"
                 android:layout_width="match_parent"
@@ -117,7 +121,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/weather_icons_info_description_text_view"
+                app:layout_constraintTop_toBottomOf="@id/tab_layout"
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

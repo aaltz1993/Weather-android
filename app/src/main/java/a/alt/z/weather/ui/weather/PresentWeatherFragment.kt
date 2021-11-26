@@ -9,6 +9,7 @@ import a.alt.z.weather.ui.location.LocationFragment
 import a.alt.z.weather.utils.extensions.pixelsOf
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
+import a.alt.z.weather.utils.result.Result
 import a.alt.z.weather.utils.transformations.PrecipitationSnowTransformation
 import a.alt.z.weather.utils.result.successOrNull
 import android.annotation.SuppressLint
@@ -159,6 +160,10 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
                             maxTemperatureTextView.text = "${it.maxTemperature}°"
                         }
                     }
+
+                if (viewModel.presentWeather.value is Result.Failure) {
+                    
+                }
             }
         }
     }

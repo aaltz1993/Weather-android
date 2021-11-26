@@ -25,6 +25,7 @@
     <color name="bottom_sheet_dim_color">#D9000000</color>
     <color name="selected_text_color">#FFFFFF</color>
     <color name="unselected_text_color">#314263</color>
+    <color name="tab_indicator_background_color">#314263</color>
     <color name="close_button_tint_color">#9BACCE</color>
     <color name="indicator_selected_color">#FFFFFF</color>
     <color name="indicator_background_color">#7684A0</color>

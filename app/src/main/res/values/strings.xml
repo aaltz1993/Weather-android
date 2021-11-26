@@ -52,4 +52,12 @@
     <string name="location_service_description">활성화하면 현재위치의\n날씨와 미세먼지 정보가 표시됩니다.</string>
     <string name="data_source_name">날씨 정보 제공 : 기상청 | 대기 정보 제공 : AirKorea</string>
     <string name="data_source_notice">측정소 현지 사정이나 데이터 수신상태에 따라\n실제 날씨 및 대기농도 수치와 일부 다를 수 있습니다.</string>
+    <string name="ultra_fine_particle_criteria_good">~15㎍/㎥</string>
+    <string name="ultra_fine_particle_criteria_normal">~35㎍/㎥</string>
+    <string name="ultra_fine_particle_criteria_bad">~75㎍/㎥</string>
+    <string name="ultra_fine_particle_criteria_very_bad">76㎍/㎥~</string>
+    <string name="fine_particle_criteria_good">~30㎍/㎥</string>
+    <string name="fine_particle_criteria_normal">~80㎍/㎥</string>
+    <string name="fine_particle_criteria_bad">~150㎍/㎥</string>
+    <string name="fine_particle_criteria_very_bad">151㎍/㎥~</string>
 </resources>

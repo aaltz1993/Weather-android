@@ -6,7 +6,12 @@ import androidx.room.PrimaryKey
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 
-@Entity(tableName = "hourlyWeather")
+@Entity(
+    tableName = "hourlyWeather",
+    indices = [
+        Index(value = ["locationId", "dateTime"], unique = true)
+    ]
+)
 data class HourlyWeatherEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,

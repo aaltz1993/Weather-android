@@ -5,7 +5,15 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import org.threeten.bp.LocalDate
 
-@Entity(tableName = "dailyWeather", indices = [Index(value = ["locationId", "date"],unique = true)])
+@Entity(
+    tableName = "dailyWeather",
+    indices = [
+        Index(
+            value = ["locationId", "date"],
+            unique = true
+        )
+    ]
+)
 data class DailyWeatherEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,

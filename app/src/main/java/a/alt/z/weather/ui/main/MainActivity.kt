@@ -14,6 +14,7 @@ import a.alt.z.weather.utils.extensions.viewBinding
 import a.alt.z.weather.utils.result.successOrNull
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -30,6 +31,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.abs
 
 @AndroidEntryPoint
 @SuppressLint("MissingPermission")
@@ -126,6 +128,17 @@ class MainActivity : AppCompatActivity() {
                                 locations.sortedByDescending { it.isDeviceLocation }.map { WeatherFragment(it) }
                             )
                         }
+
+                        locations.find { it.isDeviceLocation }?.let { currentLocation ->
+                            locationProvider.lastLocation
+                                .addOnSuccessListener { lastLocation ->
+                                    updateCurrentLocationIfNeeded(
+                                        currentLocation.latitude, currentLocation.longitude,
+                                        lastLocation.latitude, lastLocation.longitude
+                                    )
+                                }
+                                .addOnFailureListener { /* TODO */ }
+                        }
                     }
                 }
             }
@@ -152,6 +165,23 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding.loadingLayout.isVisible = !dataLoaded
             }
+        }
+    }
+
+    private fun updateCurrentLocationIfNeeded(
+        oldLatitude: Double, oldLongitude: Double,
+        newLatitude: Double, newLongitude: Double
+    ) {
+        val distances = FloatArray(3)
+        Location.distanceBetween(
+            oldLatitude, oldLongitude,
+            newLatitude, newLongitude,
+            distances
+        )
+
+        val distance = distances.firstOrNull() ?: 0F
+        if (abs(distance) > 500F) {
+            viewModel.addDeviceLocation(Coordinate(newLatitude, newLongitude))
         }
     }
 

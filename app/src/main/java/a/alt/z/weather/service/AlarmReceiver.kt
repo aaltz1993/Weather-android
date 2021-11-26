@@ -21,8 +21,6 @@ class AlarmReceiver: HiltBroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        Timber.debug { "AlarmReceiver::onReceive(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
-
         WorkManager
             .getInstance(context)
             .enqueueUniqueWork(
@@ -37,8 +35,6 @@ class AlarmReceiver: HiltBroadcastReceiver() {
     }
 
     private fun scheduleDownloadTask(context: Context) {
-        Timber.debug { "scheduleDownloadTask::at(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
-
         val alarmManager = context.getSystemService(AlarmManager::class.java)
 
         val now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))

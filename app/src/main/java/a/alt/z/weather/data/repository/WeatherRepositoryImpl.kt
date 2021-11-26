@@ -22,6 +22,8 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
+import timber.log.debug
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
@@ -39,6 +41,36 @@ class WeatherRepositoryImpl @Inject constructor(
         }
 
         val presentWeatherEntity = weatherLocalDataSource.getPresentWeather(location.id, baseDateTime)
+
+        val presentWeather = try {
+            if (presentWeatherEntity == null) {
+                weatherRemoteDataSource
+                    .getPresentWeather(location.latitude, location.longitude, location.region1DepthName)
+                    .transform(location)
+                    .also { weatherLocalDataSource.savePresentWeather(it) }
+                    .transform()
+            } else {
+                presentWeatherEntity.transform()
+            }
+        } catch (exception: Exception) {
+            null
+        }
+
+        if (presentWeather == null) {
+            val hourlyWeatherEntity = weatherLocalDataSource.getHourlyWeather(
+                location.id,
+                now.withMinute(0).withSecond(0).withNano(0)
+            )
+            val airQualityItem = weatherRemoteDataSource.getPresentAirQuality(location.region1DepthName)
+            /*
+            PresentWeather(
+                Sky.codeOf(hourlyWeatherEntity.skyCode),
+                hourlyWeatherEntity.temperature,
+                PrecipitationType.codeOf(hourlyWeatherEntity.precipitationCode),
+                // hourlyWeatherEntity.precipitation
+            )
+            */
+        }
 
         return if (presentWeatherEntity == null) {
             weatherRemoteDataSource

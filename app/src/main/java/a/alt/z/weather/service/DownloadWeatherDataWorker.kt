@@ -48,8 +48,6 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
     }
 
     private suspend fun downloadWeatherData(location: Location) {
-        Timber.debug { "downloadWeatherData(${location.name})::start(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
-
         /* 1. HOURLY WEATHER */
         val hourlyWeatherItems = weatherRemoteDataSource.getHourlyWeather(location.latitude, location.longitude)
         val hourlyWeatherEntities = hourlyWeatherItems.map { it.transform(location) }
@@ -101,8 +99,6 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
         weatherRemoteDataSource.getUVIndex(location.region1DepthName)
             .transform(location)
             .let { weatherLocalDataSource.saveUVIndices(it) }
-
-        Timber.debug { "downloadWeatherData(${location.name})::end(${ZonedDateTime.now(ZoneId.of("Asia/Seoul"))})" }
     }
 
     private fun LocationEntity.transform() = Location(

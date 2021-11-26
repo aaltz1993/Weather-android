@@ -12,10 +12,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class WeatherIconsInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment_weather_icons_info) {
+class WeatherIconsInfoDialogFragment : BaseFragment(R.layout.fragment_weather_icons_info) {
 
     private val binding by viewBinding(FragmentWeatherIconsInfoBinding::bind)
 
@@ -61,22 +62,27 @@ class WeatherIconsInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment
 
             contentLayout.setOnClickListener { /* block user input */ }
 
-            notNightTextView.setOnClickListener {
-                notNightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.selected_text_color))
-                notNightTextView.isSelected = true
-                nightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.unselected_text_color))
-                nightTextView.isSelected = false
-                weatherIconsInfoViewPager.currentItem = 0
-            }
-            notNightTextView.isSelected = true
+            tabLayout.newTab()
+                .apply {
+                    view.background = null
+                    view.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
+                }
+                .setText(R.string.not_night)
+                .let { tabLayout.addTab(it) }
 
-            nightTextView.setOnClickListener {
-                notNightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.unselected_text_color))
-                notNightTextView.isSelected = false
-                nightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.selected_text_color))
-                nightTextView.isSelected = true
-                weatherIconsInfoViewPager.currentItem = 1
-            }
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.night))
+
+            tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    weatherIconsInfoViewPager.currentItem = tabLayout.selectedTabPosition
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                }
+            })
 
             weatherIconsInfoViewPager.adapter = WeatherIconsInfoAdapter(listOf(weatherIconsNotNight, weatherIconsNight))
         }
@@ -91,7 +97,7 @@ class WeatherIconsInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment
 
             delay(250L)
 
-            parentFragmentManager.commit { remove(this@WeatherIconsInfoBottomSheetDialogFragment) }
+            parentFragmentManager.commit { remove(this@WeatherIconsInfoDialogFragment) }
         }
     }
 
@@ -110,10 +116,7 @@ class WeatherIconsInfoBottomSheetDialogFragment : BaseFragment(R.layout.fragment
 
             if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                 binding.apply {
-                    notNightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.unselected_text_color))
-                    notNightTextView.isSelected = false
-                    nightTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.selected_text_color))
-                    nightTextView.isSelected = true
+                    tabLayout.selectTab(tabLayout.getTabAt(1))
                     weatherIconsInfoViewPager.currentItem = 1
                 }
             }

@@ -28,6 +28,9 @@ interface WeatherDao {
     @Query("SELECT * FROM hourlyWeather WHERE locationId = :locationId AND dateTime >= :now AND updatedAt = :updatedAt")
     suspend fun getHourlyWeathers(locationId: Long, now: LocalDateTime, updatedAt: LocalDate): List<HourlyWeatherEntity>
 
+    @Query("SELECT * FROM hourlyWeather WHERE locationId = :locationId AND dateTime = :at")
+    suspend fun getHourlyWeather(locationId: Long, at: LocalDateTime): HourlyWeatherEntity
+
     @Query("SELECT * FROM dailyWeather WHERE locationId = :locationId AND date >= :now AND date < :after7Days")
     suspend fun getDailyWeathers(locationId: Long, now: LocalDate, after7Days: LocalDate): List<DailyWeatherEntity>
 

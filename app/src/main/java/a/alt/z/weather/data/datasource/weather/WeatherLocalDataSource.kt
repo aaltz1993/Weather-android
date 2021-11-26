@@ -22,6 +22,8 @@ interface WeatherLocalDataSource {
         updatedAt: LocalDate = LocalDate.now(ZoneId.of("Asia/Seoul"))
     ): List<HourlyWeatherEntity>
 
+    suspend fun getHourlyWeather(locationId: Long, at: LocalDateTime): HourlyWeatherEntity
+
     suspend fun saveDailyWeathers(dailyWeathers: List<DailyWeatherEntity>)
 
     suspend fun getDailyWeathers(
