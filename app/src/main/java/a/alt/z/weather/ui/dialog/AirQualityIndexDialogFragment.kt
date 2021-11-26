@@ -1,7 +1,7 @@
 package a.alt.z.weather.ui.dialog
 
 import a.alt.z.weather.R
-import a.alt.z.weather.databinding.FragmentAirPollutionInfoBinding
+import a.alt.z.weather.databinding.FragmentAirQualityIndexBinding
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.utils.extensions.updateWithDelayedTransition
 import a.alt.z.weather.utils.extensions.viewBinding
@@ -14,9 +14,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /* Air Quality Index */
-class AQIDialogFragment : BaseFragment(R.layout.fragment_air_pollution_info) {
+class AirQualityIndexDialogFragment : BaseFragment(R.layout.fragment_air_quality_index) {
 
-    private val binding by viewBinding(FragmentAirPollutionInfoBinding::bind)
+    private val binding by viewBinding(FragmentAirQualityIndexBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +43,7 @@ class AQIDialogFragment : BaseFragment(R.layout.fragment_air_pollution_info) {
 
             delay(250L)
 
-            parentFragmentManager.commit { remove(this@AQIDialogFragment) }
+            parentFragmentManager.commit { remove(this@AirQualityIndexDialogFragment) }
         }
     }
 
