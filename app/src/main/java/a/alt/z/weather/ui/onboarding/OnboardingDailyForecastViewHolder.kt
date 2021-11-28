@@ -1,7 +1,7 @@
-package a.alt.z.weather.ui.weather
+package a.alt.z.weather.ui.onboarding
 
 import a.alt.z.weather.R
-import a.alt.z.weather.databinding.ItemDailyForecastBinding
+import a.alt.z.weather.databinding.ItemDailyForecastOnboardingBinding
 import a.alt.z.weather.model.weather.DailyWeather
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
@@ -15,12 +15,12 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.format.TextStyle
 import java.util.*
 
-class DailyWeatherForecastViewHolder(
-    private val binding: ItemDailyForecastBinding
-) : RecyclerView.ViewHolder(binding.root) {
+class OnboardingDailyForecastViewHolder(
+    private val binding: ItemDailyForecastOnboardingBinding
+): RecyclerView.ViewHolder(binding.root) {
 
     @SuppressLint("SetTextI18n")
-    fun bind(dailyWeather: DailyWeather, isLastItem: Boolean = false) {
+    fun bind(dailyWeather: DailyWeather) {
         binding.apply {
             when {
                 dailyWeather.date == LocalDate.now(ZoneId.of("Asia/Seoul")) -> {
@@ -53,8 +53,6 @@ class DailyWeatherForecastViewHolder(
 
             minTemperatureTextView.text = "${dailyWeather.minTemperature}°"
             maxTemperatureTextView.text = "${dailyWeather.maxTemperature}°"
-
-            dayDivider.isVisible = !isLastItem
         }
     }
 
@@ -74,27 +72,7 @@ class DailyWeatherForecastViewHolder(
                     Sky.OVERCAST -> { R.drawable.icon_overcast_rain }
                 }
             }
-            PrecipitationType.SNOW -> {
-                when (sky) {
-                    Sky.CLEAR -> { R.drawable.icon_snow }
-                    Sky.CLOUDY -> { R.drawable.icon_cloudy_snow }
-                    Sky.OVERCAST -> { R.drawable.icon_overcast_snow }
-                }
-            }
-            PrecipitationType.RAIN_SNOW -> {
-                when (sky) {
-                    Sky.CLEAR -> { R.drawable.icon_overcast_rain_snow }
-                    Sky.CLOUDY -> { R.drawable.icon_cloudy_rain_snow }
-                    Sky.OVERCAST -> { R.drawable.icon_overcast_rain_snow }
-                }
-            }
-            PrecipitationType.SHOWER -> {
-                when (sky) {
-                    Sky.CLEAR -> { R.drawable.icon_overcast_shower }
-                    Sky.CLOUDY -> { R.drawable.icon_cloudy_shower }
-                    Sky.OVERCAST -> { R.drawable.icon_overcast_shower }
-                }
-            }
+            else -> throw IllegalArgumentException()
         }
     }
 }

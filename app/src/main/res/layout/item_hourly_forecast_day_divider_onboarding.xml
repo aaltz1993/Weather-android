@@ -18,13 +18,14 @@
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:background="@drawable/background_day_divider_name"
+        android:backgroundTint="#7ACFFF"
         android:fontFamily="@font/spoqa_han_sans_neo_bold"
-        android:textColor="@color/day_divier_name_text_color"
+        android:text="@string/tomorrow"
+        android:textColor="#7ACFFF"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="내일"
         tools:ignore="SmallSp" />
 
     <ImageView

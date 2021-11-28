@@ -5,6 +5,7 @@ import a.alt.z.weather.databinding.ActivityMainBinding
 import a.alt.z.weather.model.location.Coordinate
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.ui.location.LocationFragment
+import a.alt.z.weather.ui.onboarding.OnboardingFragment
 import a.alt.z.weather.ui.splash.SplashFragment
 import a.alt.z.weather.ui.weather.WeatherFragment
 import a.alt.z.weather.utils.constants.RequestKeys
@@ -59,11 +60,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        supportFragmentManager.commit { replace(R.id.fragment_container, SplashFragment()) }
+        supportFragmentManager.commit { replace(R.id.fragment_container, OnboardingFragment()) }
 
+        /*
         initView()
 
         setupObserver()
+         */
     }
 
     private fun initView() {
