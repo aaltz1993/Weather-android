@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
                             viewPager.adapter = MainPageAdapter(
                                 this@MainActivity,
-                                locations.sortedByDescending { it.isDeviceLocation }.map { WeatherFragment(it) }
+                                locations.sortedByDescending { it.isDeviceLocation }.map { WeatherFragment.instantiate(it) }
                             )
                         }
 

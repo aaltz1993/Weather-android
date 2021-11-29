@@ -18,9 +18,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 @AndroidEntryPoint
-class WeatherFragment constructor(
-    private val location: Location
-): BaseFragment(R.layout.fragment_weather) {
+class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
 
     private val binding by viewBinding(FragmentWeatherBinding::bind)
 
@@ -31,6 +29,11 @@ class WeatherFragment constructor(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val location = requireArguments().getParcelable<Location>(ARG_KEY_LOCATION)
+
+        requireNotNull(location)
+
         viewModel.setLocation(location)
     }
 
@@ -177,5 +180,13 @@ class WeatherFragment constructor(
         }
 
         return super.onBackPressed()
+    }
+
+    companion object {
+        private const val ARG_KEY_LOCATION = "argKeyLocation"
+
+        fun instantiate(location: Location) = WeatherFragment().apply {
+            arguments = bundleOf(Pair(ARG_KEY_LOCATION, location))
+        }
     }
 }
