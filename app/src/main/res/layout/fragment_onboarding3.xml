@@ -122,7 +122,7 @@
         android:id="@+id/onboarding_description_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="152dp"
+        android:layout_marginBottom="168dp"
         android:text="@string/onboarding_description3"
         android:textColor="#7684A0"
         android:gravity="center"

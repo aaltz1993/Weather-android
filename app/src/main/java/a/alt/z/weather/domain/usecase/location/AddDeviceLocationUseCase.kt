@@ -15,5 +15,6 @@ class AddDeviceLocationUseCase @Inject constructor(
 
     override suspend fun execute(parameters: Coordinate) {
         repository.addDeviceLocation(parameters.latitude, parameters.longitude)
+        repository.toggleLocationService(true)
     }
 }

@@ -19,6 +19,7 @@
         <entry key="app/src/main/res/drawable/background_notification.xml" value="0.4" />
         <entry key="app/src/main/res/drawable/background_onboarding_gradient.xml" value="0.40925925925925927" />
         <entry key="app/src/main/res/drawable/background_onboarding_gradient_night.xml" value="0.40925925925925927" />
+        <entry key="app/src/main/res/drawable/background_onboarding_next.xml" value="0.4107692307692308" />
         <entry key="app/src/main/res/drawable/background_page_indicator.xml" value="0.4107692307692308" />
         <entry key="app/src/main/res/drawable/background_page_indicator_night.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/drawable/background_precipitation_snow.xml" value="0.4171875" />

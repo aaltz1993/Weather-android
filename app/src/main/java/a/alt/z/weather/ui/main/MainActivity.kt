@@ -60,13 +60,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        supportFragmentManager.commit { replace(R.id.fragment_container, OnboardingFragment()) }
-
-        /*
         initView()
 
         setupObserver()
-        */
     }
 
     private fun initView() {

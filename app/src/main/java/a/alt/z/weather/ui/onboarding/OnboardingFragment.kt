@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -48,10 +49,21 @@ class OnboardingFragment: BaseFragment(R.layout.fragment_onboarding) {
                     binding.apply {
                         if (position == 0) {
                             skipButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.onboarding_skip_text_color))
-                            nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-                        } else {
-                            skipButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.onboarding_skip_night_text_color))
                             nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        } else {
+                            if (position == 2) {
+                                nextButton.text = getString(R.string.start)
+                                skipButton.isVisible = false
+                            }
+
+                            skipButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.onboarding_skip_night_text_color))
+                            nextButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                            nextButton.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.white)
+
+                            val selectedBackgroundTint = ContextCompat.getColorStateList(requireContext(), R.color.onboarding_selected_background_color)
+                            val notSelectedBackgroundTint = ContextCompat.getColorStateList(requireContext(), R.color.onboarding_not_selected_background_color)
+                            pageIndicator2.backgroundTintList = if (position == 1) selectedBackgroundTint else notSelectedBackgroundTint
+                            pageIndicator3.backgroundTintList = if (position == 2) selectedBackgroundTint else notSelectedBackgroundTint
                         }
 
                         pageIndicator1.isSelected = position == 0
@@ -65,13 +77,6 @@ class OnboardingFragment: BaseFragment(R.layout.fragment_onboarding) {
                             constrainWidth(R.id.page_indicator1, if (position == 0) selectedWidth.toInt() else notSelectedWidth.toInt())
                             constrainWidth(R.id.page_indicator2, if (position == 1) selectedWidth.toInt() else notSelectedWidth.toInt())
                             constrainWidth(R.id.page_indicator3, if (position == 2) selectedWidth.toInt() else notSelectedWidth.toInt())
-                        }
-
-                        if (position > 0) {
-                            val selectedBackgroundTint = ContextCompat.getColorStateList(requireContext(), R.color.onboarding_selected_background_color)
-                            val notSelectedBackgroundTint = ContextCompat.getColorStateList(requireContext(), R.color.onboarding_not_selected_background_color)
-                            pageIndicator2.backgroundTintList = if (position == 1) selectedBackgroundTint else notSelectedBackgroundTint
-                            pageIndicator3.backgroundTintList = if (position == 2) selectedBackgroundTint else notSelectedBackgroundTint
                         }
                     }
                 }
