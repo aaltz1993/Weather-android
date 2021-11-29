@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         initView()
 
         setupObserver()
-         */
+        */
     }
 
     private fun initView() {
@@ -103,6 +103,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
+        viewModel.skipOnboarding.observe(this) { result ->
+            result.successOrNull()?.let { skipOnboarding ->
+                if (skipOnboarding) {
+                    supportFragmentManager.commit { replace(R.id.fragment_container, SplashFragment()) }
+
+                    viewModel.getLocations()
+                } else {
+                    supportFragmentManager.commit { replace(R.id.fragment_container, OnboardingFragment()) }
+                }
+            }
+        }
+
         viewModel.locations.observe(this) { result ->
             result.successOrNull()?.let { locations ->
                 when {
@@ -129,9 +141,19 @@ class MainActivity : AppCompatActivity() {
                                 locations.sortedByDescending { it.isDeviceLocation }.map { WeatherFragment(it) }
                             )
                         }
+
+                        val childFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+                        if (childFragment is OnboardingFragment) {
+                            supportFragmentManager.commit { remove(childFragment) }
+                        }
                     }
                 }
             }
+        }
+
+        supportFragmentManager.setFragmentResultListener(RequestKeys.SKIP_ONBOARDING, this) { _, _ ->
+            viewModel.getLocations()
         }
 
         supportFragmentManager.setFragmentResultListener(RequestKeys.PAGEABLE, this) { _, result ->
