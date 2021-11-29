@@ -5,6 +5,7 @@ import a.alt.z.weather.databinding.ActivityMainBinding
 import a.alt.z.weather.model.location.Coordinate
 import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.ui.location.LocationFragment
+import a.alt.z.weather.ui.onboarding.OnboardingFragment
 import a.alt.z.weather.ui.splash.SplashFragment
 import a.alt.z.weather.ui.weather.WeatherFragment
 import a.alt.z.weather.utils.constants.RequestKeys
@@ -61,8 +62,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        supportFragmentManager.commit { replace(R.id.fragment_container, SplashFragment()) }
-
         initView()
 
         setupObserver()
@@ -102,6 +101,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
+        viewModel.skipOnboarding.observe(this) { result ->
+            result.successOrNull()?.let { skipOnboarding ->
+                if (skipOnboarding) {
+                    supportFragmentManager.commit { replace(R.id.fragment_container, SplashFragment()) }
+
+                    viewModel.getLocations()
+                } else {
+                    supportFragmentManager.commit { replace(R.id.fragment_container, OnboardingFragment()) }
+                }
+            }
+        }
+
         viewModel.locations.observe(this) { result ->
             result.successOrNull()?.let { locations ->
                 when {
@@ -129,19 +140,18 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
 
-                        locations.find { it.isDeviceLocation }?.let { currentLocation ->
-                            locationProvider.lastLocation
-                                .addOnSuccessListener { lastLocation ->
-                                    updateCurrentLocationIfNeeded(
-                                        currentLocation.latitude, currentLocation.longitude,
-                                        lastLocation.latitude, lastLocation.longitude
-                                    )
-                                }
-                                .addOnFailureListener { /* TODO */ }
+                        val childFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+                        if (childFragment is OnboardingFragment) {
+                            supportFragmentManager.commit { remove(childFragment) }
                         }
                     }
                 }
             }
+        }
+
+        supportFragmentManager.setFragmentResultListener(RequestKeys.SKIP_ONBOARDING, this) { _, _ ->
+            viewModel.getLocations()
         }
 
         supportFragmentManager.setFragmentResultListener(RequestKeys.PAGEABLE, this) { _, result ->

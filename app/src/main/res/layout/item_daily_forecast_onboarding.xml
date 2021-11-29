@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_x_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5"/>
+
+        <TextView
+            android:id="@+id/weekday_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#7684A0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="화"/>
+
+        <TextView
+            android:id="@+id/date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="#7684A0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/weekday_text_view"
+            tools:text="8/22"/>
+
+        <TextView
+            android:id="@+id/before_noon_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/before_noon"
+            android:textColor="#7684A0"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@id/before_noon_icon_image_view"
+            app:layout_constraintEnd_toEndOf="@id/before_noon_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/date_text_view"/>
+
+        <TextView
+            android:id="@+id/afternoon_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/afternoon"
+            android:textColor="#7684A0"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@id/afternoon_icon_image_view"
+            app:layout_constraintEnd_toEndOf="@id/afternoon_icon_image_view"
+            app:layout_constraintTop_toTopOf="@id/before_noon_text_view"/>
+
+        <ImageView
+            android:id="@+id/before_noon_icon_image_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="2dp"
+            tools:srcCompat="@drawable/icon_cloudy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/center_x_guideline"
+            app:layout_constraintTop_toBottomOf="@id/before_noon_text_view"/>
+
+        <ImageView
+            android:id="@+id/afternoon_icon_image_view"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            tools:srcCompat="@drawable/icon_clear"
+            app:layout_constraintStart_toEndOf="@id/center_x_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/afternoon_text_view"/>
+
+        <TextView
+            android:id="@+id/before_noon_pop_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="#7ACFFF"
+            app:layout_constraintStart_toStartOf="@id/before_noon_icon_image_view"
+            app:layout_constraintEnd_toEndOf="@id/before_noon_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/before_noon_icon_image_view"
+            tools:text="60%"/>
+
+        <TextView
+            android:id="@+id/afternoon_pop_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="#7ACFFF"
+            app:layout_constraintStart_toStartOf="@id/afternoon_icon_image_view"
+            app:layout_constraintEnd_toEndOf="@id/afternoon_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/afternoon_icon_image_view"
+            tools:text="60%"/>
+
+        <ImageView
+            android:id="@+id/max_temperature_icon_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:tint="#FFFFFF"
+            app:srcCompat="@drawable/icon_max_temperature"
+            app:layout_constraintStart_toEndOf="@id/center_x_guideline"
+            app:layout_constraintTop_toTopOf="@id/max_temperature_text_view"
+            app:layout_constraintBottom_toBottomOf="@id/max_temperature_text_view"/>
+        <TextView
+            android:id="@+id/max_temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toEndOf="@id/max_temperature_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/afternoon_pop_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="29°"/>
+
+        <ImageView
+            android:id="@+id/min_temperature_icon_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            app:tint="#7684A0"
+            app:srcCompat="@drawable/icon_min_temperature"
+            app:layout_constraintEnd_toStartOf="@id/min_temperature_text_view"
+            app:layout_constraintTop_toTopOf="@id/min_temperature_text_view"
+            app:layout_constraintBottom_toBottomOf="@id/min_temperature_text_view"/>
+
+        <TextView
+            android:id="@+id/min_temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="16dp"
+            android:textColor="#7684A0"
+            app:layout_constraintEnd_toStartOf="@id/center_x_guideline"
+            app:layout_constraintTop_toBottomOf="@id/before_noon_pop_text_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="23°"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/day_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/day_divider_daily_weather"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

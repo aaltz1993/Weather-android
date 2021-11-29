@@ -24,6 +24,8 @@ class WeatherPreferencesStorage @Inject constructor(
 
     private val dataStore: DataStore<Preferences> = context.applicationContext.dataStore
 
+    override var skipOnboarding: Boolean by BooleanPreference(sharedPreferences, "skipOnboarding", false)
+
     override var notificationsOn: Boolean by BooleanPreference(sharedPreferences, "notificationsOn", false)
 
     override var locationServiceOn: Flow<Boolean> = dataStore.data.map { preferences -> preferences[LOCATION_SERVICE_ON] ?: false }

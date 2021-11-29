@@ -47,6 +47,12 @@
     <color name="unselected_text_color">#D0D0D0</color>
     <color name="tab_indicator_background_color">#EAEAEA</color>
     <color name="close_button_tint_color">#5A5A5A</color>
+
+    <color name="onboarding_title_text_color">#000000</color>
+    <color name="onboarding_description_text_color">#A5A5A5</color>
+    <color name="onboarding_not_selected_background_color">#80FFFFFF</color>
+    <color name="onboarding_selected_background_color">#FFFFFF</color>
+
     <color name="indicator_selected_color">#000000</color>
     <color name="indicator_background_color">#D7D7D7</color>
     <color name="search_bar_background_color">#E9E9E9</color>
@@ -59,4 +65,7 @@
     <color name="info_icon_tint_color">#D0D0D0</color>
     <color name="data_source_name_text_color">#A5A5A5</color>
     <color name="data_source_notice_text_color">#D0D0D0</color>
+    <color name="day_divier_name_text_color">#93C2E4</color>
+    <color name="onboarding_skip_text_color">#A5A5A5</color>
+    <color name="onboarding_skip_night_text_color">#7684A0</color>
 </resources>

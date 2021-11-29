@@ -1,6 +1,8 @@
 package a.alt.z.weather.utils.constants
 
 object RequestKeys {
+    const val SKIP_ONBOARDING = "skipOnboarding"
+
     const val DATA_LOADED = "dataLoadedRequestKey"
     const val DATA_LOADED_SPLASH = "dataLoadedSplashRequestKey"
 
