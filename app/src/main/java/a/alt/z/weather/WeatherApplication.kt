@@ -1,6 +1,8 @@
 package a.alt.z.weather
 
 import a.alt.z.weather.data.database.dao.SunriseSunsetDao
+import a.alt.z.weather.data.preferences.PreferencesStorage
+import a.alt.z.weather.domain.usecase.others.GetSkipOnboardingUseCase
 import a.alt.z.weather.service.AlarmReceiver
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -48,25 +50,18 @@ class WeatherApplication: Application(), Configuration.Provider {
                 sunriseSunsetDao.getSunriseSunset(LocalDate.now(ZoneId.of("Asia/Seoul")))
             }
 
-            val now = LocalDateTime.now()
+            val now = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
 
-            val (sunrise, sunset) = if (sunriseSunsetEntity == null) {
-                Pair(
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(6, 50)),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(17, 40))
-                )
-            } else {
+            if (sunriseSunsetEntity != null) {
                 val timeFormatter = DateTimeFormatter.ofPattern("HHmm")
-                Pair(
-                    LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunrise))),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunset)))
-                )
-            }
+                val sunrise = LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunrise)))
+                val sunset = LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunset)))
 
-            if (now in sunrise..sunset) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                if (now in sunrise..sunset) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
             }
         }
     }

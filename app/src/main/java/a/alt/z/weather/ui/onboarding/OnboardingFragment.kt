@@ -25,6 +25,8 @@ import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import timber.log.debug
 
 @AndroidEntryPoint
 class OnboardingFragment: BaseFragment(R.layout.fragment_onboarding) {

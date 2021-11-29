@@ -346,6 +346,19 @@ class WeatherRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getSunriseSunset(location: Location): SunriseSunset {
+        val sunriseSunsetEntity = weatherLocalDataSource.getSunriseSunset(location.id)
+
+        return if (sunriseSunsetEntity == null) {
+            weatherRemoteDataSource.getSunriseSunset(location.region1DepthName)
+                .transform(location)
+                .also { weatherLocalDataSource.saveSunriseSunset(it) }
+                .transform()
+        } else {
+            sunriseSunsetEntity.transform()
+        }
+    }
+
     override suspend fun deleteWeatherData(locationId: Long) {
         weatherLocalDataSource.deleteWeatherData(locationId)
     }

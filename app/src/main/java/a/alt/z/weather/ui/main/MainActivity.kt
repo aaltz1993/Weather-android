@@ -22,6 +22,7 @@ import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
@@ -31,6 +32,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -144,8 +147,21 @@ class MainActivity : AppCompatActivity() {
 
                         if (childFragment is OnboardingFragment) {
                             supportFragmentManager.commit { remove(childFragment) }
+                            viewModel.getSunriseSunset(locations.first())
                         }
                     }
+                }
+            }
+        }
+
+        viewModel.sunriseSunset.observe(this) { result ->
+            result.successOrNull()?.let { sunriseSunset ->
+                val now = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+
+                if (now in sunriseSunset.sunrise..sunriseSunset.sunset) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
             }
         }
