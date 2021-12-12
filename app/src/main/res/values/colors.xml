@@ -68,4 +68,7 @@
     <color name="day_divier_name_text_color">#93C2E4</color>
     <color name="onboarding_skip_text_color">#A5A5A5</color>
     <color name="onboarding_skip_night_text_color">#7684A0</color>
+    <color name="update_background_color">#F5F5F5</color>
+    <color name="update_icon_tint_color">#A5A5A5</color>
+    <color name="update_time_text_color">#A5A5A5</color>
 </resources>

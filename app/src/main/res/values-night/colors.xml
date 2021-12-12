@@ -42,4 +42,7 @@
     <color name="data_source_name_text_color">#7684A0</color>
     <color name="data_source_notice_text_color">#314263</color>
     <color name="day_divier_name_text_color">#7ACFFF</color>
+    <color name="update_background_color">#132342</color>
+    <color name="update_icon_tint_color">#7684A0</color>
+    <color name="update_time_text_color">#7684A0</color>
 </resources>

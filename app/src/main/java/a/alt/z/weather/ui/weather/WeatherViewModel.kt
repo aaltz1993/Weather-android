@@ -55,6 +55,12 @@ class WeatherViewModel @Inject constructor(
         _location.postValue(location)
     }
 
+    fun getPresentWeather(location: Location) {
+        viewModelScope.launch {
+            getPresentWeatherUseCase(location, _presentWeather)
+        }
+    }
+
     fun getPresentWeatherBackward(location: Location) {
         viewModelScope.launch { getPresentWeatherBackwardUseCase(location, _presentWeather) }
     }

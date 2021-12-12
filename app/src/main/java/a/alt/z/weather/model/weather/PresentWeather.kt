@@ -5,6 +5,8 @@ import a.alt.z.weather.model.airquality.FineParticleGrade
 import a.alt.z.weather.model.airquality.UltraFineParticleGrade
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 
 data class PresentWeather(
     val sky: Sky,
@@ -19,6 +21,7 @@ data class PresentWeather(
     val fineParticleValue: Int,
     val ultraFineParticleGrade: UltraFineParticleGrade,
     val ultraFineParticleValue: Int,
+    val updatedAt: LocalDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
 ) {
 
     val description: String get() = when (precipitationType) {
