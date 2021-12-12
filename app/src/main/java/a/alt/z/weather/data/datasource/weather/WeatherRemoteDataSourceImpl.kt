@@ -6,6 +6,7 @@ import a.alt.z.weather.data.api.model.uvindex.UVIndexAreaCode
 import a.alt.z.weather.data.api.model.weather.*
 import a.alt.z.weather.data.api.model.uvindex.UVIndexItem
 import a.alt.z.weather.data.api.service.*
+import a.alt.z.weather.model.weather.PresentWeather
 import a.alt.z.weather.utils.projections.MapProjection
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -13,13 +14,15 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class WeatherRemoteDataSourceImpl @Inject constructor(
     private val hourlyForecastService: HourlyForecastService,
     private val dailyForecastService: DailyForecastService,
     private val airQualityService: AirQualityService,
     private val livingWeatherIndexService: LivingWeatherIndexService,
-    private val sunriseSunsetService: SunriseSunsetService
+    private val sunriseSunsetService: SunriseSunsetService,
+    private val openWeatherMapService: OpenWeatherMapService
 ) : WeatherRemoteDataSource {
 
     private val zoneId = ZoneId.of("Asia/Seoul")
@@ -122,6 +125,89 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
         )
     }
 
+    override suspend fun getPresentWeatherBackward(
+        latitude: Double,
+        longitude: Double
+    ): PresentWeatherItem {
+        val currentWeatherResponse = openWeatherMapService.getCurrentWeather(latitude, longitude)
+
+        val currentWeather = currentWeatherResponse.weathers.first()
+        val currentWeatherMain = currentWeatherResponse.main
+        val skyCode = when (currentWeatherResponse.clouds.all) {
+            in 0..60 -> 1
+            in 60..80 -> 3
+            else -> 4
+        }
+        val humidity = currentWeatherMain.humidity
+        val temperature = currentWeatherMain.temperature.roundToInt()
+        val windSpeed = currentWeatherResponse.wind.speed
+        val windDirection = currentWeatherResponse.wind.degree
+
+        val precipitationType = when (currentWeather.id) {
+            in 300..400 -> {
+                if (currentWeather.description.contains("shower")) {
+                    4
+                } else {
+                    1
+                }
+            }
+            in 500..600, in 200..210, in 230..240 -> {
+                if (currentWeather.description.contains("shower")) {
+                    4
+                } else {
+                    1
+                }
+            }
+            in 600..700 -> {
+                if (currentWeather.id > 610) {
+                    2
+                } else {
+                    3
+                }
+            }
+            800 -> 0
+            else -> 0
+        }
+
+        val rain = currentWeatherResponse.rain?.hour ?: 0F
+
+        val snow = currentWeatherResponse.snow?.hour ?: 0F
+
+        val precipitation = if (precipitationType == 1 || precipitationType == 4) {
+            rain
+        } else if (precipitationType == 3) {
+            snow
+        } else {
+            0F
+        }
+
+        val currentAirPollutionResponse = openWeatherMapService.getCurrentAirPollution(latitude, longitude)
+        val currentAirPollution = currentAirPollutionResponse.list.first()
+        val fineParticleValue = currentAirPollution.components.fineParticleValue
+        val ultraFineParticleValue = currentAirPollution.components.ultraFineParticleValue
+
+        val now = LocalDateTime.now(zoneId)
+
+        val baseDateTime = if (now.minute > 40) {
+            now.withMinute(0).withSecond(0).withNano(0)
+        } else {
+            now.minusHours(1).withMinute(0).withSecond(0).withNano(0)
+        }
+
+        return PresentWeatherItem(
+            baseDateTime,
+            skyCode,
+            temperature,
+            precipitationType,
+            precipitation,
+            windSpeed,
+            windDirection,
+            humidity,
+            fineParticleValue.roundToInt(),
+            ultraFineParticleValue.roundToInt()
+        )
+    }
+
     override suspend fun getPresentAirQuality(regionDepth1Name: String): AirQualityItem {
         val presentAirQualityResponse = airQualityService.getPresentAirQuality(sidoName = regionDepth1Name.take(2))
 
@@ -176,7 +262,7 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
         var precipitationCode = 0
         var precipitation = ""
         var humidity = 0
-        var snow = 0F
+        var snow = ""
         var skyCode = 1
         var temperature = 0
         var minTemperature = Int.MIN_VALUE
@@ -190,14 +276,7 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
                 "PTY" -> { precipitationCode = item.observedValue.toInt() }
                 "PCP" -> { precipitation = item.observedValue }
                 "REH" -> { humidity = item.observedValue.toInt() }
-                "SNO" -> {
-                    /* TODO */
-                    snow = if (item.observedValue == "적설없음") {
-                        0F
-                    } else {
-                        item.observedValue.removeSuffix("cm").toFloat()
-                    }
-                }
+                "SNO" -> { snow = item.observedValue }
                 "SKY" -> { skyCode = item.observedValue.toInt() }
                 "TMP" -> { temperature = item.observedValue.toInt() }
                 "TMN" -> { minTemperature = item.observedValue.toFloat().toInt() }
@@ -306,11 +385,9 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun getSunriseSunset(regionDepth1Name: String): SunriseSunsetItem {
+    override suspend fun getSunriseSunset(latitude: Double, longitude: Double): SunriseSunsetItem {
         val dateString = dateFormatter.format(LocalDate.now())
-        val area = regionDepth1Name.take(2)
-        val sunriseSunsetResponse = sunriseSunsetService.getSunriseSunset(dateString, area)
-
+        val sunriseSunsetResponse = sunriseSunsetService.getSunriseSunset(dateString, latitude, longitude)
         return sunriseSunsetResponse.body.items.item.first()
     }
 
@@ -320,14 +397,14 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
         val dateTime = if (now.hour > 6) {
             DateTimeFormatter.ofPattern("yyyyMMddHH").format(
                 LocalDateTime.of(
-                    LocalDate.now(),
+                    LocalDate.now(zoneId),
                     LocalTime.of(6, 0)
                 )
             )
         } else {
             DateTimeFormatter.ofPattern("yyyyMMddHH").format(
                 LocalDateTime.of(
-                    LocalDate.now().minusDays(1),
+                    LocalDate.now(zoneId).minusDays(1),
                     LocalTime.of(18, 0)
                 )
             )

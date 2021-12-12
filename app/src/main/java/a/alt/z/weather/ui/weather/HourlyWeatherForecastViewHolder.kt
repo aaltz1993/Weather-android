@@ -68,65 +68,47 @@ sealed class HourlyWeatherForecastViewHolders(itemView: View): RecyclerView.View
                             if (isNight) R.drawable.icon_cloudy_night
                             else R.drawable.icon_cloudy
                         }
-                        Sky.OVERCAST -> {
-                            R.drawable.icon_overcast
-                        }
+                        Sky.OVERCAST -> R.drawable.icon_overcast
                     }
                 }
                 PrecipitationType.RAIN -> {
                     when (sky) {
-                        Sky.CLEAR -> {
-                            R.drawable.icon_rain
-                        }
+                        Sky.CLEAR -> R.drawable.icon_rain
                         Sky.CLOUDY -> {
                             if (isNight) R.drawable.icon_cloudy_rain_night
                             else R.drawable.icon_cloudy_rain
                         }
-                        Sky.OVERCAST -> {
-                            R.drawable.icon_overcast_rain
-                        }
+                        Sky.OVERCAST -> R.drawable.icon_overcast_rain
                     }
                 }
                 PrecipitationType.SNOW -> {
                     when (sky) {
-                        Sky.CLEAR -> {
-                            R.drawable.icon_snow
-                        }
+                        Sky.CLEAR -> R.drawable.icon_snow
                         Sky.CLOUDY -> {
                             if (isNight) R.drawable.icon_cloudy_snow_night
                             else R.drawable.icon_cloudy_snow
                         }
-                        Sky.OVERCAST -> {
-                            R.drawable.icon_overcast_snow
-                        }
+                        Sky.OVERCAST -> R.drawable.icon_overcast_snow
                     }
                 }
                 PrecipitationType.RAIN_SNOW -> {
                     when (sky) {
-                        Sky.CLEAR -> {
-                            R.drawable.icon_overcast_rain_snow
-                        }
+                        Sky.CLEAR -> R.drawable.icon_overcast_rain_snow
                         Sky.CLOUDY -> {
                             if (isNight) R.drawable.icon_cloudy_rain_snow_night
                             else R.drawable.icon_cloudy_rain_snow
                         }
-                        Sky.OVERCAST -> {
-                            R.drawable.icon_overcast_rain_snow
-                        }
+                        Sky.OVERCAST -> R.drawable.icon_overcast_rain_snow
                     }
                 }
                 PrecipitationType.SHOWER -> {
                     when (sky) {
-                        Sky.CLEAR -> {
-                            R.drawable.icon_overcast_shower
-                        }
+                        Sky.CLEAR -> R.drawable.icon_overcast_shower
                         Sky.CLOUDY -> {
                             if (isNight) R.drawable.icon_cloudy_rain_snow_night
                             else R.drawable.icon_cloudy_rain_snow
                         }
-                        Sky.OVERCAST -> {
-                            R.drawable.icon_overcast_shower
-                        }
+                        Sky.OVERCAST -> R.drawable.icon_overcast_shower
                     }
                 }
             }

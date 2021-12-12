@@ -10,10 +10,12 @@ import retrofit2.http.Query
 
 interface SunriseSunsetService {
 
-    @GET("getAreaRiseSetInfo")
+    @GET("getLCRiseSetInfo")
     suspend fun getSunriseSunset(
         @Query("locdate") date: String,
-        @Query("location") area: String
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("dnYn") yn: String = "Y"
     ) : SunriseSunsetResponse
 
     companion object {

@@ -60,16 +60,18 @@ class Onboarding3Fragment: BaseFragment(R.layout.fragment_onboarding3) {
                     .alpha(1F)
                     .setDuration(500L)
                     .withEndAction {
-                        val smoothScroller = object: LinearSmoothScroller(requireContext()) {
-                            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
-                                return 200F / displayMetrics.densityDpi
+                        context?.let {
+                            val smoothScroller = object: LinearSmoothScroller(it) {
+                                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                                    return 200F / displayMetrics.densityDpi
+                                }
+                                override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+                                    return (hourlyWeatherRecyclerView.layoutManager as LinearLayoutManager).computeScrollVectorForPosition(targetPosition)
+                                }
                             }
-                            override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
-                                return (hourlyWeatherRecyclerView.layoutManager as LinearLayoutManager).computeScrollVectorForPosition(targetPosition)
-                            }
+                            smoothScroller.targetPosition = 10
+                            hourlyWeatherRecyclerView.layoutManager?.startSmoothScroll(smoothScroller)
                         }
-                        smoothScroller.targetPosition = 10
-                        hourlyWeatherRecyclerView.layoutManager?.startSmoothScroll(smoothScroller)
                     }
                     .start()
 

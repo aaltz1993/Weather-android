@@ -3,6 +3,7 @@ package a.alt.z.weather.model.weather
 import a.alt.z.weather.model.weather.elements.Precipitation
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
+import a.alt.z.weather.model.weather.elements.Snow
 import org.threeten.bp.LocalDateTime
 
 data class HourlyWeather(
@@ -13,7 +14,8 @@ data class HourlyWeather(
     val precipitationType: PrecipitationType,
     val precipitation: Precipitation,
     val precipitationValue: Int,
-    val snow: Float,
+    val snow: Snow,
+    val snowValue: Float,
     val humidity: Int,
     val windDirection: Int,
     val windSpeed: Float
@@ -22,16 +24,17 @@ data class HourlyWeather(
     companion object {
         val DIVIDER = HourlyWeather(
             LocalDateTime.MIN,
-            0,
+            Int.MIN_VALUE,
             Sky.CLEAR,
-            0,
+            Int.MIN_VALUE,
             PrecipitationType.NONE,
             Precipitation.NONE,
-            0,
-            0F,
-            0,
-            0,
-            0F
+            Int.MIN_VALUE,
+            Snow.NONE,
+            Float.MIN_VALUE,
+            Int.MIN_VALUE,
+            Int.MIN_VALUE,
+            Float.MIN_VALUE
         )
     }
 }

@@ -96,7 +96,7 @@ class ForecastWeatherFragment : BaseFragment(R.layout.fragment_forecast_weather)
                         if (first().dateTime.dayOfMonth > nowHourlyWeather.dateTime.dayOfMonth) {
                             add(0, nowHourlyWeather)
                             add(1, HourlyWeather.DIVIDER)
-                        } else {
+                        } else if (first() != nowHourlyWeather) {
                             add(0, nowHourlyWeather)
                         }
                     }

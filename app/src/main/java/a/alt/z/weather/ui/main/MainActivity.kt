@@ -15,6 +15,8 @@ import a.alt.z.weather.utils.extensions.viewBinding
 import a.alt.z.weather.utils.result.successOrNull
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
+import android.app.UiModeManager
+import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -34,6 +36,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
+import timber.log.Timber
+import timber.log.debug
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -143,30 +147,29 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
 
+                        locations.find { it.isDeviceLocation }?.let { currentLocation ->
+                            locationProvider.lastLocation
+                                .addOnSuccessListener { newLocation ->
+                                    updateCurrentLocationIfNeeded(
+                                        currentLocation.latitude, currentLocation.longitude,
+                                        newLocation.latitude, newLocation.longitude
+                                    )
+                                }
+                                .addOnFailureListener {  }
+                        }
+
                         val childFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
                         if (childFragment is OnboardingFragment) {
                             supportFragmentManager.commit { remove(childFragment) }
-                            viewModel.getSunriseSunset(locations.first())
                         }
                     }
                 }
             }
         }
 
-        viewModel.sunriseSunset.observe(this) { result ->
-            result.successOrNull()?.let { sunriseSunset ->
-                val now = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
-
-                if (now in sunriseSunset.sunrise..sunriseSunset.sunset) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-            }
-        }
-
         supportFragmentManager.setFragmentResultListener(RequestKeys.SKIP_ONBOARDING, this) { _, _ ->
+            viewModel.skipOnboarding.removeObservers(this)
             viewModel.getLocations()
         }
 
@@ -194,11 +197,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateCurrentLocationIfNeeded(
-        oldLatitude: Double, oldLongitude: Double,
-        newLatitude: Double, newLongitude: Double
-    ) {
+    private fun updateCurrentLocationIfNeeded(oldLatitude: Double, oldLongitude: Double, newLatitude: Double, newLongitude: Double) {
         val distances = FloatArray(3)
+
         Location.distanceBetween(
             oldLatitude, oldLongitude,
             newLatitude, newLongitude,
@@ -206,6 +207,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val distance = distances.firstOrNull() ?: 0F
+
         if (abs(distance) > 500F) {
             viewModel.addDeviceLocation(Coordinate(newLatitude, newLongitude))
         }

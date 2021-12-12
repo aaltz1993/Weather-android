@@ -7,11 +7,18 @@ import a.alt.z.weather.ui.base.BaseFragment
 import a.alt.z.weather.utils.constants.RequestKeys
 import a.alt.z.weather.utils.constants.ResultKeys
 import a.alt.z.weather.utils.extensions.*
+import a.alt.z.weather.utils.result.successOrNull
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import timber.log.debug
 import kotlin.math.max
@@ -40,6 +47,7 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
     override fun initView() {
         binding.apply {
             presentWeatherFragmentContainer.onPullDown = { dY ->
+                /*
                 val top = min(max(presentWeatherTopGuideline.guidePercent + dY, minimumGuidePercent), 0.25F)
                 val bottom = min(max(presentWeatherBottomGuideline.guidePercent + dY, maximumGuidePercent), 1.25F)
 
@@ -49,6 +57,7 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
                 }
 
                 setPageable(false)
+                 */
             }
 
             presentWeatherFragmentContainer.onSwipeUp = { dY ->

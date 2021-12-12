@@ -6,6 +6,7 @@ import a.alt.z.weather.model.weather.DailyWeather
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
 import android.annotation.SuppressLint
+import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +26,8 @@ class OnboardingDailyForecastViewHolder(
             when {
                 dailyWeather.date == LocalDate.now(ZoneId.of("Asia/Seoul")) -> {
                     weekdayTextView.text = root.context.getString(R.string.today)
-                    weekdayTextView.setTextColor(ContextCompat.getColor(root.context, R.color.today_text_color))
-                    dateTextView.setTextColor(ContextCompat.getColor(root.context, R.color.today_text_color))
+                    weekdayTextView.setTextColor(ContextCompat.getColor(root.context, R.color.white))
+                    dateTextView.setTextColor(ContextCompat.getColor(root.context, R.color.white))
                 }
                 dailyWeather.date.dayOfWeek == DayOfWeek.SATURDAY || dailyWeather.date.dayOfWeek == DayOfWeek.SUNDAY -> {
                     weekdayTextView.text = dailyWeather.date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREA)
@@ -35,8 +36,8 @@ class OnboardingDailyForecastViewHolder(
                 }
                 else -> {
                     weekdayTextView.text = dailyWeather.date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREA)
-                    weekdayTextView.setTextColor(ContextCompat.getColor(root.context, R.color.weekday_text_color))
-                    dateTextView.setTextColor(ContextCompat.getColor(root.context, R.color.weekday_text_color))
+                    weekdayTextView.setTextColor(Color.parseColor("#7684A0"))
+                    dateTextView.setTextColor(Color.parseColor("#7684A0"))
                 }
             }
 

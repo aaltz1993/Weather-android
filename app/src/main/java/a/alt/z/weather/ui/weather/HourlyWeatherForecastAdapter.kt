@@ -10,11 +10,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import org.threeten.bp.LocalDate
+import timber.log.Timber
+import timber.log.debug
 
 class HourlyWeatherForecastAdapter: ListAdapter<HourlyWeather, HourlyWeatherForecastViewHolders>(diffCallback) {
 
     private val maxTemperature by lazy { currentList.maxOfOrNull { it.temperature } ?: 0 }
-    private val minTemperature by lazy { currentList.minOfOrNull { it.temperature } ?: 0 }
+
+    private val minTemperature: Int by lazy {
+        currentList
+            .filterNot { it.temperature == Int.MIN_VALUE }
+            .minOfOrNull { it.temperature } ?: 0
+    }
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) == HourlyWeather.DIVIDER) return 0 else 1

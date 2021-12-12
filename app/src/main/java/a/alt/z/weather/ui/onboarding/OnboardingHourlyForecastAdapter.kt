@@ -6,6 +6,7 @@ import a.alt.z.weather.model.weather.HourlyWeather
 import a.alt.z.weather.model.weather.elements.Precipitation
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
+import a.alt.z.weather.model.weather.elements.Snow
 import a.alt.z.weather.ui.onboarding.OnboardingHourlyForecastViewHolder.HourlyWeatherForecastDayDivider
 import a.alt.z.weather.ui.onboarding.OnboardingHourlyForecastViewHolder.HourlyWeatherForecastViewHolder
 import a.alt.z.weather.utils.extensions.layoutInflater
@@ -21,43 +22,43 @@ class OnboardingHourlyForecastAdapter: RecyclerView.Adapter<OnboardingHourlyFore
     private val hourlyWeathers = listOf(
         HourlyWeather(
             LocalDateTime.now(), 6, Sky.OVERCAST, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(15), 9, Sky.OVERCAST, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(18), 8, Sky.OVERCAST, 60, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(21), 7, Sky.OVERCAST, 60, PrecipitationType.RAIN,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(0), 5, Sky.OVERCAST, 60, PrecipitationType.RAIN,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(3), 5, Sky.OVERCAST, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(6), 6, Sky.CLOUDY, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(9), 9, Sky.CLOUDY, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(12), 11, Sky.CLOUDY, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         ),
         HourlyWeather(
             LocalDateTime.now().withHour(15), 12, Sky.CLEAR, 0, PrecipitationType.NONE,
-            Precipitation.NONE, 0, 0F, 0, 0, 0F
+            Precipitation.NONE, 0, Snow.NONE, 0F, 0, 0, 0F
         )
     )
 

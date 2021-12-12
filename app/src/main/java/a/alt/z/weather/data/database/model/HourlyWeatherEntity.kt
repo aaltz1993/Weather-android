@@ -26,6 +26,7 @@ data class HourlyWeatherEntity(
     val precipitation: Int,
     val precipitationOrdinal: Int,
     val snow: Float,
+    val snowOrdinal: Int,
     val humidity: Int,
     val windDirection: Int,
     val windSpeed: Float,

@@ -10,15 +10,17 @@ import a.alt.z.weather.model.weather.elements.SunriseSunset
 
 interface WeatherRepository {
 
+    suspend fun getSunriseSunset(location: Location): SunriseSunset
+
     suspend fun getPresentWeather(location: Location): PresentWeather
 
-    suspend fun getPreviewPresentWeather(address: Address): PreviewPresentWeather
+    suspend fun getPresentWeatherBackward(location: Location): PresentWeather
 
     suspend fun getForecastWeather(location: Location): ForecastWeather
 
-    suspend fun getPresentWeathersByLocations(locations: List<Location>): List<PresentWeatherByLocation>
+    suspend fun getPreviewPresentWeather(address: Address): PreviewPresentWeather
 
-    suspend fun getSunriseSunset(location: Location): SunriseSunset
+    suspend fun getPresentWeathersByLocations(locations: List<Location>): List<PresentWeatherByLocation>
 
     suspend fun deleteWeatherData(locationId: Long)
 }

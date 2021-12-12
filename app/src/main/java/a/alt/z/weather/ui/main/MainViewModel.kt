@@ -20,8 +20,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getSkipOnboardingUseCase: GetSkipOnboardingUseCase,
     private val addDeviceLocationUseCase: AddDeviceLocationUseCase,
-    private val getLocationsUseCase: GetLocationsUseCase,
-    private val getSunriseSunsetUseCase: GetSunriseSunsetUseCase
+    private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
 
     private val _locations = MutableLiveData<Result<List<Location>>>()
@@ -29,9 +28,6 @@ class MainViewModel @Inject constructor(
 
     private val _skipOnboarding = MutableLiveData<Result<Boolean>>()
     val skipOnboarding: LiveData<Result<Boolean>> = _skipOnboarding
-
-    private val _sunriseSunset = MutableLiveData<Result<SunriseSunset>>()
-    val sunriseSunset: LiveData<Result<SunriseSunset>> = _sunriseSunset
 
     init {
         viewModelScope.launch { getSkipOnboardingUseCase(_skipOnboarding) }
@@ -43,9 +39,5 @@ class MainViewModel @Inject constructor(
 
     fun addDeviceLocation(coordinate: Coordinate) {
         viewModelScope.launch { addDeviceLocationUseCase(coordinate) }
-    }
-
-    fun getSunriseSunset(location: Location) {
-        viewModelScope.launch { getSunriseSunsetUseCase(location, _sunriseSunset) }
     }
 }

@@ -91,7 +91,7 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
             .let { weatherLocalDataSource.saveDailyWeathers(it) }
 
         /* SUNRISE + SUNSET */
-        weatherRemoteDataSource.getSunriseSunset(location.region1DepthName)
+        weatherRemoteDataSource.getSunriseSunset(location.latitude, location.longitude)
             .transform(location)
             .let { weatherLocalDataSource.saveSunriseSunset(it) }
 
@@ -116,7 +116,7 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
         temperature, minTemperature, maxTemperature,
         skyCode,
         probabilityOfPrecipitation, precipitationCode, precipitationValueOf(precipitation), precipitationOrdinalOf(precipitation),
-        snow,
+        snowValueOf(snow), snowOrdinalOf(snow),
         humidity, windDirection, windSpeed,
         LocalDate.now()
     )
@@ -136,6 +136,23 @@ class DownloadWeatherDataWorker @AssistedInject constructor(
             "30~50mm" -> { 3 }
             "50mm 이상" -> { 4 }
             else -> { 2 }
+        }
+    }
+
+    private fun snowValueOf(snowString: String): Float {
+        return try {
+            snowString.removeSuffix("cm").toFloat()
+        } catch (exception: Exception) {
+            0F
+        }
+    }
+
+    private fun snowOrdinalOf(snowString: String): Int {
+        return when (snowString) {
+            "적설없음" -> 0
+            "1cm미만" -> 1
+            "5cm이상", "5cm 이상" -> 3
+            else -> 2
         }
     }
 

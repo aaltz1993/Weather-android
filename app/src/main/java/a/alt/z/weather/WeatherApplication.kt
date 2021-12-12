@@ -1,8 +1,6 @@
 package a.alt.z.weather
 
 import a.alt.z.weather.data.database.dao.SunriseSunsetDao
-import a.alt.z.weather.data.preferences.PreferencesStorage
-import a.alt.z.weather.domain.usecase.others.GetSkipOnboardingUseCase
 import a.alt.z.weather.service.AlarmReceiver
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -56,6 +54,7 @@ class WeatherApplication: Application(), Configuration.Provider {
                 val timeFormatter = DateTimeFormatter.ofPattern("HHmm")
                 val sunrise = LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunrise)))
                 val sunset = LocalDateTime.of(LocalDate.now(), LocalTime.from(timeFormatter.parse(sunriseSunsetEntity.sunset)))
+
 
                 if (now in sunrise..sunset) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

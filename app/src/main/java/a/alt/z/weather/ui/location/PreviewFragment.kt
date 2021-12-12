@@ -95,22 +95,42 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
                         precipitationOrSnowLayout.isVisible = true
 
                         when (presentWeather.precipitationType) {
-                            PrecipitationType.RAIN, PrecipitationType.RAIN_SNOW, PrecipitationType.SHOWER -> {
-                                precipitationOrSnowImageView.setImageResource(R.drawable.icon_rainfall)
-                                precipitationOrSnowUnitTextView.text = "(mm)"
-                            }
                             PrecipitationType.SNOW -> {
                                 precipitationOrSnowImageView.setImageResource(R.drawable.icon_snowflake)
-                                precipitationOrSnowUnitTextView.text = "(cm)"
+                                precipitationOrSnowUnitTextView.text = context?.getString(R.string.unit_snow)
+
+                                val percentage = when (presentWeather.precipitation) {
+                                    in 0F..1F -> 0.1F
+                                    in 1F..5F -> {
+                                        0.1F + (0.6F * (presentWeather.precipitation - 1F) / 4F)
+                                    }
+                                    else -> 0.7F
+                                }
+
+                                Glide.with(requireContext())
+                                    .load(R.drawable.foreground_precipitation_snow)
+                                    .transform(PrecipitationSnowTransformation(percentage))
+                                    .into(precipitationOrSnowForegroundView)
+                            }
+                            else -> {
+                                precipitationOrSnowImageView.setImageResource(R.drawable.icon_rainfall)
+                                precipitationOrSnowUnitTextView.text = context?.getString(R.string.unit_rain)
+
+                                val percentage = when (presentWeather.precipitation) {
+                                    in 0F..1F -> 0.1F
+                                    in 1F..30F -> 0.3F + (0.2F * (presentWeather.precipitation - 1F) / 29F)
+                                    in 30F..50F -> 0.5F
+                                    else -> 0.7F
+                                }
+
+                                Glide.with(requireContext())
+                                    .load(R.drawable.foreground_precipitation_snow)
+                                    .transform(PrecipitationSnowTransformation(percentage))
+                                    .into(precipitationOrSnowForegroundView)
                             }
                         }
-
-                        precipitationOrSnowTextView.text = presentWeather.precipitation.toInt().toString()
-
-                        Glide.with(requireContext())
-                            .load(R.drawable.foreground_precipitation_snow)
-                            .transform(PrecipitationSnowTransformation())
-                            .into(precipitationOrSnowForegroundView)
+                        /* TODO */
+                        precipitationOrSnowTextView.text = "${presentWeather.precipitation}"
                     } else {
                         precipitationOrSnowLayout.isGone = true
                     }
@@ -131,26 +151,26 @@ class PreviewFragment : BaseFragment(R.layout.fragment_preview) {
                 when (sky) {
                     Sky.CLEAR -> {
                         when {
-                            temperature <= 5 -> R.drawable.image_clear_very_cold
-                            temperature in 6..11 -> R.drawable.image_clear_cold
-                            temperature in 12..22 -> R.drawable.image_clear_warm
-                            else -> R.drawable.image_clear_warm
+                            temperature <= 5 -> R.drawable.image_clear_5
+                            temperature in 6..11 -> R.drawable.image_clear_10_11
+                            temperature in 12..22 -> R.drawable.image_clear_17_19
+                            else -> R.drawable.image_clear_17_19
                         }
                     }
                     Sky.CLOUDY -> {
                         when {
-                            temperature <= 5 -> R.drawable.image_cloudy_very_cold
-                            temperature in 6..11 -> R.drawable.image_cloudy_cold
-                            temperature in 12..22 -> R.drawable.image_cloudy_warm
-                            else -> R.drawable.image_cloudy_warm
+                            temperature <= 5 -> R.drawable.image_cloudy_5
+                            temperature in 6..11 -> R.drawable.image_cloudy_10_11
+                            temperature in 12..22 -> R.drawable.image_cloudy_17_19
+                            else -> R.drawable.image_cloudy_17_19
                         }
                     }
                     Sky.OVERCAST -> {
                         when {
-                            temperature <= 5 -> R.drawable.image_overcast_very_cold
-                            temperature in 6..11 -> R.drawable.image_overcast_cold
-                            temperature in 12..22 -> R.drawable.image_overcast_warm
-                            else -> R.drawable.image_overcast_warm
+                            temperature <= 5 -> R.drawable.image_overcast_5
+                            temperature in 6..11 -> R.drawable.image_overcast_10_11
+                            temperature in 12..22 -> R.drawable.image_overcast_17_19
+                            else -> R.drawable.image_overcast_17_19
                         }
                     }
                 }

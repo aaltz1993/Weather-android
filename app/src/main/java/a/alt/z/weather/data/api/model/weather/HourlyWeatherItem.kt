@@ -9,7 +9,7 @@ data class HourlyWeatherItem(
     val precipitationCode: Int,
     val precipitation: String,
     val probabilityOfPrecipitation: Int,
-    val snow: Float,
+    val snow: String,
     val minTemperature: Int,
     val maxTemperature: Int,
     val humidity: Int,

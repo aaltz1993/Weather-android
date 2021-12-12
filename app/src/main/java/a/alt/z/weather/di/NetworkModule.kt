@@ -68,4 +68,9 @@ object NetworkModule {
     fun providesSunriseSunsetService(client: OkHttpClient): SunriseSunsetService {
         return SunriseSunsetService.create(client)
     }
+
+    @Provides @Singleton
+    fun providesOpenWeatherMapService(converterFactory: Converter.Factory): OpenWeatherMapService {
+        return OpenWeatherMapService.create(converterFactory)
+    }
 }

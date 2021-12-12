@@ -12,6 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     private val getPresentWeatherUseCase: GetPresentWeatherUseCase,
+    private val getPresentWeatherBackwardUseCase: GetPresentWeatherBackwardUseCase,
     private val getForecastWeatherUseCase: GetForecastWeatherUseCase
 ) : ViewModel() {
 
@@ -52,5 +53,9 @@ class WeatherViewModel @Inject constructor(
 
     fun setLocation(location: Location) {
         _location.postValue(location)
+    }
+
+    fun getPresentWeatherBackward(location: Location) {
+        viewModelScope.launch { getPresentWeatherBackwardUseCase(location, _presentWeather) }
     }
 }

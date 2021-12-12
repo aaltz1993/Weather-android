@@ -6,7 +6,14 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import java.security.MessageDigest
 import kotlin.math.roundToInt
 
-class PrecipitationSnowTransformation: BitmapTransformation() {
+class PrecipitationSnowTransformation(
+    private val percentage: Float
+): BitmapTransformation() {
+
+    private val min = 0.1F
+    private val grade1 = 0.3F
+    private val grade2 = 0.5F
+    private val max = 0.7F
 
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
     }
@@ -19,8 +26,8 @@ class PrecipitationSnowTransformation: BitmapTransformation() {
     ): Bitmap {
         return Bitmap.createBitmap(toTransform,
             0,
-            (toTransform.height * .7).toInt(),
+            (toTransform.height * (1 - percentage)).toInt(),
             toTransform.width,
-            (toTransform.height * .3).roundToInt())
+            (toTransform.height * percentage).roundToInt())
     }
 }

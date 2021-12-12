@@ -21,7 +21,7 @@ import androidx.room.TypeConverters
         SunriseSunsetEntity::class,
         UVIndexEntity::class
                ],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class WeatherDatabase: RoomDatabase() {

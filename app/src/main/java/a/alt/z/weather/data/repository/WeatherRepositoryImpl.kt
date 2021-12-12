@@ -31,6 +31,19 @@ class WeatherRepositoryImpl @Inject constructor(
     private val weatherRemoteDataSource: WeatherRemoteDataSource
 ): WeatherRepository {
 
+    override suspend fun getSunriseSunset(location: Location): SunriseSunset {
+        val sunriseSunsetEntity = weatherLocalDataSource.getSunriseSunset(location.id)
+
+        return if (sunriseSunsetEntity == null) {
+            weatherRemoteDataSource.getSunriseSunset(location.latitude, location.longitude)
+                .transform(location)
+                .also { weatherLocalDataSource.saveSunriseSunset(it) }
+                .transform()
+        } else {
+            sunriseSunsetEntity.transform()
+        }
+    }
+
     override suspend fun getPresentWeather(location: Location): PresentWeather {
         val now = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
 
@@ -41,36 +54,6 @@ class WeatherRepositoryImpl @Inject constructor(
         }
 
         val presentWeatherEntity = weatherLocalDataSource.getPresentWeather(location.id, baseDateTime)
-
-        val presentWeather = try {
-            if (presentWeatherEntity == null) {
-                weatherRemoteDataSource
-                    .getPresentWeather(location.latitude, location.longitude, location.region1DepthName)
-                    .transform(location)
-                    .also { weatherLocalDataSource.savePresentWeather(it) }
-                    .transform()
-            } else {
-                presentWeatherEntity.transform()
-            }
-        } catch (exception: Exception) {
-            null
-        }
-
-        if (presentWeather == null) {
-            val hourlyWeatherEntity = weatherLocalDataSource.getHourlyWeather(
-                location.id,
-                now.withMinute(0).withSecond(0).withNano(0)
-            )
-            val airQualityItem = weatherRemoteDataSource.getPresentAirQuality(location.region1DepthName)
-            /*
-            PresentWeather(
-                Sky.codeOf(hourlyWeatherEntity.skyCode),
-                hourlyWeatherEntity.temperature,
-                PrecipitationType.codeOf(hourlyWeatherEntity.precipitationCode),
-                // hourlyWeatherEntity.precipitation
-            )
-            */
-        }
 
         return if (presentWeatherEntity == null) {
             weatherRemoteDataSource
@@ -108,13 +91,6 @@ class WeatherRepositoryImpl @Inject constructor(
         ultraFineParticleValue
     )
 
-    override suspend fun getPreviewPresentWeather(address: Address): PreviewPresentWeather {
-        return weatherRemoteDataSource
-            .getPresentWeather(address.latitude, address.longitude, address.region1DepthName)
-            .transform()
-            .let { weather -> PreviewPresentWeather(address, weather) }
-    }
-
     private fun PresentWeatherItem.transform() = PresentWeather(
         Sky.codeOf(skyCode),
         temperature,
@@ -128,6 +104,13 @@ class WeatherRepositoryImpl @Inject constructor(
         UltraFineParticleGrade.levelOf(ultraFineParticleValue),
         ultraFineParticleValue
     )
+
+    override suspend fun getPresentWeatherBackward(location: Location): PresentWeather {
+        return weatherRemoteDataSource.getPresentWeatherBackward(location.latitude, location.longitude)
+            .transform(location)
+            .also { weatherLocalDataSource.savePresentWeather(it) }
+            .transform()
+    }
 
     override suspend fun getForecastWeather(location: Location): ForecastWeather {
         val hourlyWeatherEntities = weatherLocalDataSource.getHourlyWeathers(location.id)
@@ -188,7 +171,7 @@ class WeatherRepositoryImpl @Inject constructor(
         val dailyWeathers = weatherLocalDataSource.getDailyWeathers(location.id).map { it.transform() }
 
         val sunriseSunset = if (sunriseSunsetEntity == null) {
-            val sunriseSunsetItem = weatherRemoteDataSource.getSunriseSunset(location.region1DepthName)
+            val sunriseSunsetItem = weatherRemoteDataSource.getSunriseSunset(location.latitude, location.longitude)
 
             sunriseSunsetItem
                 .transform(location)
@@ -220,7 +203,7 @@ class WeatherRepositoryImpl @Inject constructor(
         temperature, minTemperature, maxTemperature,
         skyCode,
         probabilityOfPrecipitation, precipitationCode, precipitationValueOf(precipitation), precipitationOrdinalOf(precipitation),
-        snow,
+        snowValueOf(snow), snowOrdinalOf(snow),
         humidity, windDirection, windSpeed,
         LocalDate.now()
     )
@@ -230,13 +213,13 @@ class WeatherRepositoryImpl @Inject constructor(
         temperature,
         Sky.codeOf(skyCode),
         probabilityOfPrecipitation, PrecipitationType.codeOf(precipitationCode), Precipitation.values()[precipitationOrdinal], precipitation,
-        snow,
+        Snow.values()[snowOrdinal], snow,
         humidity, windDirection, windSpeed
     )
 
     private fun precipitationValueOf(precipitationString: String): Int {
         return try {
-            precipitationString.removeSuffix("mm").toInt()
+            precipitationString.removeSuffix("mm").trim().toInt()
         } catch (exception: Exception) {
             0
         }
@@ -249,6 +232,23 @@ class WeatherRepositoryImpl @Inject constructor(
             "30~50mm" -> { 3 }
             "50mm 이상" -> { 4 }
             else -> { 2 }
+        }
+    }
+
+    private fun snowValueOf(snowString: String): Float {
+        return try {
+            snowString.removeSuffix("cm").trim().toFloat()
+        } catch (exception: Exception) {
+            0F
+        }
+    }
+
+    private fun snowOrdinalOf(snowString: String): Int {
+        return when (snowString) {
+            "적설없음" -> 0
+            "1cm미만" -> 1
+            "5cm이상", "5cm 이상" -> 3
+            else -> 2
         }
     }
 
@@ -340,22 +340,16 @@ class WeatherRepositoryImpl @Inject constructor(
 
     private fun UVIndexEntity.transform() = UVIndex(index)
 
+    override suspend fun getPreviewPresentWeather(address: Address): PreviewPresentWeather {
+        return weatherRemoteDataSource
+            .getPresentWeather(address.latitude, address.longitude, address.region1DepthName)
+            .transform()
+            .let { weather -> PreviewPresentWeather(address, weather) }
+    }
+
     override suspend fun getPresentWeathersByLocations(locations: List<Location>): List<PresentWeatherByLocation> {
         return locations.map { location ->
             PresentWeatherByLocation(getPresentWeather(location), location)
-        }
-    }
-
-    override suspend fun getSunriseSunset(location: Location): SunriseSunset {
-        val sunriseSunsetEntity = weatherLocalDataSource.getSunriseSunset(location.id)
-
-        return if (sunriseSunsetEntity == null) {
-            weatherRemoteDataSource.getSunriseSunset(location.region1DepthName)
-                .transform(location)
-                .also { weatherLocalDataSource.saveSunriseSunset(it) }
-                .transform()
-        } else {
-            sunriseSunsetEntity.transform()
         }
     }
 
