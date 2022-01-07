@@ -12,9 +12,6 @@
     <string name="weekly_weather">주간 날씨</string>
     <string name="air_pollution">대기 오염</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="guide_message">어느 곳을 찾으세요?</string>
     <string name="grade_info_guide">등급 기준 안내</string>
     <string name="grade_info_message">미세먼지와 초미세먼지 농도별 수치는\n환경부를 기준으로 총 네가지 등급으로 구분됩니다.</string>
