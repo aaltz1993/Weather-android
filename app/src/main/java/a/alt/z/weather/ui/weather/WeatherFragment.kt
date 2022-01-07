@@ -10,7 +10,6 @@ import a.alt.z.weather.utils.extensions.*
 import a.alt.z.weather.utils.result.successOrNull
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -18,13 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
-import timber.log.debug
 import kotlin.math.max
 import kotlin.math.min
 
@@ -91,20 +85,24 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
                     updatedTimeText = false
 
                     if (presentWeatherTopGuideline.guidePercent > 0.2) {
-                        rootLayout.updateWithDelayedTransition {
-                            setGuidelinePercent(R.id.present_weather_top_guideline, .25F)
-                            setGuidelinePercent(R.id.present_weather_bottom_guideline, 1.25F)
+                        lifecycleScope.launch {
+                            rootLayout.updateWithDelayedTransition {
+                                setGuidelinePercent(R.id.present_weather_top_guideline, .25F)
+                                setGuidelinePercent(R.id.present_weather_bottom_guideline, 1.25F)
+                            }
+
+                            updateIconImageView.animate()
+                                .rotationBy(360F)
+                                .setDuration(1000L)
+                                .setInterpolator(LinearInterpolator())
+                                .start()
+
+                            delay(500L)
+
+                            val location = requireNotNull(viewModel.location.value)
+
+                            viewModel.getPresentWeather(location)
                         }
-
-                        updateIconImageView.animate()
-                            .rotationBy(360F)
-                            .setDuration(2000L)
-                            .setInterpolator(LinearInterpolator())
-                            .start()
-
-                        val location = requireNotNull(viewModel.location.value)
-
-                        viewModel.getPresentWeather(location)
                     } else {
                         rootLayout.updateWithDelayedTransition(duration = 500L) {
                             setGuidelinePercent(R.id.present_weather_top_guideline, minimumGuidePercent)
@@ -175,7 +173,7 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
     private fun setPageable(pageable: Boolean) {
         parentFragmentManager.setFragmentResult(
             RequestKeys.PAGEABLE,
-            bundleOf(Pair(ResultKeys.PAGEABLE, pageable))
+            bundleOf(Pair(RequestKeys.PAGEABLE, pageable))
         )
     }
 
@@ -189,7 +187,7 @@ class WeatherFragment : BaseFragment(R.layout.fragment_weather) {
 
             parentFragmentManager.setFragmentResult(
                 RequestKeys.DATA_LOADED,
-                bundleOf(Pair(ResultKeys.DATA_LOADED, dataLoaded))
+                bundleOf(Pair(RequestKeys.DATA_LOADED, dataLoaded))
             )
         }
 

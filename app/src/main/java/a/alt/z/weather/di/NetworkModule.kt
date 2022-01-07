@@ -45,7 +45,7 @@ object NetworkModule {
     }
 
     @Provides @Singleton
-    fun providesAirPollutionService(client: OkHttpClient, converterFactory: Converter.Factory): AirQualityService {
+    fun providesAirQualityService(client: OkHttpClient, converterFactory: Converter.Factory): AirQualityService {
         return AirQualityService.create(client, converterFactory)
     }
 

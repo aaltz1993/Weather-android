@@ -5,11 +5,10 @@ import a.alt.z.weather.domain.usecase.location.*
 import a.alt.z.weather.domain.usecase.weather.GetPresentWeathersByLocationsUseCase
 import a.alt.z.weather.model.location.*
 import a.alt.z.weather.utils.result.Result
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,42 +25,45 @@ class LocationViewModel @Inject constructor(
     private val getLocationServiceOnUseCase: GetLocationServiceOnUseCase
 ) : ViewModel() {
 
+    /* locations + current weather */
     private val _locations = MutableLiveData<Result<List<Location>>>()
     val locations: LiveData<Result<List<Location>>> = _locations
+
+    private val _presentWeathersByLocations = MutableLiveData<Result<List<PresentWeatherByLocation>>>()
+    val presentWeathersByLocations: LiveData<Result<List<PresentWeatherByLocation>>> = _presentWeathersByLocations
+
+    /* search address or location */
+    private val query = MutableLiveData<String>()
 
     private val _searchAddressResult = MutableLiveData<Result<List<Address>>>()
     val searchAddressResult: LiveData<Result<List<Address>>> = _searchAddressResult
 
+    private val _previewPresentWeather = MutableLiveData<Result<PreviewPresentWeather>>()
+    val previewPresentWeather: LiveData<Result<PreviewPresentWeather>> = _previewPresentWeather
+
+    /* add location or device location */
     private val _addDeviceLocationResult = MutableLiveData<Result<Unit>>()
     val addDeviceLocationResult: LiveData<Result<Unit>> = _addDeviceLocationResult
 
     private val _addLocationResult = MutableLiveData<Result<Unit>>()
     val addLocationResult: LiveData<Result<Unit>> = _addLocationResult
 
-    private val _presentWeathersByLocations = MutableLiveData<Result<List<PresentWeatherByLocation>>>()
-    val presentWeathersByLocations: LiveData<Result<List<PresentWeatherByLocation>>> = _presentWeathersByLocations
-
-    private val _previewPresentWeather = MutableLiveData<Result<PreviewPresentWeather>>()
-    val previewPresentWeather: LiveData<Result<PreviewPresentWeather>> = _previewPresentWeather
-
-    private val _uiState = MutableLiveData(UIState.IDLE)
-    val uiState: LiveData<UIState> = _uiState
-
+    /* location service */
     private val _locationServiceOn = MutableLiveData<Result<Boolean>>()
     val locationServiceOn: LiveData<Result<Boolean>> = _locationServiceOn
 
+    /* UI state */
+    private val _uiState = MutableLiveData(UIState.IDLE)
+    val uiState: LiveData<UIState> = _uiState
+
     init {
-        viewModelScope.launch {
-            getLocationsUseCase(_locations)
-        }
-        viewModelScope.launch {
-            getLocationServiceOnUseCase(_locationServiceOn)
-        }
+        viewModelScope.launch { getLocationsUseCase(_locations) }
+        viewModelScope.launch { getLocationServiceOnUseCase(_locationServiceOn) }
     }
 
-    fun addDeviceLocation(latitude: Double, longitude: Double) {
+    fun deleteLocation(location: Location) {
         viewModelScope.launch {
-            addDeviceLocationUseCase(Coordinate(latitude, longitude), _addDeviceLocationResult)
+            deleteLocationUseCase(location)
         }
     }
 
@@ -71,9 +73,9 @@ class LocationViewModel @Inject constructor(
         }
     }
 
-    fun deleteLocation(location: Location) {
+    fun addDeviceLocation(latitude: Double, longitude: Double) {
         viewModelScope.launch {
-            deleteLocationUseCase(location)
+            addDeviceLocationUseCase(Coordinate(latitude, longitude), _addDeviceLocationResult)
         }
     }
 
@@ -120,5 +122,17 @@ class LocationViewModel @Inject constructor(
 
     fun onSearchAddress() {
         _uiState.postValue(UIState.SEARCH)
+    }
+
+    fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            this@LocationViewModel.query.postValue(query)
+
+            delay(500L)
+
+            if (this@LocationViewModel.query.value == query) {
+                searchAddress(query)
+            }
+        }
     }
 }

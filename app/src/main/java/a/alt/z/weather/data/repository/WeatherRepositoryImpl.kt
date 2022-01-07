@@ -15,15 +15,16 @@ import a.alt.z.weather.model.location.Address
 import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.model.location.PresentWeatherByLocation
 import a.alt.z.weather.model.location.PreviewPresentWeather
-import a.alt.z.weather.model.weather.*
+import a.alt.z.weather.model.weather.DailyWeather
+import a.alt.z.weather.model.weather.ForecastWeather
+import a.alt.z.weather.model.weather.HourlyWeather
+import a.alt.z.weather.model.weather.PresentWeather
 import a.alt.z.weather.model.weather.elements.*
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
-import timber.log.debug
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(

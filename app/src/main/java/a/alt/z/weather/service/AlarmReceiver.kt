@@ -11,8 +11,6 @@ import androidx.work.*
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
-import timber.log.Timber
-import timber.log.debug
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint

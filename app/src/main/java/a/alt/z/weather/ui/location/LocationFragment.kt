@@ -13,23 +13,15 @@ import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionManager
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import timber.log.debug
 import java.util.*
 import javax.inject.Inject
 
@@ -66,11 +58,9 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
     private val addressAdapter = AddressAdapter(::onAddressClick)
 
     private fun onAddressClick(address: Address) {
-        viewModel.getPreviewPresentWeather(address)
-    }
+        binding.queryEditText.clearFocus()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        viewModel.getPreviewPresentWeather(address)
     }
 
     override fun initView() {
@@ -110,7 +100,11 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
             }
 
             queryEditText.doAfterTextChanged {
-                clearQueryImageView.isVisible = it.toString().isNotEmpty()
+                val query = it.toString()
+
+                clearQueryImageView.isVisible = query.isNotEmpty()
+
+                viewModel.onQueryChanged(query)
             }
 
             clearQueryImageView.setOnClickListener {
@@ -132,8 +126,6 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
 
     @SuppressLint("MissingPermission")
     override fun setupObserver() {
-        super.setupObserver()
-
         viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             binding.apply {
                 rootLayout.layoutTransition = if (uiState != UIState.SEARCH) {
@@ -188,7 +180,10 @@ class LocationFragment : BaseFragment(R.layout.fragment_location) {
             result.successOrNull()?.let { addresses ->
                 addresses
                     .ifEmpty { listOf(Address.INVALID) }
-                    .let { addressAdapter.submitList(it) }
+                    .let {
+                        addressAdapter.query = binding.queryEditText.text.toString()
+                        addressAdapter.submitList(it)
+                    }
             }
         }
 
