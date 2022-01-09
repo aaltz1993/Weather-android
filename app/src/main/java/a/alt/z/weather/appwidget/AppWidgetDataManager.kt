@@ -87,10 +87,12 @@ class AppWidgetDataManager(context: Context) {
             }
             ?: getDefaultSunriseSunset(now.toLocalDate())
 
-        if (now in sunriseSunset.sunrise..sunriseSunset.sunset) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        withContext(Dispatchers.Main) {
+            if (now in sunriseSunset.sunrise..sunriseSunset.sunset) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
         }
     }
 

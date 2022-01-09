@@ -1,23 +1,24 @@
 package a.alt.z.weather.appwidget
 
 import a.alt.z.weather.R
-import a.alt.z.weather.domain.repository.LocationRepository
-import a.alt.z.weather.domain.repository.WeatherRepository
 import a.alt.z.weather.model.appwidget.AppWidgetData
 import a.alt.z.weather.model.appwidget.AppWidgetUIMode
 import a.alt.z.weather.ui.main.MainActivity
+import a.alt.z.weather.utils.extensions.pixelsOf
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Rect
+import android.graphics.Typeface
+import android.text.TextPaint
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
-import androidx.preference.PreferenceManager
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.graphics.applyCanvas
 import kotlinx.coroutines.*
-import javax.inject.Inject
+import timber.log.Timber
 
 class WeatherAppWidgetProvider: AppWidgetProvider() {
 
@@ -96,8 +97,30 @@ internal fun updateAppWidget(
 
         setInt(R.id.current_location_icon_image_view, "setColorFilter", color)
 
+        val latoLight = Typeface.createFromAsset(context.assets, "lato_light.ttf")
+
+        val textPaint = TextPaint().apply {
+            isAntiAlias = true
+            this.color = color
+            // textAlign = Paint.Align.CENTER
+            textSize = context.pixelsOf(48)
+            typeface = latoLight
+        }
+
+        val textBounds = Rect()
+        textPaint.getTextBounds(appWidgetData.temperature.toString(), 0, appWidgetData.temperature.toString().length, textBounds)
+
+        val bitmap = Bitmap.createBitmap(textBounds.width(), textBounds.height(), Bitmap.Config.ARGB_8888)
+
+        Timber.d("${textBounds.let { "${it.left}, ${it.right}, ${it.top}, ${it.bottom}" }}, ${textBounds.width()}, ${textBounds.height()}")
+        bitmap.applyCanvas {
+            drawText(appWidgetData.temperature.toString(), 0F, textBounds.height().toFloat(), textPaint)
+        }
+        setImageViewBitmap(R.id.temperature_image_view, bitmap)
+        /*
         setTextViewText(R.id.temperature_text_view, appWidgetData.temperature.toString())
         setTextColor(R.id.temperature_text_view, color)
+        */
 
         setInt(R.id.temperature_degree_image_view, "setColorFilter", color)
 

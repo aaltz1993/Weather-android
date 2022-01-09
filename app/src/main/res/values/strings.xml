@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">오늘의 날씨</string>
 
     <string name="fine_particle">미세먼지</string>
@@ -38,7 +38,7 @@
     <string name="grade_very_bad">매우 나쁨</string>
     <string name="not_night">낮</string>
     <string name="night">밤</string>
-    <string name="loading_text">데이터 로딩중...</string>
+    <string name="loading_text" tools:ignore="TypographyEllipsis">데이터 로딩중...</string>
     <string name="no_search_result">검색 결과가 없습니다.</string>
     <string name="edit">편집</string>
     <string name="done">완료</string>
