@@ -27,8 +27,6 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
     private val viewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() })
 
-    private var animationStart = false
-    private var animationEnded = false
     private var dataLoaded = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,17 +39,16 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     }
 
     override fun setupObserver() {
-        parentFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED_SPLASH, viewLifecycleOwner) { _, result ->
-            dataLoaded = result.getBoolean(ResultKeys.DATA_LOADED_SPLASH)
+        parentFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED_SPLASH, viewLifecycleOwner) { _, _ ->
+            lifecycleScope.launchWhenResumed {
+                delay(500L)
 
-            if (animationEnded && dataLoaded) {
                 parentFragmentManager.commit { remove(this@SplashFragment) }
             }
         }
 
         viewModel.locations.observe(viewLifecycleOwner) { result ->
             result.successOrNull()?.let { locations ->
-                animationStart = locations.isNotEmpty()
             }
         }
     }
@@ -60,28 +57,15 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
         super.onResume()
 
         lifecycleScope.launch {
-            delay(100L)
+            delay(500L)
 
-            binding.rootLayout.updateWithDelayedTransition(duration = 1000L) {
-                connect(R.id.sun_image_view, START, R.id.root_layout, START)
-                connect(R.id.sun_image_view, END, R.id.root_layout, END)
-                clear(R.id.sun_image_view, TOP)
-                connect(R.id.sun_image_view, BOTTOM, R.id.center_y_guideline, TOP, 4)
+            binding.loadingLayout.isVisible = true
 
-                connect(R.id.cloud_image_view, START, R.id.root_layout, START)
-                connect(R.id.cloud_image_view, END, R.id.root_layout, END)
-                connect(R.id.cloud_image_view, TOP, R.id.center_y_guideline, BOTTOM, 4)
-                clear(R.id.cloud_image_view, BOTTOM)
-            }
-
-            delay(1100L)
-
-            if (animationStart) binding.loadingLayout.isVisible = true
-
-            animationEnded = true
-
-            if (animationEnded && dataLoaded) {
-                parentFragmentManager.commit { remove(this@SplashFragment) }
+            parentFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED_SPLASH, viewLifecycleOwner) { _, _ ->
+                lifecycleScope.launchWhenResumed {
+                    delay(500L)
+                    parentFragmentManager.commit { remove(this@SplashFragment) }
+                }
             }
         }
     }
