@@ -45,4 +45,9 @@
     <color name="update_background_color">#132342</color>
     <color name="update_icon_tint_color">#7684A0</color>
     <color name="update_time_text_color">#7684A0</color>
+
+    <color name="address_result_text_color">#9BACCE</color>
+    <color name="address_result_text_highlight_color">#FFFFFF</color>
+    <color name="widget_save_button_background_color">#1F2E4B</color>
+    <color name="widget_save_button_text_color">#FFFFFF</color>
 </resources>

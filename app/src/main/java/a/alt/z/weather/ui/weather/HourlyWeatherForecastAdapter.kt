@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import org.threeten.bp.LocalDate
-import timber.log.Timber
-import timber.log.debug
 
 class HourlyWeatherForecastAdapter: ListAdapter<HourlyWeather, HourlyWeatherForecastViewHolders>(diffCallback) {
 

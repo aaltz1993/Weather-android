@@ -24,4 +24,7 @@ interface LocationDao {
 
     @Delete
     suspend fun deleteLocation(location: LocationEntity)
+
+    @Query("SELECT * FROM location WHERE id = :id")
+    suspend fun getLocation(id: Long): LocationEntity
 }

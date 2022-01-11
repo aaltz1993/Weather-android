@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.FrameLayout
-import timber.log.Timber
-import timber.log.debug
 import kotlin.math.abs
 
 class OverScrollFrameLayout @JvmOverloads constructor(

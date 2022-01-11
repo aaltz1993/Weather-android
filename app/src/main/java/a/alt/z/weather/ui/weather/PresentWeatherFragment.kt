@@ -16,11 +16,13 @@ import a.alt.z.weather.utils.result.Result
 import a.alt.z.weather.utils.transformations.PrecipitationSnowTransformation
 import a.alt.z.weather.utils.result.successOrNull
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -30,6 +32,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
+import timber.log.Timber
 
 @AndroidEntryPoint
 class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
@@ -139,6 +142,7 @@ class PresentWeatherFragment : BaseFragment(R.layout.fragment_present_weather) {
             weatherIconImageView.setImageResource(presentWeather.iconResourceId)
 
             currentTemperatureTextView.text = presentWeather.temperature.toString()
+            Timber.d("${currentTemperatureTextView.typeface}, ${ResourcesCompat.getFont(requireContext(), R.font.lato_light)}")
 
             fineParticleGradeTextView.text = presentWeather.fineParticleGrade.getDescription()
             fineParticleGradeTextView.setTextColor(ContextCompat.getColor(requireContext(), presentWeather.fineParticleGrade.getColorResId()))

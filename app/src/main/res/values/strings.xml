@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">오늘의 날씨</string>
 
     <string name="fine_particle">미세먼지</string>
@@ -11,9 +11,6 @@
     <string name="hourly_weather">시간대별 날씨</string>
     <string name="weekly_weather">주간 날씨</string>
     <string name="air_pollution">대기 오염</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="guide_message">어느 곳을 찾으세요?</string>
     <string name="grade_info_guide">등급 기준 안내</string>
@@ -41,7 +38,7 @@
     <string name="grade_very_bad">매우 나쁨</string>
     <string name="not_night">낮</string>
     <string name="night">밤</string>
-    <string name="loading_text">데이터 로딩중...</string>
+    <string name="loading_text" tools:ignore="TypographyEllipsis">데이터 로딩중...</string>
     <string name="no_search_result">검색 결과가 없습니다.</string>
     <string name="edit">편집</string>
     <string name="done">완료</string>
@@ -71,4 +68,12 @@
     <string name="start">시작하기</string>
     <string name="unit_snow">(cm)</string>
     <string name="unit_rain">(mm)</string>
+    <string name="fine_particle_short">미세</string>
+    <string name="style">스타일</string>
+    <string name="light_mode">라이트 모드</string>
+    <string name="dark_mode">다크 모드</string>
+    <string name="transparency">투명도</string>
+    <string name="save">저장</string>
+    <string name="widget_configure">위젯 설정</string>
+    <string name="select_location">지역 선택</string>
 </resources>

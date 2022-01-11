@@ -15,8 +15,6 @@ import a.alt.z.weather.utils.extensions.viewBinding
 import a.alt.z.weather.utils.result.successOrNull
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
-import android.app.UiModeManager
-import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -24,7 +22,6 @@ import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.children
@@ -34,10 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
 import timber.log.Timber
-import timber.log.debug
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -150,12 +144,14 @@ class MainActivity : AppCompatActivity() {
                         locations.find { it.isDeviceLocation }?.let { currentLocation ->
                             locationProvider.lastLocation
                                 .addOnSuccessListener { newLocation ->
-                                    updateCurrentLocationIfNeeded(
-                                        currentLocation.latitude, currentLocation.longitude,
-                                        newLocation.latitude, newLocation.longitude
-                                    )
+                                    if (newLocation != null) {
+                                        updateCurrentLocationIfNeeded(
+                                            currentLocation.latitude, currentLocation.longitude,
+                                            newLocation.latitude, newLocation.longitude
+                                        )
+                                    }
                                 }
-                                .addOnFailureListener {  }
+                                .addOnFailureListener { /* TODO */ }
                         }
 
                         val childFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -187,6 +183,7 @@ class MainActivity : AppCompatActivity() {
             val child = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
             if (child is SplashFragment) {
+                Timber.d("${Pair(ResultKeys.DATA_LOADED_SPLASH, dataLoaded)}")
                 supportFragmentManager.setFragmentResult(
                     RequestKeys.DATA_LOADED_SPLASH,
                     bundleOf(Pair(ResultKeys.DATA_LOADED_SPLASH, dataLoaded))

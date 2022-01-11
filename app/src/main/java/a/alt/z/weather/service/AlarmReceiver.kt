@@ -11,8 +11,6 @@ import androidx.work.*
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
-import timber.log.Timber
-import timber.log.debug
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -24,7 +22,7 @@ class AlarmReceiver: HiltBroadcastReceiver() {
         WorkManager
             .getInstance(context)
             .enqueueUniqueWork(
-                UNIQUE_WORK_NAME,
+                DOWNLOAD_WEATHER_DATA_WORKER_NAME,
                 ExistingWorkPolicy.KEEP,
                 OneTimeWorkRequestBuilder<DownloadWeatherDataWorker>()
                     .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.MINUTES)
@@ -59,7 +57,7 @@ class AlarmReceiver: HiltBroadcastReceiver() {
     }
 
     companion object {
-        private const val UNIQUE_WORK_NAME = "download_weather_data_work"
+        private const val DOWNLOAD_WEATHER_DATA_WORKER_NAME = "download_weather_data_work"
     }
 }
 

@@ -71,4 +71,11 @@
     <color name="update_background_color">#F5F5F5</color>
     <color name="update_icon_tint_color">#A5A5A5</color>
     <color name="update_time_text_color">#A5A5A5</color>
+
+    <color name="address_result_text_color">#A7A7A7</color>
+    <color name="address_result_text_highlight_color">#000000</color>
+    <color name="unchecked_ratio_button_color">#A5A5A5</color>
+    <color name="checked_radio_button_color">#000000</color>
+    <color name="widget_save_button_background_color">#000000</color>
+    <color name="widget_save_button_text_color">#FFFFFF</color>
 </resources>
