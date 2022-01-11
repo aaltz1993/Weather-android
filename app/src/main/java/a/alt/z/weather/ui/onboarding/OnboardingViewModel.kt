@@ -1,6 +1,6 @@
 package a.alt.z.weather.ui.onboarding
 
-import a.alt.z.weather.domain.usecase.others.SetSkipOnboardingUseCase
+import a.alt.z.weather.domain.usecase.onboarding.SetSkipOnboardingUseCase
 import a.alt.z.weather.utils.result.Result
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

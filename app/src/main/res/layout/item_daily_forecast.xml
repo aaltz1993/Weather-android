@@ -70,10 +70,9 @@
             android:id="@+id/before_noon_icon_image_view"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="6dp"
             android:layout_marginTop="2dp"
             tools:srcCompat="@drawable/icon_cloudy"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/center_x_guideline"
             app:layout_constraintTop_toBottomOf="@id/before_noon_text_view"/>
 
@@ -81,11 +80,10 @@
             android:id="@+id/afternoon_icon_image_view"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="2dp"
             tools:srcCompat="@drawable/icon_clear"
             app:layout_constraintStart_toEndOf="@id/center_x_guideline"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/afternoon_text_view"/>
 
         <TextView
@@ -116,12 +114,13 @@
             android:id="@+id/max_temperature_icon_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             app:tint="@color/text_primary_color"
             app:srcCompat="@drawable/icon_max_temperature"
             app:layout_constraintStart_toEndOf="@id/center_x_guideline"
             app:layout_constraintTop_toTopOf="@id/max_temperature_text_view"
             app:layout_constraintBottom_toBottomOf="@id/max_temperature_text_view"/>
+
         <TextView
             android:id="@+id/max_temperature_text_view"
             android:layout_width="wrap_content"
@@ -130,6 +129,7 @@
             android:layout_marginTop="16dp"
             android:textColor="@color/text_primary_color"
             app:layout_constraintStart_toEndOf="@id/max_temperature_icon_image_view"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/afternoon_pop_text_view"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="29°"/>
@@ -141,6 +141,7 @@
             android:layout_marginEnd="2dp"
             app:tint="@color/text_secondary_color"
             app:srcCompat="@drawable/icon_min_temperature"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/min_temperature_text_view"
             app:layout_constraintTop_toTopOf="@id/min_temperature_text_view"
             app:layout_constraintBottom_toBottomOf="@id/min_temperature_text_view"/>
@@ -149,7 +150,7 @@
             android:id="@+id/min_temperature_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="6dp"
             android:layout_marginTop="16dp"
             android:textColor="@color/text_secondary_color"
             app:layout_constraintEnd_toStartOf="@id/center_x_guideline"

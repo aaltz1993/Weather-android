@@ -11,6 +11,8 @@ class AddressAdapter(
     private val onClickAction: (Address) -> Unit
 ): ListAdapter<Address, AddressViewHolder>(diffCallback) {
 
+    var query: String = ""
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
         return ItemAddressBinding
             .inflate(parent.layoutInflater, parent, false)
@@ -18,7 +20,7 @@ class AddressAdapter(
     }
 
     override fun onBindViewHolder(holder: AddressViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), query)
     }
 
     companion object {

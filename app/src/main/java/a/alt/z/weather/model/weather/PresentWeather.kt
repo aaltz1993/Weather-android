@@ -5,9 +5,12 @@ import a.alt.z.weather.model.airquality.FineParticleGrade
 import a.alt.z.weather.model.airquality.UltraFineParticleGrade
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 
+@Parcelize
 data class PresentWeather(
     val sky: Sky,
     val temperature: Int,
@@ -22,7 +25,7 @@ data class PresentWeather(
     val ultraFineParticleGrade: UltraFineParticleGrade,
     val ultraFineParticleValue: Int,
     val updatedAt: LocalDateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
-) {
+): Parcelable {
 
     val description: String get() = when (precipitationType) {
         PrecipitationType.NONE -> {

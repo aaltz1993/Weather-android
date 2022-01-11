@@ -8,7 +8,6 @@ import a.alt.z.weather.data.database.dao.LocationDao
 import a.alt.z.weather.data.database.model.*
 import a.alt.z.weather.data.datasource.weather.WeatherLocalDataSource
 import a.alt.z.weather.data.datasource.weather.WeatherRemoteDataSource
-import a.alt.z.weather.domain.usecase.location.GetLocationsUseCase
 import a.alt.z.weather.model.location.Location
 import a.alt.z.weather.model.weather.elements.PrecipitationType
 import a.alt.z.weather.model.weather.elements.Sky
@@ -21,10 +20,7 @@ import dagger.assisted.AssistedInject
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
-import timber.log.debug
 
 @HiltWorker
 class DownloadWeatherDataWorker @AssistedInject constructor(

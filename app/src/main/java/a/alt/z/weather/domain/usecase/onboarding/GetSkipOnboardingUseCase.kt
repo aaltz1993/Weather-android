@@ -1,4 +1,4 @@
-package a.alt.z.weather.domain.usecase.others
+package a.alt.z.weather.domain.usecase.onboarding
 
 import a.alt.z.weather.data.preferences.PreferencesStorage
 import a.alt.z.weather.di.IODispatcher

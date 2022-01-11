@@ -3,6 +3,7 @@ package a.alt.z.weather.data.api.service
 import a.alt.z.weather.BuildConfig
 import a.alt.z.weather.data.api.model.address.CoordinateToAddressResponse
 import a.alt.z.weather.data.api.model.address.SearchAddressResponse
+import a.alt.z.weather.data.api.model.location.SearchLocationResponse
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -17,6 +18,11 @@ interface KakaoService {
         @Query("size") size: Int = 30
     ): SearchAddressResponse
 
+    @GET("search/keyword.json")
+    suspend fun searchLocation(
+        @Query("query") query: String
+    ): SearchLocationResponse
+
     @GET("geo/coord2address.json")
     suspend fun coordinateToAddress(
         @Query("y") latitude: Double,
@@ -24,7 +30,7 @@ interface KakaoService {
     ): CoordinateToAddressResponse
 
     companion object {
-        private const val BASE_URL = "https://dapi.kakao.com//v2/local/"
+        private const val BASE_URL = "https://dapi.kakao.com/v2/local/"
 
         fun create(converterFactory: Converter.Factory): KakaoService {
             val client = OkHttpClient.Builder()
