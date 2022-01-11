@@ -1,8 +1,6 @@
 package a.alt.z.weather.data.preferences
 
-import a.alt.z.weather.data.preferences.preference.AppWidgetConfigurePreference
 import a.alt.z.weather.data.preferences.preference.BooleanPreference
-import a.alt.z.weather.model.appwidget.AppWidgetConfigure
 import a.alt.z.weather.utils.extensions.dataStore
 import android.content.Context
 import android.content.SharedPreferences
@@ -36,12 +34,10 @@ class WeatherPreferencesStorage @Inject constructor(
         dataStore.edit { preferences -> preferences[LOCATION_SERVICE_ON] = locationServiceOn }
     }
 
-    override var appWidgetConfigures: List<AppWidgetConfigure> by AppWidgetConfigurePreference(sharedPreferences, APP_WIDGET_CONFIGURES)
-
     companion object {
         private const val SKIP_ONBOARDING = "skipOnboarding"
         private const val NOTIFICATIONS_ON = "nofiticationsOn"
+
         private val LOCATION_SERVICE_ON = booleanPreferencesKey("locationServiceOn")
-        private const val APP_WIDGET_CONFIGURES = "appWidgetsConfigures"
     }
 }

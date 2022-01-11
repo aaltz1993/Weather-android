@@ -2,14 +2,10 @@ package a.alt.z.weather.ui.main
 
 import a.alt.z.weather.domain.usecase.invoke
 import a.alt.z.weather.domain.usecase.location.AddDeviceLocationUseCase
-import a.alt.z.weather.domain.usecase.location.GetLocationServiceOnUseCase
 import a.alt.z.weather.domain.usecase.location.GetLocationsUseCase
-import a.alt.z.weather.domain.usecase.others.GetSkipOnboardingUseCase
-import a.alt.z.weather.domain.usecase.others.SetSkipOnboardingUseCase
-import a.alt.z.weather.domain.usecase.weather.GetSunriseSunsetUseCase
+import a.alt.z.weather.domain.usecase.onboarding.GetSkipOnboardingUseCase
 import a.alt.z.weather.model.location.Coordinate
 import a.alt.z.weather.model.location.Location
-import a.alt.z.weather.model.weather.elements.SunriseSunset
 import a.alt.z.weather.utils.result.Result
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -168,20 +169,21 @@ class MainActivity : AppCompatActivity() {
             viewModel.getLocations()
         }
 
-        supportFragmentManager.setFragmentResultListener(RequestKeys.PAGEABLE, this) { requestKey, result ->
+        supportFragmentManager.setFragmentResultListener(RequestKeys.PAGEABLE, this) { _, result ->
             binding.apply {
-                val pageable = result.getBoolean(requestKey)
+                val pageable = result.getBoolean(ResultKeys.PAGEABLE)
                 viewPager.isUserInputEnabled = pageable
                 indicatorsLayout.isVisible = pageable
             }
         }
 
-        supportFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED, this) { requestKey, result ->
-            val dataLoaded = result.getBoolean(requestKey)
+        supportFragmentManager.setFragmentResultListener(RequestKeys.DATA_LOADED, this) { _, result ->
+            val dataLoaded = result.getBoolean(ResultKeys.DATA_LOADED)
 
             val child = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
             if (child is SplashFragment) {
+                Timber.d("${Pair(ResultKeys.DATA_LOADED_SPLASH, dataLoaded)}")
                 supportFragmentManager.setFragmentResult(
                     RequestKeys.DATA_LOADED_SPLASH,
                     bundleOf(Pair(ResultKeys.DATA_LOADED_SPLASH, dataLoaded))

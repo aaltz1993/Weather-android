@@ -1,5 +1,6 @@
 package a.alt.z.weather.domain.usecase
 
+import a.alt.z.weather.BuildConfig
 import a.alt.z.weather.utils.result.Result
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +18,9 @@ abstract class FlowUseCase<in Param, Type>(private val coroutineDispatcher: Coro
         execute(parameters)
             .onStart { result.postValue(Result.Loading) }
             .catch {
-                Firebase.crashlytics.recordException(it)
+                if (!BuildConfig.DEBUG) {
+                    Firebase.crashlytics.recordException(it)
+                }
                 result.postValue(Result.Failure(Exception(it)))
             }
             .flowOn(coroutineDispatcher)

@@ -1,5 +1,6 @@
 package a.alt.z.weather.domain.usecase
 
+import a.alt.z.weather.BuildConfig
 import a.alt.z.weather.utils.result.Result
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +22,9 @@ abstract class UseCase<in Param, Type>(private val coroutineDispatcher: Coroutin
             val data = withContext(coroutineDispatcher) { execute(parameters) }
             result.postValue(Result.Success(data))
         } catch (exception: Exception) {
-            Firebase.crashlytics.recordException(exception)
+            if (!BuildConfig.DEBUG) {
+                Firebase.crashlytics.recordException(exception)
+            }
             result.postValue(Result.Failure(exception))
         }
     }
